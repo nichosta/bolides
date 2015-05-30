@@ -42,15 +42,15 @@ var bolides = {
     },
     control: function(key) {
         if (key.keyCode === 38){
-            bolides.goodShip.speed += 1;
-        } else if (key.keyCode === 40) {
             bolides.goodShip.speed -= 1;
+        } else if (key.keyCode === 40) {
+            bolides.goodShip.speed += 1;
         } else if (key.keyCode === 82) {
             bolides.goodShip.hearts -= 1;
         }
     },
     move: function() {
-        bolides.goodShip.x += bolides.goodShip.speed;
+//        bolides.goodShip.x += bolides.goodShip.speed;
         bolides.goodShip.y += bolides.goodShip.speed;
         bolides.asteriod.x = Math.floor(Math.random() * 500);
         bolides.asteriod.y = Math.floor(Math.random() * 500);

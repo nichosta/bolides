@@ -6,7 +6,7 @@ var bolides = {
     goodShip: {
         x: 80,
         y: 60,
-        speed: 1,
+        speed: 0,
         hearts: 3
     },
     asteriod: {

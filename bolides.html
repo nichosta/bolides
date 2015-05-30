@@ -3,6 +3,12 @@
 <head>
     <link href="style.css" rel="stylesheet"/>
     <script src="game.js"></script>
+    <script>
+        // I just wanna convert radians man!
+        function radianConvert(degrees) {
+            return Math.PI / 180 * degrees;
+        };
+    </script>
     <meta charset="utf-8"/>
     <meta name="keywords" content="bolides, nicholas costa, erik boesen, infinite games, html game, html 5, canvas game" />
     <meta name="author" content="Nicholas Costa &amp; Erik Boesen"/>
@@ -10,7 +16,6 @@
     <title>Bolides | Infinite Games</title>
 </head>
 <body>
-    <h1>Bolides</h1>
     <div>
         <canvas id="canvas" width="800px" height="600px">Upgrade to Chrome or Firefox to use the Canvas API, dum-dum.</canvas>
     </div>

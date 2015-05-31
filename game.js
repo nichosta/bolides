@@ -6,8 +6,8 @@ var bolides = {
     // Attributes of the player's ship declared
     spaceship: {
         // Starting x and y
-        x: 200,
-        y: 140,
+        x: 100,
+        y: 100,
         // Starting speed
         speed: 0,
         // Starting angle
@@ -23,8 +23,8 @@ var bolides = {
     // Attributes of the asteroids declared
     asteriod: {
         // Same attributes as the ship, aside from height
-        x: Math.floor(Math.random() * 100 + 800),
-        y: Math.floor(Math.random() * 100 + 30),
+        x: 400,//Math.floor(Math.random() * 100 + 800),
+        y: 400,//Math.floor(Math.random() * 100 + 30),
         speed: 5
     },
     // Images used by the project are created here
@@ -69,7 +69,9 @@ var bolides = {
         // Down key?
         } else if (key.keyCode === 40) {
             // Then decrease speed.
+            if (bolides.spaceship.speed > 0){
             bolides.spaceship.speed -= 1;
+            }
         // R key?
         } else if (key.keyCode === 82) {
             // Then remove a heart.
@@ -87,9 +89,19 @@ var bolides = {
     move: function() {
         // Complicated mathy things I do not understand
         bolides.spaceship.direction.x = Math.sin(bolides.spaceship.angle);
-        bolides.spaceship.direction.y = Math.cos(bolides.spaceship.angle);
+        bolides.spaceship.direction.y = -Math.cos(bolides.spaceship.angle);
         bolides.spaceship.x += bolides.spaceship.direction.x * bolides.spaceship.speed;
         bolides.spaceship.y += bolides.spaceship.direction.y * bolides.spaceship.speed;
+        if (bolides.spaceship.x <= 0){
+            bolides.spaceship.x = 800;
+        } else if (bolides.spaceship.x >=800) {
+            bolides.spaceship.x = 0;
+        };
+        if (bolides.spaceship.y >= 600) {
+            bolides.spaceship.y = 0;
+        } else if (bolides.spaceship.y <= 0) {
+            bolides.spaceship.y = 600;
+        }
         // If it's moving,
         if (bolides.spaceship.speed !== 0) {
             // Use the moving ship pic.
@@ -114,6 +126,8 @@ var bolides = {
         bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
         // Restore all f***ing about
         bolides.canvas.ctx.restore();
+        bolides.canvas.ctx.fillStyle = "red";
+        bolides.canvas.ctx.fillRect(100, 100, 1, 1);
         // Draw the asteroid (doesn't turn up because it's off the screen)
         bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod.x, bolides.asteriod.y);
         // Check for the number of hearts and draw that many

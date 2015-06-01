@@ -23,8 +23,13 @@ var bolides = {
     // Attributes of the asteroids declared
     asteriod: {
         // Same attributes as the ship, aside from height
-        x: 400,//Math.floor(Math.random() * 100 + 800),
-        y: 400,//Math.floor(Math.random() * 100 + 30),
+        x: Math.floor(Math.random() * 50 + 800),
+        y: Math.floor(Math.random() * 600 + 20),
+        angle: 0,
+        direction: {
+            x: 0,
+            y: 0
+        },
         speed: 5
     },
     // Images used by the project are created here
@@ -92,7 +97,8 @@ var bolides = {
         bolides.spaceship.direction.y = -Math.cos(bolides.spaceship.angle);
         bolides.spaceship.x += bolides.spaceship.direction.x * bolides.spaceship.speed;
         bolides.spaceship.y += bolides.spaceship.direction.y * bolides.spaceship.speed;
-        if (bolides.spaceship.x <= 0){
+        // Side warps
+        if (bolides.spaceship.x <= -25){
             bolides.spaceship.x = 800;
         } else if (bolides.spaceship.x >=800) {
             bolides.spaceship.x = 0;
@@ -130,6 +136,9 @@ var bolides = {
         bolides.canvas.ctx.fillRect(100, 100, 1, 1);
         // Draw the asteroid (doesn't turn up because it's off the screen)
         bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod.x, bolides.asteriod.y);
+        // Test asteriod x & y
+        bolides.canvas.ctx.font = "48px Ubuntu";
+        bolides.canvas.ctx.fillText(bolides.asteriod.x + ", " + bolides.asteriod.y, 500, 500);
         // Check for the number of hearts and draw that many
         if (bolides.spaceship.hearts >= 3) {
             bolides.canvas.ctx.drawImage(bolides.images.heart, 10, 10);

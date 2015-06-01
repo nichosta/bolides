@@ -79,11 +79,11 @@ var bolides = {
         // Left key?
         } else if (key.keyCode === 37) {
             // Then change its angle by 5 degrees
-            bolides.spaceship.angle -= 0.08726646259971647;
+            bolides.spaceship.angle -= 0.174532925;
         // Right key?
         } else if (key.keyCode === 39) {
             // Then change its angle by -5 degrees
-            bolides.spaceship.angle += 0.08726646259971647;
+            bolides.spaceship.angle += 0.174532925;
         }
     },
     move: function() {

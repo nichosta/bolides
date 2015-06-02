@@ -32,11 +32,33 @@ var bolides = {
         },
         speed: 5
     },
+    // Oh snap, Spaceship's got a gun!
+    bullet : {
+        // Coordinates
+        x: 0,
+        y: 0,
+        // Speed is constant, btw.
+        speed: 10,
+        // Angle is spaceship's angle until fired
+        angle: 0,
+        // Direction stuff again! How advanced!
+        direction: {
+            x: 0,
+            y: 0
+        },
+        // Is what it says on the tin
+        isBeingFired: false,
+        // Shooty gun
+        fire: function() {
+            bolides.bullet.isBeingFired = true;
+        }
+    },
     // Images used by the project are created here
     images: {
         ship: document.createElement('img'),
         asteroid: document.createElement('img'),
-        heart: document.createElement('img')
+        heart: document.createElement('img'),
+        bullet: document.createElement("img")
     },
     initiate: function(){
         // Declare the canvas's context as 2D
@@ -50,6 +72,7 @@ var bolides = {
         bolides.images.ship.setAttribute('src', "../bolides/images/spaceship.png");
         bolides.images.asteroid.setAttribute('src', "../bolides/images/asteroid.png");
         bolides.images.heart.setAttribute('src', "../bolides/images/heart.png");
+        bolides.images.bullet.setAttribute('src', "../bolides/images/bullet.png");
         // Start looping
         bolides.loop();
     },
@@ -91,6 +114,9 @@ var bolides = {
         } else if (key.keyCode === 39) {
             // Then change its angle by -10 degrees
             bolides.spaceship.angle += 0.1308996938995747;
+        // Space bar?
+        } else if (key.keyCode === 32) {
+            bolides.bullet.fire();
         }
         // Because decimals
         if ((bolides.spaceship.speed > 0) && (bolides.spaceship.speed < 0.5)) {
@@ -122,6 +148,10 @@ var bolides = {
         } else {
             bolides.images.ship.setAttribute('src', "../bolides/images/spaceship.png");
         }
+        if (!bolides.bullet.isBeingFired) {
+            bolides.bullet.x = bolides.spaceship.x;
+            bolides.bullet.y = bolides.spaceship.y;
+        }
 //        bolides.asteriod.x = ;
 //        bolides.asteriod.y = 650;
     },
@@ -142,9 +172,11 @@ var bolides = {
         bolides.canvas.ctx.fillRect(100, 100, 1, 1);
         // Draw the asteroid (doesn't turn up because it's off the screen)
         bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod.x, bolides.asteriod.y);
+        // Draw the bullet
+        bolides.canvas.ctx.drawImage(bolides.images.bullet, bolides.bullet.x, bolides.asteriod.y);
         // Test asteriod x & y
         bolides.canvas.ctx.font = "48px Ubuntu";
-        bolides.canvas.ctx.fillText(bolides.spaceship.x + ", " + bolides.spaceship.y, 500, 500);
+        bolides.canvas.ctx.fillText(bolides.bullet.isBeingFired, 500, 500);
         // Check for the number of hearts and draw that many
         if (bolides.spaceship.hearts >= 3) {
             bolides.canvas.ctx.drawImage(bolides.images.heart, 10, 10);

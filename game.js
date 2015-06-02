@@ -22,7 +22,7 @@ var bolides = {
     },
     // Attributes of the asteroids declared
     asteriod: {
-        // Same attributes as the ship, aside from height
+        // Same attributes as the ship, aside from pos
         x: Math.floor(Math.random() * 50 + 800),
         y: Math.floor(Math.random() * 600 + 20),
         angle: 0,
@@ -44,6 +44,8 @@ var bolides = {
         bolides.canvas.ctx = canva.getContext('2d');
         // EventListener for keypresses to change speed and stuff
         addEventListener('keydown', function(e){bolides.control(e);});
+        // Interval for slowdown
+        setInterval(function(){ if(bolides.spaceship.speed > 0) {bolides.spaceship.speed -= 0.5;}}, 500);
         // Set the image sources
         bolides.images.ship.setAttribute('src', "../bolides/images/spaceship.png");
         bolides.images.asteroid.setAttribute('src', "../bolides/images/asteroid.png");
@@ -83,16 +85,20 @@ var bolides = {
             bolides.spaceship.hearts -= 1;
         // Left key?
         } else if (key.keyCode === 37) {
-            // Then change its angle by 5 degrees
-            bolides.spaceship.angle -= 0.174532925;
+            // Then change its angle by 10 degrees
+            bolides.spaceship.angle -= 0.1308996938995747;
         // Right key?
         } else if (key.keyCode === 39) {
-            // Then change its angle by -5 degrees
-            bolides.spaceship.angle += 0.174532925;
+            // Then change its angle by -10 degrees
+            bolides.spaceship.angle += 0.1308996938995747;
+        }
+        // Because decimals
+        if ((bolides.spaceship.speed > 0) && (bolides.spaceship.speed < 0.5)) {
+            bolides.spaceship.speed = 0;
         }
     },
     move: function() {
-        // Complicated mathy things I do not understand
+        // Math
         bolides.spaceship.direction.x = Math.sin(bolides.spaceship.angle);
         bolides.spaceship.direction.y = -Math.cos(bolides.spaceship.angle);
         bolides.spaceship.x += bolides.spaceship.direction.x * bolides.spaceship.speed;
@@ -102,8 +108,8 @@ var bolides = {
             bolides.spaceship.x = 800;
         } else if (bolides.spaceship.x >=800) {
             bolides.spaceship.x = 0;
-        };
-        if (bolides.spaceship.y >= 600) {
+        }
+        if (bolides.spaceship.y >= 630) {
             bolides.spaceship.y = 0;
         } else if (bolides.spaceship.y <= 0) {
             bolides.spaceship.y = 600;
@@ -138,7 +144,7 @@ var bolides = {
         bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod.x, bolides.asteriod.y);
         // Test asteriod x & y
         bolides.canvas.ctx.font = "48px Ubuntu";
-        bolides.canvas.ctx.fillText(bolides.asteriod.x + ", " + bolides.asteriod.y, 500, 500);
+        bolides.canvas.ctx.fillText(bolides.spaceship.x + ", " + bolides.spaceship.y, 500, 500);
         // Check for the number of hearts and draw that many
         if (bolides.spaceship.hearts >= 3) {
             bolides.canvas.ctx.drawImage(bolides.images.heart, 10, 10);

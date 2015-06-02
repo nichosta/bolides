@@ -118,10 +118,6 @@ var bolides = {
         } else if (key.keyCode === 32) {
             bolides.bullet.fire();
         }
-        // Because decimals
-        if ((bolides.spaceship.speed > 0) && (bolides.spaceship.speed < 0.5)) {
-            bolides.spaceship.speed = 0;
-        }
     },
     move: function() {
         // Math
@@ -151,6 +147,12 @@ var bolides = {
         if (!bolides.bullet.isBeingFired) {
             bolides.bullet.x = bolides.spaceship.x;
             bolides.bullet.y = bolides.spaceship.y;
+        }
+        // Because decimals
+        if ((bolides.spaceship.speed > 0) && (bolides.spaceship.speed < 0.5)) {
+            bolides.spaceship.speed = 0;
+        } else if (bolides.spaceship.speed < 0) {
+            bolides.spaceship.speed = 0;
         }
 //        bolides.asteriod.x = ;
 //        bolides.asteriod.y = 650;

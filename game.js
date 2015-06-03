@@ -38,7 +38,7 @@ var bolides = {
         x: 0,
         y: 0,
         // Speed is constant, btw.
-        speed: 10,
+        speed: 15,
         // Angle is spaceship's angle until fired
         angle: 0,
         // Direction stuff again! How advanced!
@@ -51,6 +51,9 @@ var bolides = {
         // Shooty gun
         fire: function() {
             bolides.bullet.isBeingFired = true;
+            bolides.bullet.x = bolides.spaceship.x;
+            bolides.bullet.y = bolides.spaceship.y;
+            bolides.bullet.angle = bolides.spaceship.angle;
         }
     },
     // Images used by the project are created here
@@ -94,8 +97,10 @@ var bolides = {
     control: function(key) {
         // Up key or W key?
         if (key.keyCode === 38 || key.keyCode === 87) {
-            // Then increase speed.
+            // Then increase speed if not past terminal velocity
+            if (bolides.spaceship.speed < 25) {
             bolides.spaceship.speed += 1;
+            }
         // Down key or S key?
         } else if (key.keyCode === 40 || key.keyCode === 83) {
             // Then decrease speed.
@@ -120,7 +125,7 @@ var bolides = {
         }
     },
     move: function() {
-        // Math
+        // Ship Math
         bolides.spaceship.direction.x = Math.sin(bolides.spaceship.angle);
         bolides.spaceship.direction.y = -Math.cos(bolides.spaceship.angle);
         bolides.spaceship.x += bolides.spaceship.direction.x * bolides.spaceship.speed;
@@ -144,10 +149,17 @@ var bolides = {
         } else {
             bolides.images.ship.setAttribute('src', "../bolides/images/spaceship.png");
         }
+        // Stop bullet
         if (!bolides.bullet.isBeingFired) {
             bolides.bullet.x = bolides.spaceship.x;
             bolides.bullet.y = bolides.spaceship.y;
             bolides.bullet.angle = bolides.spaceship.angle;
+        } else {
+        // Bullet math
+        bolides.bullet.direction.x = Math.sin(bolides.bullet.angle);
+        bolides.bullet.direction.y = -Math.cos(bolides.bullet.angle);
+        bolides.bullet.x += bolides.bullet.direction.x * bolides.bullet.speed;
+        bolides.bullet.y += bolides.bullet.direction.y * bolides.bullet.speed;
         }
         // Because decimals
         if ((bolides.spaceship.speed > 0) && (bolides.spaceship.speed < 0.5)) {
@@ -155,8 +167,17 @@ var bolides = {
         } else if (bolides.spaceship.speed < 0) {
             bolides.spaceship.speed = 0;
         }
-//        bolides.asteriod.x = ;
-//        bolides.asteriod.y = 650;
+        // Bullet dissipation
+        if (bolides.bullet.x <= -25){
+            bolides.bullet.isBeingFired = false;
+        } else if (bolides.bullet.x >=800) {
+            bolides.bullet.isBeingFired = false;
+        }
+        if (bolides.bullet.y >= 630) {
+            bolides.bullet.isBeingFired = false;
+        } else if (bolides.bullet.y <= 0) {
+            bolides.bullet.isBeingFired = false;
+        }
     },
     draw: function() {
         // Clear the canvas
@@ -178,7 +199,9 @@ var bolides = {
         // Rotate the canvas
         bolides.canvas.ctx.rotate(bolides.bullet.angle);
         // Fastest draw in the west
+        if (bolides.bullet.isBeingFired === true) {
         bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
+        }
         // Full Restore
         bolides.canvas.ctx.restore();
         bolides.canvas.ctx.fillStyle = "red";

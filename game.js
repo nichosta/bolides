@@ -147,6 +147,7 @@ var bolides = {
         if (!bolides.bullet.isBeingFired) {
             bolides.bullet.x = bolides.spaceship.x;
             bolides.bullet.y = bolides.spaceship.y;
+            bolides.bullet.angle = bolides.spaceship.angle;
         }
         // Because decimals
         if ((bolides.spaceship.speed > 0) && (bolides.spaceship.speed < 0.5)) {
@@ -170,12 +171,20 @@ var bolides = {
         bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
         // Restore all f***ing about
         bolides.canvas.ctx.restore();
+        // Oh boy more saving
+        bolides.canvas.ctx.save();
+        // Set the origin to the bullet's origin
+        bolides.canvas.ctx.translate(bolides.bullet.x + 3, bolides.bullet.y - 12.5);
+        // Rotate the canvas
+        bolides.canvas.ctx.rotate(bolides.bullet.angle);
+        // Fastest draw in the west
+        bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
+        // Full Restore
+        bolides.canvas.ctx.restore();
         bolides.canvas.ctx.fillStyle = "red";
         bolides.canvas.ctx.fillRect(100, 100, 1, 1);
         // Draw the asteroid (doesn't turn up because it's off the screen)
         bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod.x, bolides.asteriod.y);
-        // Draw the bullet
-        bolides.canvas.ctx.drawImage(bolides.images.bullet, bolides.bullet.x, bolides.bullet.y);
         // Test asteriod x & y
         bolides.canvas.ctx.font = "48px Ubuntu";
         bolides.canvas.ctx.fillText(bolides.bullet.isBeingFired, 500, 500);
@@ -193,4 +202,4 @@ var bolides = {
     }
 };
 // Actually start the program
-addEventListener('load', function() {bolides.initiate();});
+addEventListener('load', function() { bolides.initiate(); });

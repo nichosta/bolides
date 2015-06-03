@@ -92,12 +92,12 @@ var bolides = {
         }
     },
     control: function(key) {
-        // Up key?
-        if (key.keyCode === 38){
+        // Up key or W key?
+        if (key.keyCode === 38 || key.keyCode === 87) {
             // Then increase speed.
             bolides.spaceship.speed += 1;
-        // Down key?
-        } else if (key.keyCode === 40) {
+        // Down key or S key?
+        } else if (key.keyCode === 40 || key.keyCode === 83) {
             // Then decrease speed.
             if (bolides.spaceship.speed > 0){
             bolides.spaceship.speed -= 1;
@@ -106,16 +106,16 @@ var bolides = {
         } else if (key.keyCode === 82) {
             // Then remove a heart.
             bolides.spaceship.hearts -= 1;
-        // Left key?
-        } else if (key.keyCode === 37) {
-            // Then change its angle by 10 degrees
+        // Left key or A key?
+        } else if (key.keyCode === 37 || key.keyCode === 65) {
+            // Then change its angle by 7.5 degrees
             bolides.spaceship.angle -= 0.1308996938995747;
-        // Right key?
-        } else if (key.keyCode === 39) {
-            // Then change its angle by -10 degrees
+        // Right key or D key?
+        } else if (key.keyCode === 39 || key.keyCode === 68) {
+            // Then change its angle by -7.5 degrees
             bolides.spaceship.angle += 0.1308996938995747;
-        // Space bar?
-        } else if (key.keyCode === 32) {
+        // Space bar or Q key?
+        } else if (key.keyCode === 32 || key.keyCode === 81) {
             bolides.bullet.fire();
         }
     },
@@ -175,7 +175,7 @@ var bolides = {
         // Draw the asteroid (doesn't turn up because it's off the screen)
         bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod.x, bolides.asteriod.y);
         // Draw the bullet
-        bolides.canvas.ctx.drawImage(bolides.images.bullet, bolides.bullet.x, bolides.asteriod.y);
+        bolides.canvas.ctx.drawImage(bolides.images.bullet, bolides.bullet.x, bolides.bullet.y);
         // Test asteriod x & y
         bolides.canvas.ctx.font = "48px Ubuntu";
         bolides.canvas.ctx.fillText(bolides.bullet.isBeingFired, 500, 500);

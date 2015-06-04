@@ -6,8 +6,8 @@ var bolides = {
     // Attributes of the player's ship declared
     spaceship: {
         // Starting x and y
-        x: 100,
-        y: 100,
+        x: 390,
+        y: 290,
         // Starting speed
         speed: 0,
         // Starting angle

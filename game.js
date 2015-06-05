@@ -308,25 +308,16 @@ var bolides = {
         bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
         // Full Restore
         bolides.canvas.ctx.restore();
-        // Oh boy more saving
+        // Repeat with all bullets
         bolides.canvas.ctx.save();
-        // Set the origin to the bullet's origin
         bolides.canvas.ctx.translate(bolides.bullet2.x + 3, bolides.bullet2.y - 12.5);
-        // Rotate the canvas
         bolides.canvas.ctx.rotate(bolides.bullet2.angle);
-        // Fastest draw in the west
         bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
-        // Full Restore
         bolides.canvas.ctx.restore();
-        // Oh boy more saving
         bolides.canvas.ctx.save();
-        // Set the origin to the bullet's origin
         bolides.canvas.ctx.translate(bolides.bullet3.x + 3, bolides.bullet3.y - 12.5);
-        // Rotate the canvas
         bolides.canvas.ctx.rotate(bolides.bullet3.angle);
-        // Fastest draw in the west
         bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
-        // Full Restore
         bolides.canvas.ctx.restore();
         // Draw the asteroid (doesn't turn up because it's off the screen)
         bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod.x, bolides.asteriod.y);

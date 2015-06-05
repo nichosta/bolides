@@ -288,7 +288,7 @@ var bolides = {
     draw: function() {
         // Clear the canvas
         bolides.canvas.ctx.clearRect(0, 0, 800, 600);
-        // Save it so I can f*** about as much as I want
+        // Save it so I can mess about as much as I want
         bolides.canvas.ctx.save();
         // Set the origin to the ship's center
         bolides.canvas.ctx.translate(bolides.spaceship.x + 18, bolides.spaceship.y - 31);
@@ -296,9 +296,9 @@ var bolides = {
         bolides.canvas.ctx.rotate(bolides.spaceship.angle);
         // Draw the ship
         bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
-        // Restore all f***ing about
+        // Restore all messing about
         bolides.canvas.ctx.restore();
-        // Oh boy more saving
+        // Hey look more saving
         bolides.canvas.ctx.save();
         // Set the origin to the bullet's origin
         bolides.canvas.ctx.translate(bolides.bullet1.x + 3, bolides.bullet1.y - 12.5);
@@ -306,7 +306,7 @@ var bolides = {
         bolides.canvas.ctx.rotate(bolides.bullet1.angle);
         // Fastest draw in the west
         bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
-        // Full Restore
+        // Restore again
         bolides.canvas.ctx.restore();
         // Repeat with all bullets
         bolides.canvas.ctx.save();

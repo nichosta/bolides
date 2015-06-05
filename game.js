@@ -1,7 +1,7 @@
 /*jshint globals: false, unused: false, strict: false, debug: true, globalstrict: true, moz: true, browser: true, devel: true, jquery: true*/
 var bolides = {
     canvas: {
-        ctx: '',
+        ctx: ''
     },
     // Attributes of the player's ship declared
     spaceship: {
@@ -38,7 +38,7 @@ var bolides = {
         x: 0,
         y: 0,
         // Speed depends on Spaceship's speed, btw.
-        speed: 15,
+        speed: 10,
         // Angle is spaceship's angle until fired
         angle: 0,
         // Direction stuff again! How advanced!
@@ -63,7 +63,7 @@ var bolides = {
         x: 0,
         y: 0,
         // Speed depends on Spaceship's speed, btw.
-        speed: 15,
+        speed: 10,
         // Angle is spaceship's angle until fired
         angle: 0,
         // Direction stuff again! How advanced!
@@ -88,7 +88,7 @@ var bolides = {
         x: 0,
         y: 0,
         // Speed depends on Spaceship's speed, btw.
-        speed: 15,
+        speed: 10,
         // Angle is spaceship's angle until fired
         angle: 0,
         // Direction stuff again! How advanced!
@@ -211,7 +211,7 @@ var bolides = {
             bolides.bullet1.x = 750;
             bolides.bullet1.y = 35;
             bolides.bullet1.angle = 0;
-            bolides.bullet1.speed = 15;
+            bolides.bullet1.speed = 10;
         } else {
         // Bullet math
         bolides.bullet1.direction.x = Math.sin(bolides.bullet1.angle);
@@ -224,7 +224,7 @@ var bolides = {
             bolides.bullet2.x = 765;
             bolides.bullet2.y = 35;
             bolides.bullet2.angle = 0;
-            bolides.bullet2.speed = 15;
+            bolides.bullet2.speed = 10;
         } else {
         // Bullet math
         bolides.bullet2.direction.x = Math.sin(bolides.bullet2.angle);
@@ -237,7 +237,7 @@ var bolides = {
             bolides.bullet3.x = 780;
             bolides.bullet3.y = 35;
             bolides.bullet3.angle = 0;
-            bolides.bullet3.speed = 15;
+            bolides.bullet3.speed = 10;
         } else {
         // Bullet math
         bolides.bullet3.direction.x = Math.sin(bolides.bullet3.angle);
@@ -336,7 +336,9 @@ var bolides = {
         // Draw Health word
         bolides.canvas.ctx.fillText("Health:", 10, 30);
         // Draw Ammo word
-        bolides.canvas.ctx.fillText("Ammo:", 665, 30)
+        bolides.canvas.ctx.fillText("Ammo:", 665, 30);
+        // Draw speed words
+        bolides.canvas.ctx.fillText("Speed: " + bolides.spaceship.speed, 10, 580);
         // Check for the number of hearts and draw that many
         if (bolides.spaceship.hearts >= 3) {
             bolides.canvas.ctx.drawImage(bolides.images.heart, 90, 15);

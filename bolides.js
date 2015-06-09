@@ -30,7 +30,7 @@ var bolides = {
             x: 0,
             y: 0
         },
-        speed: 7,
+        speed: 4,
         isInMotion: false
     },
     asteroid2: {
@@ -42,7 +42,7 @@ var bolides = {
             x: 0,
             y: 0
         },
-        speed: 7,
+        speed: 4,
         isInMotion: false
     },
     asteroid3: {
@@ -54,7 +54,7 @@ var bolides = {
             x: 0,
             y: 0
         },
-        speed: 7,
+        speed: 4,
         isInMotion: false
     },
     // Oh snap, Spaceship's got a gun! (1st one)
@@ -426,11 +426,11 @@ var bolides = {
         bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
         bolides.canvas.ctx.restore();
         // Draw the 1st asteroid
-        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid1.x, bolides.asteroid1.y);
+        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid1.x, bolides.asteroid1.y, 62, 62);
         // Draw the 2nd asteroid
-        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid2.x, bolides.asteroid2.y);
+        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid2.x, bolides.asteroid2.y, 62, 62);
         // Draw the 3rd asteroid
-        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid3.x, bolides.asteroid3.y);
+        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid3.x, bolides.asteroid3.y, 62, 62);
         // HUD Style
         bolides.canvas.ctx.fillStyle = "white";
         bolides.canvas.ctx.font = "24px Ubuntu";

@@ -21,7 +21,7 @@ var bolides = {
         hearts: 3
     },
     // Attributes of the asteroids declared
-    asteriod1: {
+    asteroid1: {
         // Same attributes as the ship, aside from pos
         x: 0,
         y: 0,
@@ -30,10 +30,10 @@ var bolides = {
             x: 0,
             y: 0
         },
-        speed: 5,
+        speed: 7,
         isInMotion: false
     },
-    asteriod2: {
+    asteroid2: {
         // Same attributes as the ship, aside from pos
         x: 0,
         y: 0,
@@ -42,10 +42,10 @@ var bolides = {
             x: 0,
             y: 0
         },
-        speed: 5,
+        speed: 7,
         isInMotion: false
     },
-    asteriod3: {
+    asteroid3: {
         // Same attributes as the ship, aside from pos
         x: 0,
         y: 0,
@@ -54,7 +54,7 @@ var bolides = {
             x: 0,
             y: 0
         },
-        speed: 5,
+        speed: 7,
         isInMotion: false
     },
     // Oh snap, Spaceship's got a gun! (1st one)
@@ -313,30 +313,82 @@ var bolides = {
             setTimeout(function() { bolides.bullet3.isBeingFired = false; }, 1500);
         }
         // Asteroid 1 movement
-        if (Math.random() < 0.5 && !bolides.asteriod1.isInMotion) {
-            bolides.asteriod1.x = (Math.random() * 700 + 50);
-            bolides.asteriod1.y = -50;
-            bolides.asteriod1.angle = Math.random() * 170 + 95;
-            bolides.asteriod1.isInMotion = true;
-        } else if (!bolides.asteriod1.isInMotion) {
-            bolides.asteriod1.x = 850;
-            bolides.asteriod1.y = Math.random() * 500 + 50;
-            bolides.asteriod1.angle = Math.random() * 170 + 185;
-            bolides.asteriod1.isInMotion = true;
+        if (Math.random() < 0.5 && !bolides.asteroid1.isInMotion) {
+            bolides.asteroid1.x = (Math.random() * 700 + 50);
+            bolides.asteroid1.y = -50;
+            bolides.asteroid1.angle = Math.random() * 2.9670597283903604 + 1.6580627893946132;
+            bolides.asteroid1.isInMotion = true;
+        } else if (!bolides.asteroid1.isInMotion) {
+            bolides.asteroid1.x = 850;
+            bolides.asteroid1.y = Math.random() * 500 + 50;
+            bolides.asteroid1.angle = Math.random() * 2.9670597283903604 + 3.2288591161895095;
+            bolides.asteroid1.isInMotion = true;
         }
-        bolides.asteriod1.direction.x = Math.sin(bolides.asteriod1.angle);
-        bolides.asteriod1.direction.y = -Math.cos(bolides.asteriod1.angle);
-        bolides.asteriod1.x += bolides.asteriod1.direction.x * bolides.asteriod1.speed;
-        bolides.asteriod1.y += bolides.asteriod1.direction.y * bolides.asteriod1.speed;
-         if (bolides.asteriod1.x <= -60){
-             bolides.asteriod1.isInMotion = false;
-        } else if (bolides.asteriod1.x >= 860) {
-            bolides.asteriod1.isInMotion = false;
+        bolides.asteroid1.direction.x = Math.sin(bolides.asteroid1.angle);
+        bolides.asteroid1.direction.y = -Math.cos(bolides.asteroid1.angle);
+        bolides.asteroid1.x += bolides.asteroid1.direction.x * bolides.asteroid1.speed;
+        bolides.asteroid1.y += bolides.asteroid1.direction.y * bolides.asteroid1.speed;
+         if (bolides.asteroid1.x <= -60){
+             bolides.asteroid1.isInMotion = false;
+        } else if (bolides.asteroid1.x >= 860) {
+            bolides.asteroid1.isInMotion = false;
         }
-        if (bolides.asteriod1.y >= 660) {
-            bolides.asteriod1.isInMotion = false;
-        } else if (bolides.asteriod1.y <= -50) {
-            bolides.asteriod1.isInMotion = false;
+        if (bolides.asteroid1.y >= 660) {
+            bolides.asteroid1.isInMotion = false;
+        } else if (bolides.asteroid1.y <= -50) {
+            bolides.asteroid1.isInMotion = false;
+        }
+        // Asteroid 2 movement
+        if (Math.random() < 0.5 && !bolides.asteroid2.isInMotion) {
+            bolides.asteroid2.x = (Math.random() * 700 + 50);
+            bolides.asteroid2.y = -50;
+            bolides.asteroid2.angle = Math.random() * 2.9670597283903604 + 1.6580627893946132;
+            bolides.asteroid2.isInMotion = true;
+        } else if (!bolides.asteroid2.isInMotion) {
+            bolides.asteroid2.x = 850;
+            bolides.asteroid2.y = Math.random() * 500 + 50;
+            bolides.asteroid2.angle = Math.random() * 2.9670597283903604 + 3.2288591161895095;
+            bolides.asteroid2.isInMotion = true;
+        }
+        bolides.asteroid2.direction.x = Math.sin(bolides.asteroid2.angle);
+        bolides.asteroid2.direction.y = -Math.cos(bolides.asteroid2.angle);
+        bolides.asteroid2.x += bolides.asteroid2.direction.x * bolides.asteroid2.speed;
+        bolides.asteroid2.y += bolides.asteroid2.direction.y * bolides.asteroid2.speed;
+         if (bolides.asteroid2.x <= -60){
+             bolides.asteroid2.isInMotion = false;
+        } else if (bolides.asteroid2.x >= 860) {
+            bolides.asteroid2.isInMotion = false;
+        }
+        if (bolides.asteroid2.y >= 660) {
+            bolides.asteroid2.isInMotion = false;
+        } else if (bolides.asteroid2.y <= -50) {
+            bolides.asteroid2.isInMotion = false;
+        }
+        // Asteroid 3 movement
+        if (Math.random() < 0.5 && !bolides.asteroid3.isInMotion) {
+            bolides.asteroid3.x = (Math.random() * 700 + 50);
+            bolides.asteroid3.y = -50;
+            bolides.asteroid3.angle = Math.random() * 2.9670597283903604 + 1.6580627893946132;
+            bolides.asteroid3.isInMotion = true;
+        } else if (!bolides.asteroid3.isInMotion) {
+            bolides.asteroid3.x = 850;
+            bolides.asteroid3.y = Math.random() * 500 + 50;
+            bolides.asteroid3.angle = Math.random() * 2.9670597283903604 + 3.2288591161895095;
+            bolides.asteroid3.isInMotion = true;
+        }
+        bolides.asteroid3.direction.x = Math.sin(bolides.asteroid3.angle);
+        bolides.asteroid3.direction.y = -Math.cos(bolides.asteroid3.angle);
+        bolides.asteroid3.x += bolides.asteroid3.direction.x * bolides.asteroid3.speed;
+        bolides.asteroid3.y += bolides.asteroid3.direction.y * bolides.asteroid3.speed;
+         if (bolides.asteroid3.x <= -60){
+             bolides.asteroid3.isInMotion = false;
+        } else if (bolides.asteroid3.x >= 860) {
+            bolides.asteroid3.isInMotion = false;
+        }
+        if (bolides.asteroid3.y >= 660) {
+            bolides.asteroid3.isInMotion = false;
+        } else if (bolides.asteroid3.y <= -50) {
+            bolides.asteroid3.isInMotion = false;
         }
     },
     draw: function() {
@@ -374,11 +426,11 @@ var bolides = {
         bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
         bolides.canvas.ctx.restore();
         // Draw the 1st asteroid
-        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod1.x, bolides.asteriod1.y);
+        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid1.x, bolides.asteroid1.y);
         // Draw the 2nd asteroid
-        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod2.x, bolides.asteriod2.y);
+        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid2.x, bolides.asteroid2.y);
         // Draw the 3rd asteroid
-        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteriod2.x, bolides.asteriod2.y);
+        bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid3.x, bolides.asteroid3.y);
         // HUD Style
         bolides.canvas.ctx.fillStyle = "white";
         bolides.canvas.ctx.font = "24px Ubuntu";

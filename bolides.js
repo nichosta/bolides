@@ -177,7 +177,7 @@ var bolides = {
         // Up key or W key?
         if (key.keyCode === 38 || key.keyCode === 87) {
             // Then increase speed if not past terminal velocity
-            if (bolides.spaceship.speed < 25) {
+            if (bolides.spaceship.speed < 24.5) {
             bolides.spaceship.speed += 1;
             }
         // Down key or S key?
@@ -193,11 +193,11 @@ var bolides = {
         // Left key or A key?
         } else if (key.keyCode === 37 || key.keyCode === 65) {
             // Then change its angle by 7.5 degrees
-            bolides.spaceship.angle -= 0.1308996938995747;
+            bolides.spaceship.angle -= 0.2617993877991494;
         // Right key or D key?
         } else if (key.keyCode === 39 || key.keyCode === 68) {
             // Then change its angle by -7.5 degrees
-            bolides.spaceship.angle += 0.1308996938995747;
+            bolides.spaceship.angle += 0.2617993877991494;
         // Space bar or Q key?
         } else if (key.keyCode === 32 || key.keyCode === 81) {
             if (!bolides.bullet1.isBeingFired) {
@@ -441,15 +441,18 @@ var bolides = {
         // Draw speed words
         bolides.canvas.ctx.fillText("Speed: " + bolides.spaceship.speed, 10, 580);
         // Check for the number of hearts and draw that many
-        if (bolides.spaceship.hearts >= 3) {
+        if (bolides.spaceship.hearts === 3) {
             bolides.canvas.ctx.drawImage(bolides.images.heart, 90, 15);
             bolides.canvas.ctx.drawImage(bolides.images.heart, 110, 15);
             bolides.canvas.ctx.drawImage(bolides.images.heart, 130, 15);
         } else if (bolides.spaceship.hearts === 2) {
             bolides.canvas.ctx.drawImage(bolides.images.heart, 90, 15);
             bolides.canvas.ctx.drawImage(bolides.images.heart, 110, 15);
-        } else {
+        } else if (bolides.spaceship.hearts === 1) {
             bolides.canvas.ctx.drawImage(bolides.images.heart, 90, 15);
+        } else {
+            bolides.canvas.ctx.fillStyle = 'red';
+            bolides.canvas.ctx.fillText(bolides.spaceship.hearts, 90, 30);
         }
     }
 };

@@ -18,7 +18,8 @@ var bolides = {
             y: 0
         },
         // Starting health
-        hearts: 3
+        hearts: 3,
+        isVulnerable: true
     },
     // Attributes of the asteroids declared
     asteroid1: {
@@ -77,7 +78,7 @@ var bolides = {
         fire: function() {
             bolides.bullet1.isBeingFired = true;
             bolides.bullet1.x = bolides.spaceship.x;
-            bolides.bullet1.y = bolides.spaceship.y;
+            bolides.bullet1.y = bolides.spaceship.y + 31;
             bolides.bullet1.angle = bolides.spaceship.angle;
             bolides.bullet1.speed = 10;
             bolides.bullet1.speed += bolides.spaceship.speed;
@@ -103,7 +104,7 @@ var bolides = {
         fire: function() {
             bolides.bullet2.isBeingFired = true;
             bolides.bullet2.x = bolides.spaceship.x;
-            bolides.bullet2.y = bolides.spaceship.y;
+            bolides.bullet2.y = bolides.spaceship.y + 31;
             bolides.bullet2.angle = bolides.spaceship.angle;
             bolides.bullet2.speed = 10;
             bolides.bullet2.speed += bolides.spaceship.speed;
@@ -129,7 +130,7 @@ var bolides = {
         fire: function() {
             bolides.bullet3.isBeingFired = true;
             bolides.bullet3.x = bolides.spaceship.x;
-            bolides.bullet3.y = bolides.spaceship.y;
+            bolides.bullet3.y = bolides.spaceship.y + 31;
             bolides.bullet3.angle = bolides.spaceship.angle;
             bolides.bullet3.speed = 10;
             bolides.bullet3.speed += bolides.spaceship.speed;
@@ -223,7 +224,7 @@ var bolides = {
         }
         if (bolides.spaceship.y >= 630) {
             bolides.spaceship.y = 0;
-        } else if (bolides.spaceship.y <= 0) {
+        } else if (bolides.spaceship.y <= -30) {
             bolides.spaceship.y = 600;
         }
         // If it's moving,
@@ -288,7 +289,7 @@ var bolides = {
         if (bolides.bullet1.y >= 630) {
             setTimeout(function() { bolides.bullet1.isBeingFired = false; }, 1500);
         } else if (bolides.bullet1.y <= 0) {
-            setTimeout(function() { bolides.bullet1.isBeingFired = false; }, 1500);
+            setTimeout(function() { bolides.bullet1.isBeingFired = false;}, 1500);
         }
         // 2nd Bullet dissipation and cooldown
         if (bolides.bullet2.x <= -25){
@@ -390,6 +391,28 @@ var bolides = {
         } else if (bolides.asteroid3.y <= -50) {
             bolides.asteroid3.isInMotion = false;
         }
+        // Collision detection
+       if (bolides.spaceship.isVulnerable && (Math.pow(bolides.spaceship.x - bolides.asteroid1.x, 2) + Math.pow(bolides.spaceship.y - bolides.asteroid1.y, 2)) <= 1050) {
+           bolides.spaceship.hearts -= 1;
+           bolides.spaceship.x = 390;
+           bolides.spaceship.y = 290;
+           bolides.spaceship.isVulnerable = false;
+           setTimeout(function() { bolides.spaceship.isVulnerable = true; },  2000);
+       }
+        if (bolides.spaceship.isVulnerable && (Math.pow(bolides.spaceship.x - bolides.asteroid2.x, 2) + Math.pow(bolides.spaceship.y - bolides.asteroid2.y, 2)) <= 1050) {
+           bolides.spaceship.hearts -= 1;
+           bolides.spaceship.x = 390;
+           bolides.spaceship.y = 290;
+           bolides.spaceship.isVulnerable = false;
+           setTimeout(function() { bolides.spaceship.isVulnerable = true; },  2000);
+       }
+        if (bolides.spaceship.isVulnerable && (Math.pow(bolides.spaceship.x - bolides.asteroid3.x, 2) + Math.pow(bolides.spaceship.y - bolides.asteroid3.y, 2)) <= 1050) {
+           bolides.spaceship.hearts -= 1;
+           bolides.spaceship.x = 390;
+           bolides.spaceship.y = 290;
+           bolides.spaceship.isVulnerable = false;
+           setTimeout(function() { bolides.spaceship.isVulnerable = true; },  2000);
+       }
     },
     draw: function() {
         // Clear the canvas
@@ -397,7 +420,7 @@ var bolides = {
         // Save it so I can mess about as much as I want
         bolides.canvas.ctx.save();
         // Set the origin to the ship's center
-        bolides.canvas.ctx.translate(bolides.spaceship.x + 18, bolides.spaceship.y - 31);
+        bolides.canvas.ctx.translate(bolides.spaceship.x + 18, bolides.spaceship.y + 31);
         // Rotate the ship around the center by the angle of the ship
         bolides.canvas.ctx.rotate(bolides.spaceship.angle);
         // Draw the ship

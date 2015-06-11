@@ -1,2 +1,2 @@
 # bolides
-It's a game we made for Infinity Gamez.
+Remember Asteroids, the famous arcade game? I hope so, because this is a clone based off an older version made in Terrapin Logo. Enjoy!

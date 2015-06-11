@@ -14,3 +14,18 @@ body {
 canvas {
     background-size: cover;
 }
+.gitRibbon {
+    font-family: sans-serif;
+    text-decoration: none;
+    vertical-align: middle;
+    color: #333;
+    position: absolute;
+    text-align: center;
+    top: 50px;
+    right: -50px;
+    transform: rotate(40deg);
+    background: #fff;
+    padding: 7px;
+    width: 250px;
+    box-shadow: 0 0 5px #fff;
+}

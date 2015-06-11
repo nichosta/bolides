@@ -59,7 +59,7 @@ var bolides = {
         isInMotion: false
     },
     // Oh snap, Spaceship's got a gun! (1st one)
-    bullet1 : {
+    bullet1: {
         // Coordinates
         x: 0,
         y: 0,
@@ -74,8 +74,10 @@ var bolides = {
         },
         // Is what it says on the tin
         isBeingFired: false,
+        // Cooldown
+        isCooling: false,
         // Shooty gun
-        fire: function() {
+        fire: function () {
             bolides.bullet1.isBeingFired = true;
             bolides.bullet1.x = bolides.spaceship.x;
             bolides.bullet1.y = bolides.spaceship.y + 31;
@@ -85,7 +87,7 @@ var bolides = {
         }
     },
     // Oh snap, Spaceship's got a gun! (2st one)
-    bullet2 : {
+    bullet2: {
         // Coordinates
         x: 0,
         y: 0,
@@ -100,8 +102,10 @@ var bolides = {
         },
         // Is what it says on the tin
         isBeingFired: false,
+        // Cooldown
+        isCooling: false,
         // Shooty gun
-        fire: function() {
+        fire: function () {
             bolides.bullet2.isBeingFired = true;
             bolides.bullet2.x = bolides.spaceship.x;
             bolides.bullet2.y = bolides.spaceship.y + 31;
@@ -111,7 +115,7 @@ var bolides = {
         }
     },
     // Oh snap, Spaceship's got a gun! (3st one)
-    bullet3 : {
+    bullet3: {
         // Coordinates
         x: 0,
         y: 0,
@@ -126,8 +130,10 @@ var bolides = {
         },
         // Is what it says on the tin
         isBeingFired: false,
+        // Cooldown
+        isCooling: false,
         // Shooty gun
-        fire: function() {
+        fire: function () {
             bolides.bullet3.isBeingFired = true;
             bolides.bullet3.x = bolides.spaceship.x;
             bolides.bullet3.y = bolides.spaceship.y + 31;
@@ -143,14 +149,20 @@ var bolides = {
         heart: document.createElement('img'),
         bullet: document.createElement("img")
     },
-    initiate: function(){
+    initiate: function () {
         // Declare the canvas's context as 2D
         var canva = document.getElementById('canvas');
         bolides.canvas.ctx = canva.getContext('2d');
         // EventListener for keypresses to change speed and stuff
-        addEventListener('keydown', function(e){bolides.control(e);});
+        addEventListener('keydown', function (e) {
+            bolides.control(e);
+        });
         // Interval for slowdown
-        setInterval(function(){ if(bolides.spaceship.speed > 0) {bolides.spaceship.speed -= 0.5;}}, 500);
+        setInterval(function () {
+            if (bolides.spaceship.speed > 1.5) {
+                bolides.spaceship.speed -= 2;
+            }
+        }, 500);
         // Set the image sources
         bolides.images.ship.setAttribute('src', "../bolides/images/spaceship.png");
         bolides.images.asteroid.setAttribute('src', "../bolides/images/asteroid.png");
@@ -159,9 +171,9 @@ var bolides = {
         // Start looping
         bolides.loop();
     },
-    loop: function() {
+    loop: function () {
         // Is the player out of health?
-        if(bolides.spaceship.hearts === 0) {
+        if (bolides.spaceship.hearts === 0) {
             // Then display "Game over"
             bolides.canvas.ctx.clearRect(0, 0, 800, 600);
             bolides.canvas.ctx.font = "48px Ubuntu";
@@ -171,35 +183,37 @@ var bolides = {
             // No? Then move and draw everything, then loop again.
             bolides.move();
             bolides.draw();
-            requestAnimationFrame(function() { bolides.loop(); });
+            requestAnimationFrame(function () {
+                bolides.loop();
+            });
         }
     },
-    control: function(key) {
+    control: function (key) {
         // Up key or W key?
         if (key.keyCode === 38 || key.keyCode === 87) {
             // Then increase speed if not past terminal velocity
-            if (bolides.spaceship.speed < 24.5) {
-            bolides.spaceship.speed += 1;
+            if (bolides.spaceship.speed < 14.5) {
+                bolides.spaceship.speed += 1;
             }
-        // Down key or S key?
+            // Down key or S key?
         } else if (key.keyCode === 40 || key.keyCode === 83) {
             // Then decrease speed.
-            if (bolides.spaceship.speed > 0){
-            bolides.spaceship.speed -= 1;
+            if (bolides.spaceship.speed > 0) {
+                bolides.spaceship.speed -= 1;
             }
-        // R key?
+            // R key?
         } else if (key.keyCode === 82) {
             // Then remove a heart.
             bolides.spaceship.hearts -= 1;
-        // Left key or A key?
+            // Left key or A key?
         } else if (key.keyCode === 37 || key.keyCode === 65) {
             // Then change its angle by 7.5 degrees
-            bolides.spaceship.angle -= 0.2617993877991494;
-        // Right key or D key?
+            bolides.spaceship.angle -= 0.17453292519943295;
+            // Right key or D key?
         } else if (key.keyCode === 39 || key.keyCode === 68) {
             // Then change its angle by -7.5 degrees
-            bolides.spaceship.angle += 0.2617993877991494;
-        // Space bar or Q key?
+            bolides.spaceship.angle += 0.17453292519943295;
+            // Space bar or Q key?
         } else if (key.keyCode === 32 || key.keyCode === 81) {
             if (!bolides.bullet1.isBeingFired) {
                 bolides.bullet1.fire();
@@ -210,16 +224,16 @@ var bolides = {
             }
         }
     },
-    move: function() {
+    move: function () {
         // Ship Math
         bolides.spaceship.direction.x = Math.sin(bolides.spaceship.angle);
         bolides.spaceship.direction.y = -Math.cos(bolides.spaceship.angle);
         bolides.spaceship.x += bolides.spaceship.direction.x * bolides.spaceship.speed;
         bolides.spaceship.y += bolides.spaceship.direction.y * bolides.spaceship.speed;
         // Side warps
-        if (bolides.spaceship.x <= -25){
+        if (bolides.spaceship.x <= -25) {
             bolides.spaceship.x = 800;
-        } else if (bolides.spaceship.x >=800) {
+        } else if (bolides.spaceship.x >= 800) {
             bolides.spaceship.x = 0;
         }
         if (bolides.spaceship.y >= 630) {
@@ -231,7 +245,7 @@ var bolides = {
         if (bolides.spaceship.speed !== 0) {
             // Use the moving ship pic.
             bolides.images.ship.setAttribute('src', "../bolides/images/spaceship-move.png");
-        // Elsewise, don't.
+            // Elsewise, don't.
         } else {
             bolides.images.ship.setAttribute('src', "../bolides/images/spaceship.png");
         }
@@ -241,12 +255,13 @@ var bolides = {
             bolides.bullet1.y = 35;
             bolides.bullet1.angle = 0;
             bolides.bullet1.speed = 10;
+            bolides.bullet1.isCooling = false;
         } else {
-        // Bullet math 1
-        bolides.bullet1.direction.x = Math.sin(bolides.bullet1.angle);
-        bolides.bullet1.direction.y = -Math.cos(bolides.bullet1.angle);
-        bolides.bullet1.x += bolides.bullet1.direction.x * bolides.bullet1.speed;
-        bolides.bullet1.y += bolides.bullet1.direction.y * bolides.bullet1.speed;
+            // Bullet math 1
+            bolides.bullet1.direction.x = Math.sin(bolides.bullet1.angle);
+            bolides.bullet1.direction.y = -Math.cos(bolides.bullet1.angle);
+            bolides.bullet1.x += bolides.bullet1.direction.x * bolides.bullet1.speed;
+            bolides.bullet1.y += bolides.bullet1.direction.y * bolides.bullet1.speed;
         }
         // Stop bullet 2
         if (!bolides.bullet2.isBeingFired) {
@@ -254,12 +269,13 @@ var bolides = {
             bolides.bullet2.y = 35;
             bolides.bullet2.angle = 0;
             bolides.bullet2.speed = 10;
+            bolides.bullet2.isCooling = false;
         } else {
-        // Bullet math 2
-        bolides.bullet2.direction.x = Math.sin(bolides.bullet2.angle);
-        bolides.bullet2.direction.y = -Math.cos(bolides.bullet2.angle);
-        bolides.bullet2.x += bolides.bullet2.direction.x * bolides.bullet2.speed;
-        bolides.bullet2.y += bolides.bullet2.direction.y * bolides.bullet2.speed;
+            // Bullet math 2
+            bolides.bullet2.direction.x = Math.sin(bolides.bullet2.angle);
+            bolides.bullet2.direction.y = -Math.cos(bolides.bullet2.angle);
+            bolides.bullet2.x += bolides.bullet2.direction.x * bolides.bullet2.speed;
+            bolides.bullet2.y += bolides.bullet2.direction.y * bolides.bullet2.speed;
         }
         // Stop bullet 3
         if (!bolides.bullet3.isBeingFired) {
@@ -267,8 +283,9 @@ var bolides = {
             bolides.bullet3.y = 35;
             bolides.bullet3.angle = 0;
             bolides.bullet3.speed = 10;
+            bolides.bullet3.isCooling = false;
         } else {
-        // Bullet math 3
+            // Bullet math 3
             bolides.bullet3.direction.x = Math.sin(bolides.bullet3.angle);
             bolides.bullet3.direction.y = -Math.cos(bolides.bullet3.angle);
             bolides.bullet3.x += bolides.bullet3.direction.x * bolides.bullet3.speed;
@@ -281,37 +298,73 @@ var bolides = {
             bolides.spaceship.speed = 0;
         }
         // 1st Bullet dissipation and cooldown
-        if (bolides.bullet1.x <= -25){
-            setTimeout(function() { bolides.bullet1.isBeingFired = false; }, 1500);
-        } else if (bolides.bullet1.x >= 800) {
-            setTimeout(function() { bolides.bullet1.isBeingFired = false; }, 1500);
+        if (bolides.bullet1.x <= -25 && !bolides.bullet1.isCooling) {
+            bolides.bullet1.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet1.isBeingFired = false;
+            }, 1500);
+        } else if (bolides.bullet1.x >= 800 && !bolides.bullet1.isCooling) {
+            bolides.bullet1.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet1.isBeingFired = false;
+            }, 1500);
         }
-        if (bolides.bullet1.y >= 630) {
-            setTimeout(function() { bolides.bullet1.isBeingFired = false; }, 1500);
-        } else if (bolides.bullet1.y <= 0) {
-            setTimeout(function() { bolides.bullet1.isBeingFired = false;}, 1500);
+        if (bolides.bullet1.y >= 630 && !bolides.bullet1.isCooling) {
+            bolides.bullet1.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet1.isBeingFired = false;
+            }, 1500);
+        } else if (bolides.bullet1.y <= 0 && !bolides.bullet1.isCooling) {
+            bolides.bullet1.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet1.isBeingFired = false;
+            }, 1500);
         }
         // 2nd Bullet dissipation and cooldown
-        if (bolides.bullet2.x <= -25){
-            setTimeout(function() { bolides.bullet2.isBeingFired = false; }, 1500);
-        } else if (bolides.bullet1.x >=800) {
-            setTimeout(function() { bolides.bullet2.isBeingFired = false; }, 1500);
+        if (bolides.bullet2.x <= -25 && !bolides.bullet2.isCooling) {
+            bolides.bullet2.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet2.isBeingFired = false;
+            }, 1500);
+        } else if (bolides.bullet1.x >= 800 && !bolides.bullet2.isCooling) {
+            bolides.bullet2.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet2.isBeingFired = false;
+            }, 1500);
         }
-        if (bolides.bullet2.y >= 630) {
-            setTimeout(function() { bolides.bullet2.isBeingFired = false; }, 1500);
-        } else if (bolides.bullet2.y <= 0) {
-            setTimeout(function() { bolides.bullet2.isBeingFired = false; }, 1500);
+        if (bolides.bullet2.y >= 630 && !bolides.bullet2.isCooling) {
+            bolides.bullet2.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet2.isBeingFired = false;
+            }, 1500);
+        } else if (bolides.bullet2.y <= 0 && !bolides.bullet2.isCooling) {
+            bolides.bullet2.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet2.isBeingFired = false;
+            }, 1500);
         }
         // 3rd Bullet dissipation and cooldown
-        if (bolides.bullet3.x <= -25){
-            setTimeout(function() { bolides.bullet3.isBeingFired = false; }, 1500);
-        } else if (bolides.bullet3.x >=800) {
-            setTimeout(function() { bolides.bullet3.isBeingFired = false; }, 1500);
+        if (bolides.bullet3.x <= -25 && !bolides.bullet3.isCooling) {
+            bolides.bullet3.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet3.isBeingFired = false;
+            }, 1500);
+        } else if (bolides.bullet3.x >= 800 && !bolides.bullet3.isCooling) {
+            bolides.bullet3.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet3.isBeingFired = false;
+            }, 1500);
         }
-        if (bolides.bullet3.y >= 630) {
-            setTimeout(function() { bolides.bullet3.isBeingFired = false; }, 1500);
-        } else if (bolides.bullet3.y <= 0) {
-            setTimeout(function() { bolides.bullet3.isBeingFired = false; }, 1500);
+        if (bolides.bullet3.y >= 630 && !bolides.bullet3.isCooling) {
+            bolides.bullet3.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet3.isBeingFired = false;
+            }, 1500);
+        } else if (bolides.bullet3.y <= 0 && !bolides.bullet3.isCooling) {
+            bolides.bullet3.isCooling = true;
+            setTimeout(function () {
+                bolides.bullet3.isBeingFired = false;
+            }, 1500);
         }
         // Asteroid 1 movement
         if (Math.random() < 0.5 && !bolides.asteroid1.isInMotion) {
@@ -329,8 +382,8 @@ var bolides = {
         bolides.asteroid1.direction.y = -Math.cos(bolides.asteroid1.angle);
         bolides.asteroid1.x += bolides.asteroid1.direction.x * bolides.asteroid1.speed;
         bolides.asteroid1.y += bolides.asteroid1.direction.y * bolides.asteroid1.speed;
-         if (bolides.asteroid1.x <= -60){
-             bolides.asteroid1.isInMotion = false;
+        if (bolides.asteroid1.x <= -60) {
+            bolides.asteroid1.isInMotion = false;
         } else if (bolides.asteroid1.x >= 860) {
             bolides.asteroid1.isInMotion = false;
         }
@@ -355,8 +408,8 @@ var bolides = {
         bolides.asteroid2.direction.y = -Math.cos(bolides.asteroid2.angle);
         bolides.asteroid2.x += bolides.asteroid2.direction.x * bolides.asteroid2.speed;
         bolides.asteroid2.y += bolides.asteroid2.direction.y * bolides.asteroid2.speed;
-         if (bolides.asteroid2.x <= -60){
-             bolides.asteroid2.isInMotion = false;
+        if (bolides.asteroid2.x <= -60) {
+            bolides.asteroid2.isInMotion = false;
         } else if (bolides.asteroid2.x >= 860) {
             bolides.asteroid2.isInMotion = false;
         }
@@ -381,8 +434,8 @@ var bolides = {
         bolides.asteroid3.direction.y = -Math.cos(bolides.asteroid3.angle);
         bolides.asteroid3.x += bolides.asteroid3.direction.x * bolides.asteroid3.speed;
         bolides.asteroid3.y += bolides.asteroid3.direction.y * bolides.asteroid3.speed;
-         if (bolides.asteroid3.x <= -60){
-             bolides.asteroid3.isInMotion = false;
+        if (bolides.asteroid3.x <= -60) {
+            bolides.asteroid3.isInMotion = false;
         } else if (bolides.asteroid3.x >= 860) {
             bolides.asteroid3.isInMotion = false;
         }
@@ -392,29 +445,72 @@ var bolides = {
             bolides.asteroid3.isInMotion = false;
         }
         // Collision detection
-       if (bolides.spaceship.isVulnerable && (Math.pow(bolides.spaceship.x - bolides.asteroid1.x, 2) + Math.pow(bolides.spaceship.y - bolides.asteroid1.y, 2)) <= 1050) {
-           bolides.spaceship.hearts -= 1;
-           bolides.spaceship.x = 390;
-           bolides.spaceship.y = 290;
-           bolides.spaceship.isVulnerable = false;
-           setTimeout(function() { bolides.spaceship.isVulnerable = true; },  2000);
-       }
-        if (bolides.spaceship.isVulnerable && (Math.pow(bolides.spaceship.x - bolides.asteroid2.x, 2) + Math.pow(bolides.spaceship.y - bolides.asteroid2.y, 2)) <= 1050) {
-           bolides.spaceship.hearts -= 1;
-           bolides.spaceship.x = 390;
-           bolides.spaceship.y = 290;
-           bolides.spaceship.isVulnerable = false;
-           setTimeout(function() { bolides.spaceship.isVulnerable = true; },  2000);
-       }
-        if (bolides.spaceship.isVulnerable && (Math.pow(bolides.spaceship.x - bolides.asteroid3.x, 2) + Math.pow(bolides.spaceship.y - bolides.asteroid3.y, 2)) <= 1050) {
-           bolides.spaceship.hearts -= 1;
-           bolides.spaceship.x = 390;
-           bolides.spaceship.y = 290;
-           bolides.spaceship.isVulnerable = false;
-           setTimeout(function() { bolides.spaceship.isVulnerable = true; },  2000);
-       }
+        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - bolides.asteroid1.x), 2) + Math.pow(Math.abs(bolides.spaceship.y - bolides.asteroid1.y), 2)) <= 1050) {
+            bolides.spaceship.hearts -= 1;
+            bolides.spaceship.x = 390;
+            bolides.spaceship.y = 290;
+            bolides.spaceship.isVulnerable = false;
+            setTimeout(function () {
+                bolides.spaceship.isVulnerable = true;
+            }, 2000);
+        }
+        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - bolides.asteroid2.x), 2) + Math.pow(Math.abs(bolides.spaceship.y - bolides.asteroid2.y), 2)) <= 1050) {
+            bolides.spaceship.hearts -= 1;
+            bolides.spaceship.x = 390;
+            bolides.spaceship.y = 290;
+            bolides.spaceship.isVulnerable = false;
+            setTimeout(function () {
+                bolides.spaceship.isVulnerable = true;
+            }, 2000);
+        }
+        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - bolides.asteroid3.x), 2) + Math.pow(Math.abs(bolides.spaceship.y - bolides.asteroid3.y), 2)) <= 1050) {
+            bolides.spaceship.hearts -= 1;
+            bolides.spaceship.x = 390;
+            bolides.spaceship.y = 290;
+            bolides.spaceship.isVulnerable = false;
+            setTimeout(function () {
+                bolides.spaceship.isVulnerable = true;
+            }, 2000);
+        }
+        // Bullet Collisions
+        if (Math.pow(Math.abs(bolides.bullet1.x - bolides.asteroid1.x), 2) + Math.pow(Math.abs(bolides.bullet1.y - bolides.asteroid1.y), 2) <= 1050) {
+            bolides.asteroid1.isInMotion = false;
+            bolides.bullet1.isBeingFired = false;
+        }
+        if (Math.pow(Math.abs(bolides.bullet2.x - bolides.asteroid1.x), 2) + Math.pow(Math.abs(bolides.bullet2.y - bolides.asteroid1.y), 2) <= 1050) {
+            bolides.asteroid1.isInMotion = false;
+            bolides.bullet2.isBeingFired = false;
+        }
+        if (Math.pow(Math.abs(bolides.bullet3.x - bolides.asteroid1.x), 2) + Math.pow(Math.abs(bolides.bullet3.y - bolides.asteroid1.y), 2) <= 1050) {
+            bolides.asteroid1.isInMotion = false;
+            bolides.bullet3.isBeingFired = false;
+        }
+        if (Math.pow(Math.abs(bolides.bullet1.x - bolides.asteroid2.x), 2) + Math.pow(Math.abs(bolides.bullet1.y - bolides.asteroid2.y), 2) <= 1050) {
+            bolides.asteroid2.isInMotion = false;
+            bolides.bullet1.isBeingFired = false;
+        }
+        if (Math.pow(Math.abs(bolides.bullet2.x - bolides.asteroid2.x), 2) + Math.pow(Math.abs(bolides.bullet2.y - bolides.asteroid2.y), 2) <= 1050) {
+            bolides.asteroid2.isInMotion = false;
+            bolides.bullet2.isBeingFired = false;
+        }
+        if (Math.pow(Math.abs(bolides.bullet3.x - bolides.asteroid2.x), 2) + Math.pow(Math.abs(bolides.bullet3.y - bolides.asteroid2.y), 2) <= 1050) {
+            bolides.asteroid2.isInMotion = false;
+            bolides.bullet3.isBeingFired = false;
+        }
+        if (Math.pow(Math.abs(bolides.bullet1.x - bolides.asteroid3.x), 2) + Math.pow(Math.abs(bolides.bullet1.y - bolides.asteroid3.y), 2) <= 1050) {
+            bolides.asteroid3.isInMotion = false;
+            bolides.bullet1.isBeingFired = false;
+        }
+        if (Math.pow(Math.abs(bolides.bullet2.x - bolides.asteroid3.x), 2) + Math.pow(Math.abs(bolides.bullet2.y - bolides.asteroid3.y), 2) <= 1050) {
+            bolides.asteroid3.isInMotion = false;
+            bolides.bullet2.isBeingFired = false;
+        }
+        if (Math.pow(Math.abs(bolides.bullet3.x - bolides.asteroid3.x), 2) + Math.pow(Math.abs(bolides.bullet3.y - bolides.asteroid3.y), 2) <= 1050) {
+            bolides.asteroid3.isInMotion = false;
+            bolides.bullet3.isBeingFired = false;
+        }
     },
-    draw: function() {
+    draw: function () {
         // Clear the canvas
         bolides.canvas.ctx.clearRect(0, 0, 800, 600);
         // Save it so I can mess about as much as I want
@@ -480,4 +576,6 @@ var bolides = {
     }
 };
 // Actually start the program
-addEventListener('load', function() { bolides.initiate(); });
+addEventListener('load', function () {
+    bolides.initiate();
+});

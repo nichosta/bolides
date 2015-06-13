@@ -1,6 +1,7 @@
 /*jshint globals: false, unused: false, strict: false, debug: true, globalstrict: true, moz: true, browser: true, devel: true, jquery: true*/
 var bolides = {
     score: 0,
+    canva: 0,
     canvas: {
         ctx: ''
     },
@@ -152,11 +153,11 @@ var bolides = {
     },
     initiate: function () {
         // Declare the canvas's context as 2D
-        var canva = document.getElementById('canvas');
-        bolides.canvas.ctx = canva.getContext('2d');
+        bolides.canva = document.getElementById('canvas');
+        bolides.canvas.ctx = bolides.canva.getContext('2d');
         // Set the canvas's size
-        canva.width = window.innerWidth - 4;
-        canva.height = window.innerHeight - 4;
+        bolides.canva.width = window.innerWidth - 4;
+        bolides.canva.height = window.innerHeight - 4;
         // EventListener for keypresses to change speed and stuff
         addEventListener('keydown', function (e) {
             bolides.control(e);
@@ -179,14 +180,27 @@ var bolides = {
     },
     loop: function () {
         // Is the player out of health?
-        if (bolides.spaceship.hearts === 0) {
+        if (bolides.spaceship.hearts <= 0) {
             // Then display "Game over"
             bolides.canvas.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
             bolides.canvas.ctx.font = "48px Ubuntu";
             bolides.canvas.ctx.fillStyle = "white";
-            bolides.canvas.ctx.fillText("Game Over", 200, 200);
+            bolides.canvas.ctx.fillText("Game Over", window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 - 50);
+            bolides.canvas.ctx.fillRect(window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 - 26, 250, 60);
+            bolides.canvas.ctx.fillStyle = "black";
+            bolides.canvas.ctx.fillText("Restart?", window.innerWidth / 2 - window.innerWidth / 12 + 40, window.innerHeight / 2 + 20);
+            addEventListener('click', function (e) {
+                if (((window.innerWidth / 2 - window.innerWidth / 12 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 12 + 250)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
+                    window.location = "index.html";
+                }
+            });
+            bolides.canvas.ctx.fillStyle = "white";
+            bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 + 90);
         } else {
             // No? Then move and draw everything, then loop again.
+            // PS: also resize the canvas
+            bolides.canva.width = window.innerWidth - 4;
+            bolides.canva.height = window.innerHeight - 4;
             bolides.move();
             bolides.draw();
             requestAnimationFrame(function () {
@@ -247,13 +261,17 @@ var bolides = {
         } else if (bolides.spaceship.y <= -30) {
             bolides.spaceship.y = window.innerHeight;
         }
-        // If it's moving,
-        if (bolides.spaceship.speed !== 0) {
+        // If it's moving and vulnerable
+        if (bolides.spaceship.speed !== 0 && bolides.spaceship.isVulnerable) {
             // Use the moving ship pic.
             bolides.images.ship.setAttribute('src', "../bolides/images/spaceship-move.png");
             // Elsewise, don't.
-        } else {
+        } else if (bolides.spaceship.speed === 0 && bolides.spaceship.isVulnerable) {
             bolides.images.ship.setAttribute('src', "../bolides/images/spaceship.png");
+        } else if (bolides.spaceship.speed !== 0 && !bolides.spaceship.isVulnerable) {
+            bolides.images.ship.setAttribute('src', "../bolides/images/badship-move.png");
+        } else if (bolides.spaceship.speed === 0 && !bolides.spaceship.isVulnerable) {
+            bolides.images.ship.setAttribute('src', "../bolides/images/badship.png");
         }
         // Stop bullet 1
         if (!bolides.bullet1.isBeingFired) {
@@ -479,47 +497,47 @@ var bolides = {
             }, 2000);
         }
         // Bullet Collisions
-        if (Math.pow(Math.abs(bolides.bullet1.x - bolides.asteroid1.x), 2) + Math.pow(Math.abs(bolides.bullet1.y - bolides.asteroid1.y), 2) <= 1050) {
+        if (Math.pow(Math.abs(bolides.bullet1.x - (bolides.asteroid1.x + 31)), 2) + Math.pow(Math.abs(bolides.bullet1.y - (bolides.asteroid1.y + 31)), 2) <= 1050) {
             bolides.asteroid1.isInMotion = false;
             bolides.bullet1.isBeingFired = false;
             bolides.score += 100;
         }
-        if (Math.pow(Math.abs(bolides.bullet2.x - bolides.asteroid1.x), 2) + Math.pow(Math.abs(bolides.bullet2.y - bolides.asteroid1.y), 2) <= 1050) {
+        if (Math.pow(Math.abs(bolides.bullet2.x - (bolides.asteroid1.x + 31)), 2) + Math.pow(Math.abs(bolides.bullet2.y - (bolides.asteroid1.y + 31)), 2) <= 1050) {
             bolides.asteroid1.isInMotion = false;
             bolides.bullet2.isBeingFired = false;
             bolides.score += 100;
         }
-        if (Math.pow(Math.abs(bolides.bullet3.x - bolides.asteroid1.x), 2) + Math.pow(Math.abs(bolides.bullet3.y - bolides.asteroid1.y), 2) <= 1050) {
+        if (Math.pow(Math.abs(bolides.bullet3.x - (bolides.asteroid1.x + 31)), 2) + Math.pow(Math.abs(bolides.bullet3.y - (bolides.asteroid1.y + 31)), 2) <= 1050) {
             bolides.asteroid1.isInMotion = false;
             bolides.bullet3.isBeingFired = false;
             bolides.score += 100;
         }
-        if (Math.pow(Math.abs(bolides.bullet1.x - bolides.asteroid2.x), 2) + Math.pow(Math.abs(bolides.bullet1.y - bolides.asteroid2.y), 2) <= 1050) {
+        if (Math.pow(Math.abs(bolides.bullet1.x - (bolides.asteroid2.x + 31)), 2) + Math.pow(Math.abs(bolides.bullet1.y - (bolides.asteroid2.y + 31)), 2) <= 1050) {
             bolides.asteroid2.isInMotion = false;
             bolides.bullet1.isBeingFired = false;
             bolides.score += 100;
         }
-        if (Math.pow(Math.abs(bolides.bullet2.x - bolides.asteroid2.x), 2) + Math.pow(Math.abs(bolides.bullet2.y - bolides.asteroid2.y), 2) <= 1050) {
+        if (Math.pow(Math.abs(bolides.bullet2.x - (bolides.asteroid2.x + 31)), 2) + Math.pow(Math.abs(bolides.bullet2.y - (bolides.asteroid2.y + 31)), 2) <= 1050) {
             bolides.asteroid2.isInMotion = false;
             bolides.bullet2.isBeingFired = false;
             bolides.score += 100;
         }
-        if (Math.pow(Math.abs(bolides.bullet3.x - bolides.asteroid2.x), 2) + Math.pow(Math.abs(bolides.bullet3.y - bolides.asteroid2.y), 2) <= 1050) {
+        if (Math.pow(Math.abs(bolides.bullet3.x - (bolides.asteroid2.x + 31)), 2) + Math.pow(Math.abs(bolides.bullet3.y - (bolides.asteroid2.y + 31)), 2) <= 1050) {
             bolides.asteroid2.isInMotion = false;
             bolides.bullet3.isBeingFired = false;
             bolides.score += 100;
         }
-        if (Math.pow(Math.abs(bolides.bullet1.x - bolides.asteroid3.x), 2) + Math.pow(Math.abs(bolides.bullet1.y - bolides.asteroid3.y), 2) <= 1050) {
+        if (Math.pow(Math.abs(bolides.bullet1.x - (bolides.asteroid3.x + 31)), 2) + Math.pow(Math.abs(bolides.bullet1.y - (bolides.asteroid3.y + 31)), 2) <= 1050) {
             bolides.asteroid3.isInMotion = false;
             bolides.bullet1.isBeingFired = false;
             bolides.score += 100;
         }
-        if (Math.pow(Math.abs(bolides.bullet2.x - bolides.asteroid3.x), 2) + Math.pow(Math.abs(bolides.bullet2.y - bolides.asteroid3.y), 2) <= 1050) {
+        if (Math.pow(Math.abs(bolides.bullet2.x - (bolides.asteroid3.x + 31)), 2) + Math.pow(Math.abs(bolides.bullet2.y - (bolides.asteroid3.y + 31)), 2) <= 1050) {
             bolides.asteroid3.isInMotion = false;
             bolides.bullet2.isBeingFired = false;
             bolides.score += 100;
         }
-        if (Math.pow(Math.abs(bolides.bullet3.x - bolides.asteroid3.x), 2) + Math.pow(Math.abs(bolides.bullet3.y - bolides.asteroid3.y), 2) <= 1050) {
+        if (Math.pow(Math.abs(bolides.bullet3.x - (bolides.asteroid3.x + 31)), 2) + Math.pow(Math.abs(bolides.bullet3.y - (bolides.asteroid3.y + 31)), 2) <= 1050) {
             bolides.asteroid3.isInMotion = false;
             bolides.bullet3.isBeingFired = false;
             bolides.score += 100;

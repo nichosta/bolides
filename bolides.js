@@ -160,7 +160,55 @@ var bolides = {
         bolides.canva.height = window.innerHeight - 4;
         // EventListener for keypresses to change speed and stuff
         addEventListener('keydown', function (e) {
-            bolides.control(e);
+            if (e.keyCode === 87) {
+                bolides.control('w');
+            }
+        });
+        addEventListener('keydown', function (e) {
+            if (e.keyCode === 65) {
+                bolides.control('a');
+            }
+        });
+        addEventListener('keydown', function (e) {
+            if (e.keyCode === 83) {
+                bolides.control('s');
+            }
+        });
+        addEventListener('keydown', function (e) {
+            if (e.keyCode === 68) {
+                bolides.control('d');
+            }
+        });
+        addEventListener('keydown', function (e) {
+            if (e.keyCode === 38) {
+                bolides.control('up');
+            }
+        });
+        addEventListener('keydown', function (e) {
+            if (e.keyCode === 37) {
+                bolides.control('left');
+            }
+        });
+        addEventListener('keydown', function (e) {
+            if (e.keyCode === 40) {
+                bolides.control('down');
+            }
+        });
+        addEventListener('keydown', function (e) {
+            if (e.keyCode === 39) {
+                bolides.control('right');
+            }
+        });
+        addEventListener('keydown', function (e) {
+            if (e.keyCode === 32) {
+                bolides.control('space');
+            }
+        });
+        // Debug please delete later
+        addEventListener('keydown', function (e) {
+            if (e.keyCode === 82) {
+                bolides.control('r');
+            }
         });
         // Interval for slowdown
         setInterval(function () {
@@ -191,7 +239,7 @@ var bolides = {
             bolides.canvas.ctx.fillText("Restart?", window.innerWidth / 2 - window.innerWidth / 12 + 40, window.innerHeight / 2 + 20);
             addEventListener('click', function (e) {
                 if (((window.innerWidth / 2 - window.innerWidth / 12 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 12 + 250)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
-                    window.location = "index.html";
+                    window.location = window.location;
                 }
             });
             bolides.canvas.ctx.fillStyle = "white";
@@ -210,31 +258,31 @@ var bolides = {
     },
     control: function (key) {
         // Up key or W key?
-        if (key.keyCode === 38 || key.keyCode === 87) {
+        if (key === "up" || key.keyCode === "w") {
             // Then increase speed if not past terminal velocity
             if (bolides.spaceship.speed < 14.5) {
                 bolides.spaceship.speed += 1;
             }
             // Down key or S key?
-        } else if (key.keyCode === 40 || key.keyCode === 83) {
+        } else if (key === "down" || key === "s") {
             // Then decrease speed.
             if (bolides.spaceship.speed > 0) {
                 bolides.spaceship.speed -= 1;
             }
             // R key?
-        } else if (key.keyCode === 82) {
+        } else if (key === "r") {
             // Then remove a heart.
             bolides.spaceship.hearts -= 1;
             // Left key or A key?
-        } else if (key.keyCode === 37 || key.keyCode === 65) {
+        } else if (key === "left" || key === "a") {
             // Then change its angle by 7.5 degrees
             bolides.spaceship.angle -= 0.17453292519943295;
             // Right key or D key?
-        } else if (key.keyCode === 39 || key.keyCode === 68) {
+        } else if (key === "right" || key === "d") {
             // Then change its angle by -7.5 degrees
             bolides.spaceship.angle += 0.17453292519943295;
             // Space bar or Q key?
-        } else if (key.keyCode === 32 || key.keyCode === 81) {
+        } else if (key === "space" || key === "q") {
             if (!bolides.bullet1.isBeingFired) {
                 bolides.bullet1.fire();
             } else if (!bolides.bullet2.isBeingFired) {

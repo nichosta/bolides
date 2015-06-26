@@ -5,6 +5,20 @@ var bolides = {
     canvas: {
         ctx: ''
     },
+    // KeyPress object for storing keypresses
+    keyPresses: {
+        up: false,
+        w: false,
+        a: false,
+        s: false,
+        d: false,
+        down: false,
+        left: false,
+        right: false,
+        space: false,
+        // I really should delete this sometime
+        r: false
+    },
     // Attributes of the player's ship declared
     spaceship: {
         // Starting x and y
@@ -60,7 +74,7 @@ var bolides = {
         speed: 4,
         isInMotion: false
     },
-    // Oh snap, Spaceship's got a gun! (1st one)
+    // Oh snap, Spaceship's got a gun!
     bullet1: {
         // Coordinates
         x: 0,
@@ -88,7 +102,6 @@ var bolides = {
             bolides.bullet1.speed += bolides.spaceship.speed;
         }
     },
-    // Oh snap, Spaceship's got a gun! (2st one)
     bullet2: {
         // Coordinates
         x: 0,
@@ -116,7 +129,6 @@ var bolides = {
             bolides.bullet2.speed += bolides.spaceship.speed;
         }
     },
-    // Oh snap, Spaceship's got a gun! (3st one)
     bullet3: {
         // Coordinates
         x: 0,
@@ -158,56 +170,108 @@ var bolides = {
         // Set the canvas's size
         bolides.canva.width = window.innerWidth - 4;
         bolides.canva.height = window.innerHeight - 4;
-        // EventListener for keypresses to change speed and stuff
+        // Keydown listeners
         addEventListener('keydown', function (e) {
             if (e.keyCode === 87) {
-                bolides.control('w');
+                bolides.keyPresses.w = true;
             }
         });
         addEventListener('keydown', function (e) {
             if (e.keyCode === 65) {
-                bolides.control('a');
+                bolides.keyPresses.a = true;
             }
         });
         addEventListener('keydown', function (e) {
             if (e.keyCode === 83) {
-                bolides.control('s');
+                bolides.keyPresses.s = true;
             }
         });
         addEventListener('keydown', function (e) {
             if (e.keyCode === 68) {
-                bolides.control('d');
+                bolides.keyPresses.d = true;
             }
         });
         addEventListener('keydown', function (e) {
             if (e.keyCode === 38) {
-                bolides.control('up');
+                bolides.keyPresses.up = true;
             }
         });
         addEventListener('keydown', function (e) {
             if (e.keyCode === 37) {
-                bolides.control('left');
+                bolides.keyPresses.left = true;
             }
         });
         addEventListener('keydown', function (e) {
             if (e.keyCode === 40) {
-                bolides.control('down');
+                bolides.keyPresses.down = true;
             }
         });
         addEventListener('keydown', function (e) {
             if (e.keyCode === 39) {
-                bolides.control('right');
+                bolides.keyPresses.right = true;
             }
         });
         addEventListener('keydown', function (e) {
             if (e.keyCode === 32) {
-                bolides.control('space');
+                bolides.keyPresses.space = true;
             }
         });
         // Debug please delete later
         addEventListener('keydown', function (e) {
             if (e.keyCode === 82) {
-                bolides.control('r');
+                bolides.keyPresses.r = true;
+            }
+        });
+        // Keyup listeners
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 87) {
+                bolides.keyPresses.w = false;
+            }
+        });
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 65) {
+                bolides.keyPresses.a = false;
+            }
+        });
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 83) {
+                bolides.keyPresses.s = false;
+            }
+        });
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 68) {
+                bolides.keyPresses.d = false;
+            }
+        });
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 38) {
+                bolides.keyPresses.up = false;
+            }
+        });
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 37) {
+                bolides.keyPresses.left = false;
+            }
+        });
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 40) {
+                bolides.keyPresses.down = false;
+            }
+        });
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 39) {
+                bolides.keyPresses.right = false;
+            }
+        });
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 32) {
+                bolides.keyPresses.space = false;
+            }
+        });
+        // Debug please delete later
+        addEventListener('keyup', function (e) {
+            if (e.keyCode === 82) {
+                bolides.keyPresses.r = false;
             }
         });
         // Interval for slowdown
@@ -249,6 +313,7 @@ var bolides = {
             // PS: also resize the canvas
             bolides.canva.width = window.innerWidth - 4;
             bolides.canva.height = window.innerHeight - 4;
+            bolides.control();
             bolides.move();
             bolides.draw();
             requestAnimationFrame(function () {
@@ -258,31 +323,35 @@ var bolides = {
     },
     control: function (key) {
         // Up key or W key?
-        if (key === "up" || key.keyCode === "w") {
-            // Then increase speed if not past terminal velocity
+        if (bolides.keyPresses.up || bolides.keyPresses.w) {
             if (bolides.spaceship.speed < 14.5) {
                 bolides.spaceship.speed += 1;
             }
             // Down key or S key?
-        } else if (key === "down" || key === "s") {
+        }
+        if (bolides.keyPresses.down || bolides.keyPresses.s) {
             // Then decrease speed.
             if (bolides.spaceship.speed > 0) {
                 bolides.spaceship.speed -= 1;
             }
-            // R key?
-        } else if (key === "r") {
+            // R key? (debug please delete)
+        }
+        if (bolides.keyPresses.r) {
             // Then remove a heart.
             bolides.spaceship.hearts -= 1;
             // Left key or A key?
-        } else if (key === "left" || key === "a") {
+        }
+        if (bolides.keyPresses.left || bolides.keyPresses.a) {
             // Then change its angle by 7.5 degrees
             bolides.spaceship.angle -= 0.17453292519943295;
             // Right key or D key?
-        } else if (key === "right" || key === "d") {
+        }
+        if (bolides.keyPresses.right || bolides.keyPresses.d) {
             // Then change its angle by -7.5 degrees
             bolides.spaceship.angle += 0.17453292519943295;
             // Space bar or Q key?
-        } else if (key === "space" || key === "q") {
+        }
+        if (bolides.keyPresses.space) {
             if (!bolides.bullet1.isBeingFired) {
                 bolides.bullet1.fire();
             } else if (!bolides.bullet2.isBeingFired) {

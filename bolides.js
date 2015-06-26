@@ -517,7 +517,7 @@ var bolides = {
             bolides.asteroid3.isInMotion = false;
         }
         // Collision detection
-        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - bolides.asteroid1.x), 2) + Math.pow(Math.abs(bolides.spaceship.y - bolides.asteroid1.y), 2)) <= 1050) {
+        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - (bolides.asteroid1.x + 31)), 2) + Math.pow(Math.abs(bolides.spaceship.y - (bolides.asteroid1.y + 31)), 2)) <= 1050) {
             bolides.spaceship.hearts -= 1;
             bolides.spaceship.x = window.innerWidth / 2 - 18;
             bolides.spaceship.y = window.innerHeight / 2 - 31;
@@ -526,7 +526,7 @@ var bolides = {
                 bolides.spaceship.isVulnerable = true;
             }, 2000);
         }
-        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - bolides.asteroid2.x), 2) + Math.pow(Math.abs(bolides.spaceship.y - bolides.asteroid2.y), 2)) <= 1050) {
+        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - (bolides.asteroid2.x + 31)), 2) + Math.pow(Math.abs(bolides.spaceship.y - (bolides.asteroid2.y + 31)), 2)) <= 1050) {
             bolides.spaceship.hearts -= 1;
             bolides.spaceship.x = window.innerWidth / 2 - 18;
             bolides.spaceship.y = window.innerHeight / 2 - 31;
@@ -535,7 +535,7 @@ var bolides = {
                 bolides.spaceship.isVulnerable = true;
             }, 2000);
         }
-        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - bolides.asteroid3.x), 2) + Math.pow(Math.abs(bolides.spaceship.y - bolides.asteroid3.y), 2)) <= 1050) {
+        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - (bolides.asteroid3.x + 31)), 2) + Math.pow(Math.abs(bolides.spaceship.y - (bolides.asteroid3.y + 31)), 2)) <= 1050) {
             bolides.spaceship.hearts -= 1;
             bolides.spaceship.x = window.innerWidth / 2 - 18;
             bolides.spaceship.y = window.innerHeight / 2 - 31;

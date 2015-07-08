@@ -3,13 +3,6 @@
 <head>
     <link href="style.css" rel="stylesheet"/>
     <link rel="icon" href="images/favicon.ico"/>
-    <script src="bolides.js"></script>
-    <script>
-        // Radian converter
-        function radianConvert(degrees) {
-            return Math.PI / 180 * degrees;
-        };
-    </script>
     <meta charset="utf-8"/>
     <meta name="keywords" content="bolides, nicholas costa, erik boesen, infinite games, html game, html 5, canvas game" />
     <meta name="author" content="Nicholas Costa &amp; Erik Boesen"/>
@@ -17,7 +10,15 @@
     <title>Bolides | Infinite Games</title>
 </head>
 <body>
-        <canvas id="canvas">Upgrade to Chrome or Firefox to use the Canvas API.</canvas>
-        <!--<a class="gitRibbon" href="https://github.com/BrainiacMainiac/bolides">Fork this on GitHub</a>-->
+    <canvas id="canvas">Upgrade to Chrome or Firefox to use the Canvas API.</canvas>
+    <!--<a class="gitRibbon" href="https://github.com/BrainiacMainiac/bolides">Fork this on GitHub</a>-->
+    <script>
+        // Radian converter
+        function degreesToRadians(degrees) {
+            return (Math.PI / 180) * degrees;
+        };
+    </script>
+    <script src="Bullet.js"></script>
+    <script src="bolides.js"></script>
 </body>
 </html>

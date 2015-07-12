@@ -38,43 +38,6 @@ var bolides = {
         hearts: 3,
         isVulnerable: true
     },
-    // Attributes of the asteroids declared
-    asteroid1: {
-        // Same attributes as the ship, aside from pos
-        x: 0,
-        y: 0,
-        angle: 0,
-        direction: {
-            x: 0,
-            y: 0
-        },
-        speed: 4,
-        isInMotion: false
-    },
-    asteroid2: {
-        // Same attributes as the ship, aside from pos
-        x: 0,
-        y: 0,
-        angle: 0,
-        direction: {
-            x: 0,
-            y: 0
-        },
-        speed: 4,
-        isInMotion: false
-    },
-    asteroid3: {
-        // Same attributes as the ship, aside from pos
-        x: 0,
-        y: 0,
-        angle: 0,
-        direction: {
-            x: 0,
-            y: 0
-        },
-        speed: 4,
-        isInMotion: false
-    },
     // Images used by the project are created here
     images: {
         ship: document.createElement('img'),
@@ -88,7 +51,11 @@ var bolides = {
         bolides.bullet2 = new Bullet(bolides.spaceship)
         bolides.bullet3 = new Bullet(bolides.spaceship)
     },
-
+    createAsteroids: function() {
+        bolides.asteroid1 = new Asteroid();
+        bolides.asteroid2 = new Asteroid();
+        bolides.asteroid3 = new Asteroid();
+    }
     initiate: function () {
         // Declare the canvas's context as 2D
         bolides.canva = document.getElementById('canvas');

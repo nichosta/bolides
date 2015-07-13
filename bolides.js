@@ -5,6 +5,7 @@ var bolides = {
     canvas: {
         ctx: ''
     },
+
     // KeyPress object for storing keypresses
     keyPresses: {
         up: false,
@@ -37,125 +38,6 @@ var bolides = {
         hearts: 3,
         isVulnerable: true
     },
-    // Attributes of the asteroids declared
-    asteroid1: {
-        // Same attributes as the ship, aside from pos
-        x: 0,
-        y: 0,
-        angle: 0,
-        direction: {
-            x: 0,
-            y: 0
-        },
-        speed: 4,
-        isInMotion: false
-    },
-    asteroid2: {
-        // Same attributes as the ship, aside from pos
-        x: 0,
-        y: 0,
-        angle: 0,
-        direction: {
-            x: 0,
-            y: 0
-        },
-        speed: 4,
-        isInMotion: false
-    },
-    asteroid3: {
-        // Same attributes as the ship, aside from pos
-        x: 0,
-        y: 0,
-        angle: 0,
-        direction: {
-            x: 0,
-            y: 0
-        },
-        speed: 4,
-        isInMotion: false
-    },
-    // Oh snap, Spaceship's got a gun!
-    bullet1: {
-        // Coordinates
-        x: 0,
-        y: 0,
-        // Speed depends on Spaceship's speed, btw.
-        speed: 10,
-        // Angle is spaceship's angle until fired
-        angle: 0,
-        // Direction stuff again! How advanced!
-        direction: {
-            x: 0,
-            y: 0
-        },
-        // Is what it says on the tin
-        isBeingFired: false,
-        // Cooldown
-        isCooling: false,
-        // Shooty gun
-        fire: function () {
-            bolides.bullet1.isBeingFired = true;
-            bolides.bullet1.x = bolides.spaceship.x;
-            bolides.bullet1.y = bolides.spaceship.y + 31;
-            bolides.bullet1.angle = bolides.spaceship.angle;
-            bolides.bullet1.speed = 10;
-            bolides.bullet1.speed += bolides.spaceship.speed;
-        }
-    },
-    bullet2: {
-        // Coordinates
-        x: 0,
-        y: 0,
-        // Speed depends on Spaceship's speed, btw.
-        speed: 10,
-        // Angle is spaceship's angle until fired
-        angle: 0,
-        // Direction stuff again! How advanced!
-        direction: {
-            x: 0,
-            y: 0
-        },
-        // Is what it says on the tin
-        isBeingFired: false,
-        // Cooldown
-        isCooling: false,
-        // Shooty gun
-        fire: function () {
-            bolides.bullet2.isBeingFired = true;
-            bolides.bullet2.x = bolides.spaceship.x;
-            bolides.bullet2.y = bolides.spaceship.y + 31;
-            bolides.bullet2.angle = bolides.spaceship.angle;
-            bolides.bullet2.speed = 10;
-            bolides.bullet2.speed += bolides.spaceship.speed;
-        }
-    },
-    bullet3: {
-        // Coordinates
-        x: 0,
-        y: 0,
-        // Speed depends on Spaceship's speed, btw.
-        speed: 10,
-        // Angle is spaceship's angle until fired
-        angle: 0,
-        // Direction stuff again! How advanced!
-        direction: {
-            x: 0,
-            y: 0
-        },
-        // Is what it says on the tin
-        isBeingFired: false,
-        // Cooldown
-        isCooling: false,
-        // Shooty gun
-        fire: function () {
-            bolides.bullet3.isBeingFired = true;
-            bolides.bullet3.x = bolides.spaceship.x;
-            bolides.bullet3.y = bolides.spaceship.y + 31;
-            bolides.bullet3.angle = bolides.spaceship.angle;
-            bolides.bullet3.speed = 10;
-            bolides.bullet3.speed += bolides.spaceship.speed;
-        }
-    },
     // Images used by the project are created here
     images: {
         ship: document.createElement('img'),
@@ -163,6 +45,17 @@ var bolides = {
         heart: document.createElement('img'),
         bullet: document.createElement("img")
     },
+    createBullets: function() {
+        // Oh snap, Spaceship's got a gun!
+        bolides.bullet1 = new Bullet(bolides.spaceship)
+        bolides.bullet2 = new Bullet(bolides.spaceship)
+        bolides.bullet3 = new Bullet(bolides.spaceship)
+    },
+    createAsteroids: function() {
+        bolides.asteroid1 = new Asteroid();
+        bolides.asteroid2 = new Asteroid();
+        bolides.asteroid3 = new Asteroid();
+    }
     initiate: function () {
         // Declare the canvas's context as 2D
         bolides.canva = document.getElementById('canvas');
@@ -170,58 +63,42 @@ var bolides = {
         // Set the canvas's size
         bolides.canva.width = window.innerWidth - 4;
         bolides.canva.height = window.innerHeight - 4;
+
+        bolides.createBullets()
         // Keydown listeners
         addEventListener('keydown', function (e) {
             if (e.keyCode === 87) {
                 bolides.keyPresses.w = true;
             }
-        });
-        addEventListener('keydown', function (e) {
             if (e.keyCode === 65) {
                 bolides.keyPresses.a = true;
             }
-        });
-        addEventListener('keydown', function (e) {
             if (e.keyCode === 83) {
                 bolides.keyPresses.s = true;
             }
-        });
-        addEventListener('keydown', function (e) {
             if (e.keyCode === 68) {
                 bolides.keyPresses.d = true;
             }
-        });
-        addEventListener('keydown', function (e) {
             if (e.keyCode === 38) {
                 bolides.keyPresses.up = true;
             }
-        });
-        addEventListener('keydown', function (e) {
             if (e.keyCode === 37) {
                 bolides.keyPresses.left = true;
             }
-        });
-        addEventListener('keydown', function (e) {
             if (e.keyCode === 40) {
                 bolides.keyPresses.down = true;
             }
-        });
-        addEventListener('keydown', function (e) {
             if (e.keyCode === 39) {
                 bolides.keyPresses.right = true;
             }
-        });
-        addEventListener('keydown', function (e) {
             if (e.keyCode === 32) {
                 bolides.keyPresses.space = true;
             }
-        });
-        // Debug please delete later
-        addEventListener('keydown', function (e) {
             if (e.keyCode === 82) {
                 bolides.keyPresses.r = true;
             }
         });
+
         // Keyup listeners
         addEventListener('keyup', function (e) {
             if (e.keyCode === 87) {
@@ -283,31 +160,36 @@ var bolides = {
             }
         }, 500);
         // Set the image sources
-        bolides.images.ship.setAttribute('src', "../bolides/images/spaceship.png");
-        bolides.images.asteroid.setAttribute('src', "../bolides/images/asteroid.png");
-        bolides.images.heart.setAttribute('src', "../bolides/images/heart.png");
-        bolides.images.bullet.setAttribute('src', "../bolides/images/bullet.png");
+        bolides.images.ship.setAttribute('src', "images/spaceship.png");
+        bolides.images.asteroid.setAttribute('src', "images/asteroid.png");
+        bolides.images.heart.setAttribute('src', "images/heart.png");
+        bolides.images.bullet.setAttribute('src', "images/bullet.png");
         // Start looping
         bolides.loop();
     },
+
+    gameOver: function() {
+        bolides.canvas.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        bolides.canvas.ctx.font = "48px Ubuntu";
+        bolides.canvas.ctx.fillStyle = "white";
+        bolides.canvas.ctx.fillText("Game Over", window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 - 50);
+        bolides.canvas.ctx.fillRect(window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 - 26, 250, 60);
+        bolides.canvas.ctx.fillStyle = "black";
+        bolides.canvas.ctx.fillText("Restart?", window.innerWidth / 2 - window.innerWidth / 12 + 40, window.innerHeight / 2 + 20);
+        addEventListener('click', function (e) {
+            if (((window.innerWidth / 2 - window.innerWidth / 12 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 12 + 250)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
+                window.location = window.location;
+            }
+        });
+        bolides.canvas.ctx.fillStyle = "white";
+        bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 + 90);
+    },
+
     loop: function () {
         // Is the player out of health?
         if (bolides.spaceship.hearts <= 0) {
             // Then display "Game over"
-            bolides.canvas.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-            bolides.canvas.ctx.font = "48px Ubuntu";
-            bolides.canvas.ctx.fillStyle = "white";
-            bolides.canvas.ctx.fillText("Game Over", window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 - 50);
-            bolides.canvas.ctx.fillRect(window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 - 26, 250, 60);
-            bolides.canvas.ctx.fillStyle = "black";
-            bolides.canvas.ctx.fillText("Restart?", window.innerWidth / 2 - window.innerWidth / 12 + 40, window.innerHeight / 2 + 20);
-            addEventListener('click', function (e) {
-                if (((window.innerWidth / 2 - window.innerWidth / 12 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 12 + 250)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
-                    window.location = window.location;
-                }
-            });
-            bolides.canvas.ctx.fillStyle = "white";
-            bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 + 90);
+            this.gameOver()
         } else {
             // No? Then move and draw everything, then loop again.
             // PS: also resize the canvas
@@ -316,12 +198,12 @@ var bolides = {
             bolides.control();
             bolides.move();
             bolides.draw();
-            requestAnimationFrame(function () {
-                bolides.loop();
-            });
+
+            requestAnimationFrame(bolides.loop)
         }
     },
-    control: function (key) {
+
+    control: function () {
         // Up key or W key?
         if (bolides.keyPresses.up || bolides.keyPresses.w) {
             if (bolides.spaceship.speed < 14.5) {
@@ -343,12 +225,12 @@ var bolides = {
         }
         if (bolides.keyPresses.left || bolides.keyPresses.a) {
             // Then change its angle by 7.5 degrees
-            bolides.spaceship.angle -= 0.06981317007977318;
+            bolides.spaceship.angle -= degreesToRadians(7.5)
             // Right key or D key?
         }
         if (bolides.keyPresses.right || bolides.keyPresses.d) {
             // Then change its angle by -7.5 degrees
-            bolides.spaceship.angle += 0.06981317007977318;
+            bolides.spaceship.angle += degreesToRadians(7.5)
             // Space bar or Q key?
         }
         if (bolides.keyPresses.space) {
@@ -381,14 +263,14 @@ var bolides = {
         // If it's moving and vulnerable
         if (bolides.spaceship.speed !== 0 && bolides.spaceship.isVulnerable) {
             // Use the moving ship pic.
-            bolides.images.ship.setAttribute('src', "../bolides/images/spaceship-move.png");
+            bolides.images.ship.setAttribute('src', "images/spaceship-move.png");
             // Elsewise, don't.
         } else if (bolides.spaceship.speed === 0 && bolides.spaceship.isVulnerable) {
-            bolides.images.ship.setAttribute('src', "../bolides/images/spaceship.png");
+            bolides.images.ship.setAttribute('src', "images/spaceship.png");
         } else if (bolides.spaceship.speed !== 0 && !bolides.spaceship.isVulnerable) {
-            bolides.images.ship.setAttribute('src', "../bolides/images/badship-move.png");
+            bolides.images.ship.setAttribute('src', "images/badship-move.png");
         } else if (bolides.spaceship.speed === 0 && !bolides.spaceship.isVulnerable) {
-            bolides.images.ship.setAttribute('src', "../bolides/images/badship.png");
+            bolides.images.ship.setAttribute('src', "images/badship.png");
         }
         // Stop bullet 1
         if (!bolides.bullet1.isBeingFired) {
@@ -727,7 +609,5 @@ var bolides = {
         }
     }
 };
-// Actually start the program
-addEventListener('load', function () {
-    bolides.initiate();
-});
+
+bolides.initiate();

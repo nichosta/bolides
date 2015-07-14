@@ -9,4 +9,4 @@
 ### WASD also works!
 ## Shoot asteroids to gain points!
 
-# [Play the game!][http://BrainiacMainiac.github.io/bolides/bolides.html] (Still in alpha)
+# [Play the game!](http://BrainiacMainiac.github.io/bolides/bolides.html) (Still in alpha)

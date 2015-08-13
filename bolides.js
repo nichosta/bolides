@@ -47,15 +47,15 @@ var bolides = {
     },
     createBullets: function() {
         // Oh snap, Spaceship's got a gun!
-        bolides.bullet1 = new Bullet(bolides.spaceship);
-        bolides.bullet2 = new Bullet(bolides.spaceship);
-        bolides.bullet3 = new Bullet(bolides.spaceship);
+        bolides.bullet1 = new Bullet(bolides.spaceship)
+        bolides.bullet2 = new Bullet(bolides.spaceship)
+        bolides.bullet3 = new Bullet(bolides.spaceship)
     },
     createAsteroids: function() {
         bolides.asteroid1 = new Asteroid();
         bolides.asteroid2 = new Asteroid();
         bolides.asteroid3 = new Asteroid();
-    },
+    }
     initiate: function () {
         // Declare the canvas's context as 2D
         bolides.canva = document.getElementById('canvas');
@@ -64,7 +64,7 @@ var bolides = {
         bolides.canva.width = window.innerWidth - 4;
         bolides.canva.height = window.innerHeight - 4;
 
-        bolides.createBullets();
+        bolides.createBullets()
         // Keydown listeners
         addEventListener('keydown', function (e) {
             if (e.keyCode === 87) {
@@ -189,7 +189,7 @@ var bolides = {
         // Is the player out of health?
         if (bolides.spaceship.hearts <= 0) {
             // Then display "Game over"
-            this.gameOver();
+            this.gameOver()
         } else {
             // No? Then move and draw everything, then loop again.
             // PS: also resize the canvas
@@ -199,7 +199,7 @@ var bolides = {
             bolides.move();
             bolides.draw();
 
-            requestAnimationFrame(bolides.loop);
+            requestAnimationFrame(bolides.loop)
         }
     },
 
@@ -225,12 +225,12 @@ var bolides = {
         }
         if (bolides.keyPresses.left || bolides.keyPresses.a) {
             // Then change its angle by 7.5 degrees
-            bolides.spaceship.angle -= degreesToRadians(7.5);
+            bolides.spaceship.angle -= degreesToRadians(7.5)
             // Right key or D key?
         }
         if (bolides.keyPresses.right || bolides.keyPresses.d) {
             // Then change its angle by -7.5 degrees
-            bolides.spaceship.angle += degreesToRadians(7.5);
+            bolides.spaceship.angle += degreesToRadians(7.5)
             // Space bar or Q key?
         }
         if (bolides.keyPresses.space) {

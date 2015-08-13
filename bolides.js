@@ -55,7 +55,7 @@ var bolides = {
         bolides.asteroid1 = new Asteroid();
         bolides.asteroid2 = new Asteroid();
         bolides.asteroid3 = new Asteroid();
-    }
+    },
     initiate: function () {
         // Declare the canvas's context as 2D
         bolides.canva = document.getElementById('canvas');

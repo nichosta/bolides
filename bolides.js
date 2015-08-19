@@ -82,7 +82,7 @@ var bolides = {
       }
     },
 
-    initiate: function() {
+    initiate: function () {
         // Declare the canvas's context as 2D
         bolides.canva = document.getElementById('canvas');
         bolides.canvas.ctx = bolides.canva.getContext('2d');

@@ -1,5 +1,5 @@
 var Asteroid = function() {
-  this.reset();
+  this.reset()
 }
 Asteroid.prototype = {
   reset: function() {
@@ -12,6 +12,7 @@ Asteroid.prototype = {
             y: 0
         },
         this.speed = 4;
-        this.isInMotion = false
+        this.isInMotion = false,
+        this.isBolide = false
     }
   }

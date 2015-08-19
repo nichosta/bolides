@@ -30,6 +30,5 @@ Bullet.prototype = {
         this.y = this.spaceship.y + 31;
         this.angle = this.spaceship.angle;
         this.speed = 10;
-        this.speed += this.spaceship.speed;
     }
 }

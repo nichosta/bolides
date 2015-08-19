@@ -65,16 +65,21 @@ var bolides = {
         bolides.asteroid2 = new Asteroid();
         bolides.asteroid3 = new Asteroid();
     },
-
     isTouchingBullet: function(bullet, asteroid) {
-      if (Math.pow(Math.abs(bullet.x - (asteroid.x + 31)), 2) + Math.pow(Math.abs(bullet.y - (asteroid.y + 31)), 2) <= 1050) {
+      if (((Math.pow(Math.abs(bullet.x - (asteroid.x + 31)), 2)) + (Math.pow(Math.abs(bullet.y - (asteroid.y + 31)), 2)) <= 1050) && bullet.isBeingFired) {
           return true;
-        }
-      },
+      }
+      else {
+        return false;
+      }
+    },
     isTouchingSpaceship: function(spaceship, asteroid) {
       if (Math.pow(Math.abs(spaceship.x - (asteroid.x + 31)), 2) + Math.pow(Math.abs(spaceship.y - (asteroid.y + 31)), 2) <= 1200) {
           return true;
-        }
+      }
+      else {
+        return false;
+      }
     },
 
     initiate: function() {
@@ -367,12 +372,6 @@ var bolides = {
             bolides.bullet3.x += bolides.bullet3.direction.x * bolides.bullet3.speed;
             bolides.bullet3.y += bolides.bullet3.direction.y * bolides.bullet3.speed;
         }
-        // Because decimals
-        if ((bolides.spaceship.speed > 0) && (bolides.spaceship.speed < 0.5)) {
-            bolides.spaceship.speed = 0;
-        } else if (bolides.spaceship.speed < 0) {
-            bolides.spaceship.speed = 0;
-        }
         // 1st Bullet dissipation and cooldown
         if (bolides.bullet1.x <= -25 && !bolides.bullet1.isCooling) {
             bolides.bullet1.isCooling = true;
@@ -550,6 +549,7 @@ var bolides = {
         } else if (bolides.asteroid3.y <= -50) {
             bolides.asteroid3.isInMotion = false;
         }
+        /*
         // Collision detection
         if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - (bolides.asteroid1.x + 31)), 2) + Math.pow(Math.abs(bolides.spaceship.y - (bolides.asteroid1.y + 31)), 2)) <= 1050) {
             bolides.spaceship.hearts -= 1;
@@ -577,13 +577,13 @@ var bolides = {
             setTimeout(function() {
                 bolides.spaceship.isVulnerable = true;
             }, 2000);
-        }
-        for (i = 1; i < 4; i++) {
-          for (j = 1; j < 4; j++) {
+        } */
+        for (var i = 1; i < 4; i++) {
+          for (var j = 1; j < 4; j++) {
             if (bolides.isTouchingBullet(bolides["bullet" + i], bolides["asteroid" + j]))
               bolides["asteroid" + j].isInMotion = false;
               bolides["bullet" + i].isBeingFired = false;
-              if (bolides["asteroid" + j].isBolide) {
+            if (bolides["asteroid" + j].isBolide) {
               bolides.score += 500;
             } else {
               bolides.score += 100;

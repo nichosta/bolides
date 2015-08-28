@@ -6,6 +6,15 @@ var bolides = {
         ctx: ''
     },
 
+    deltaNumbers: {
+    },
+
+    getDelta: function() {
+        bolides.deltaNumbers.now = Date.now();
+        bolides.deltaNumbers.delta = (bolides.deltaNumbers.now - bolides.deltaNumbers.then) / 10;
+        bolides.deltaNumbers.then = bolides.deltaNumbers.now;
+    },
+
     // Intervals to store interval ids
     intervals: {
         slowdownInterval: 0,
@@ -162,23 +171,19 @@ var bolides = {
                 bolides.keyPresses.r = false;
             }
         });
-// FLAG FOR DOING SOMETHING
-      //FLAGGED
-      //FLAGGED
-      //FLAGGED
-      //FLAGGED
-      //FLAGGED
-      //FLAGGED
         // Set the spaceship slowdown interval
         bolides.intervals.slowdownInterval = setInterval(function() {
-            bolides.spaceship.speed -= 0.5;
+          if (bolides.spaceship.velocity.x > 0.5) {
+            bolides.spaceship.velocity.x -= 0.5;
+          } else if (bolides.spaceship.velocity.x < -0.5) {
+            bolides.spaceship.velocity.x += 0.5;
+          }
+          if (bolides.spaceship.velocity.y > 0.5) {
+            bolides.spaceship.velocity.y -= 0.5;
+          } else if (bolides.spaceship.velocity.y < -0.5) {
+            bolides.spaceship.velocity.y += 0.5;
+          }
         }, 500);
-			//FLAGGED
-      //FLAGGED
-      //FLAGGED
-      //FLAGGED
-      //FLAGGED
-      //FLAGGED
         // Set the control interval
         bolides.intervals.controlInterval = setInterval(bolides.control, 100);
 
@@ -224,7 +229,7 @@ var bolides = {
             bolides.canva.height = window.innerHeight - 4;
             bolides.move();
             bolides.draw();
-
+            bolides.getDelta();
             requestAnimationFrame(bolides.loop);
         }
     },
@@ -303,10 +308,8 @@ var bolides = {
 
     move: function() {
         // Ship Math
-        // bolides.spaceship.direction.x = Math.sin(bolides.spaceship.angle);
-        // bolides.spaceship.direction.y = -Math.cos(bolides.spaceship.angle);
-        bolides.spaceship.x += bolides.spaceship.velocity.x;
-        bolides.spaceship.y += bolides.spaceship.velocity.y;
+        bolides.spaceship.x += /* bolides.deltaNumbers.delta */ bolides.spaceship.velocity.x;
+        bolides.spaceship.y += /* bolides.deltaNumbers.delta */ bolides.spaceship.velocity.y;
         // Side warps
         if (bolides.spaceship.x <= -25) {
             bolides.spaceship.x = window.innerWidth;

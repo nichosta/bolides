@@ -56,12 +56,14 @@ var bolides = {
         bolides.bullet1 = new Bullet(bolides.spaceship);
         bolides.bullet2 = new Bullet(bolides.spaceship);
         bolides.bullet3 = new Bullet(bolides.spaceship);
+        bolides.bulletList = [bolides.bullet1, bolides.bullet2, bolides.bullet3];
     },
 
     createAsteroids: function() {
         bolides.asteroid1 = new Asteroid();
         bolides.asteroid2 = new Asteroid();
         bolides.asteroid3 = new Asteroid();
+        bolides.asteroidList = [bolides.asteroid1, bolides.asteroid2, bolides.asteroid3];
     },
     isTouchingBullet: function(bullet, asteroid) {
       if (((Math.pow(Math.abs(bullet.x - (asteroid.x + 31)), 2)) + (Math.pow(Math.abs(bullet.y - (asteroid.y + 31)), 2)) <= 1050) && bullet.isBeingFired) {
@@ -289,7 +291,6 @@ var bolides = {
             setTimeout(function() {
                 clearInterval(rightInterval);
             }, 100);
-            // Space bar or Q key?
         }
     },
 
@@ -431,114 +432,36 @@ var bolides = {
                 bolides.bullet3.isBeingFired = false;
             }, 1000);
         }
-        // Asteroid 1 movement
-        if (Math.random() < 0.5 && !bolides.asteroid1.isInMotion) {
-            if (Math.random() < 0.05) {
-                bolides.asteroid1.isBolide = true;
-            } else {
-                bolides.asteroid1.isBolide = false;
-            }
-            bolides.asteroid1.x = (Math.random() * (window.innerWidth + 100) + 50);
-            bolides.asteroid1.y = -50;
-            bolides.asteroid1.angle = Math.random() * 2.9670597283903604 + 1.6580627893946132;
-            bolides.asteroid1.isInMotion = true;
-        } else if (!bolides.asteroid1.isInMotion) {
-            if (Math.random() < 0.05) {
-                bolides.asteroid1.isBolide = true;
-            } else {
-                bolides.asteroid1.isBolide = false;
-            }
-            bolides.asteroid1.x = window.innerWidth + 50;
-            bolides.asteroid1.y = Math.random() * (window.innerHeight - 50) + 50;
-            bolides.asteroid1.angle = Math.random() * 2.9670597283903604 + 3.2288591161895095;
-            bolides.asteroid1.isInMotion = true;
-        }
-        bolides.asteroid1.direction.x = Math.sin(bolides.asteroid1.angle);
-        bolides.asteroid1.direction.y = -Math.cos(bolides.asteroid1.angle);
-        bolides.asteroid1.x += bolides.asteroid1.direction.x * bolides.asteroid1.speed;
-        bolides.asteroid1.y += bolides.asteroid1.direction.y * bolides.asteroid1.speed;
-        if (bolides.asteroid1.x <= -60) {
-            bolides.asteroid1.isInMotion = false;
-        } else if (bolides.asteroid1.x >= window.innerWidth + 60) {
-            bolides.asteroid1.isInMotion = false;
-        }
-        if (bolides.asteroid1.y >= window.innerHeight + 60) {
-            bolides.asteroid1.isInMotion = false;
-        } else if (bolides.asteroid1.y <= -50) {
-            bolides.asteroid1.isInMotion = false;
-        }
-        // Asteroid 2 movement
-        if (Math.random() < 0.5 && !bolides.asteroid2.isInMotion) {
-            if (Math.random() < 0.05) {
-                bolides.asteroid2.isBolide = true;
-            } else {
-                bolides.asteroid2.isBolide = false;
-            }
-            bolides.asteroid2.x = (Math.random() * (window.innerWidth - 100) + 50);
-            bolides.asteroid2.y = -50;
-            bolides.asteroid2.angle = Math.random() * 2.9670597283903604 + 1.6580627893946132;
-            bolides.asteroid2.isInMotion = true;
-        } else if (!bolides.asteroid2.isInMotion) {
-            if (Math.random() < 0.05) {
-                bolides.asteroid2.isBolide = true;
-            } else {
-                bolides.asteroid2.isBolide = false;
-            }
-            bolides.asteroid2.x = window.innerWidth + 50;
-            bolides.asteroid2.y = Math.random() * (window.innerHeight - 100) + 50;
-            bolides.asteroid2.angle = Math.random() * 2.9670597283903604 + 3.2288591161895095;
-            bolides.asteroid2.isInMotion = true;
-        }
-        bolides.asteroid2.direction.x = Math.sin(bolides.asteroid2.angle);
-        bolides.asteroid2.direction.y = -Math.cos(bolides.asteroid2.angle);
-        bolides.asteroid2.x += bolides.asteroid2.direction.x * bolides.asteroid2.speed;
-        bolides.asteroid2.y += bolides.asteroid2.direction.y * bolides.asteroid2.speed;
-        if (bolides.asteroid2.x <= -60) {
-            bolides.asteroid2.isInMotion = false;
-        } else if (bolides.asteroid2.x >= window.innerWidth + 60) {
-            bolides.asteroid2.isInMotion = false;
-        }
-        if (bolides.asteroid2.y >= window.innerHeight + 60) {
-            bolides.asteroid2.isInMotion = false;
-        } else if (bolides.asteroid2.y <= -50) {
-            bolides.asteroid2.isInMotion = false;
-        }
-        // Asteroid 3 movement
-        if (Math.random() < 0.5 && !bolides.asteroid3.isInMotion) {
-          if (Math.random() < 0.05) {
-              bolides.asteroid3.isBolide = true;
-          } else {
-              bolides.asteroid3.isBolide = false;
+        bolides.asteroidList.forEach(function(asteroid) {
+          if (Math.random() < 0.5 && !asteroid.isInMotion) {
+              asteroid.isBolide = Math.random() < 0.5;
+              asteroid.x = (Math.random() * (window.innerWidth + 100) + 50);
+              asteroid.y = -50;
+              asteroid.angle = Math.random() * 2.9670597283903604 + 1.6580627893946132;
+              asteroid.isInMotion = true;
+          } else if (!asteroid.isInMotion) {
+              asteroid.isBolide = Math.random() < 0.5;
+              asteroid.x = window.innerWidth + 50;
+              asteroid.y = Math.random() * (window.innerHeight - 50) + 50;
+              asteroid.angle = Math.random() * 2.9670597283903604 + 3.2288591161895095;
+              asteroid.isInMotion = true;
           }
-          bolides.asteroid3.x = (Math.random() * (window.innerWidth - 100) + 50);
-          bolides.asteroid3.y = -50;
-          bolides.asteroid3.angle = Math.random() * 2.9670597283903604 + 1.6580627893946132;
-          bolides.asteroid3.isInMotion = true;
-        } else if (!bolides.asteroid3.isInMotion) {
-          if (Math.random() < 0.05) {
-              bolides.asteroid3.isBolide = true;
-          } else {
-              bolides.asteroid3.isBolide = false;
+          asteroid.direction.x = Math.sin(asteroid.angle);
+          asteroid.direction.y = -Math.cos(asteroid.angle);
+          asteroid.x += asteroid.direction.x * asteroid.speed;
+          asteroid.y += asteroid.direction.y * asteroid.speed;
+          if (asteroid.x <= -60) {
+              asteroid.isInMotion = false;
+          } else if (asteroid.x >= window.innerWidth + 60) {
+              asteroid.isInMotion = false;
           }
-          bolides.asteroid3.x = window.innerWidth + 50;
-          bolides.asteroid3.y = Math.random() * (window.innerHeight - 100) + 50;
-          bolides.asteroid3.angle = Math.random() * 2.9670597283903604 + 3.2288591161895095;
-          bolides.asteroid3.isInMotion = true;
+          if (asteroid.y >= window.innerHeight + 60) {
+              asteroid.isInMotion = false;
+          } else if (asteroid.y <= -50) {
+              asteroid.isInMotion = false;
+          }
         }
-        bolides.asteroid3.direction.x = Math.sin(bolides.asteroid3.angle);
-        bolides.asteroid3.direction.y = -Math.cos(bolides.asteroid3.angle);
-        bolides.asteroid3.x += bolides.asteroid3.direction.x * bolides.asteroid3.speed;
-        bolides.asteroid3.y += bolides.asteroid3.direction.y * bolides.asteroid3.speed;
-        if (bolides.asteroid3.x <= -60) {
-            bolides.asteroid3.isInMotion = false;
-        } else if (bolides.asteroid3.x >= window.innerWidth + 60) {
-            bolides.asteroid3.isInMotion = false;
-        }
-        if (bolides.asteroid3.y >= window.innerHeight + 60) {
-            bolides.asteroid3.isInMotion = false;
-        } else if (bolides.asteroid3.y <= -50) {
-            bolides.asteroid3.isInMotion = false;
-        }
+        );
         // Collision detection
         for (var l = 1; l < 4; l++) {
           if (bolides.isTouchingSpaceship(bolides.spaceship, bolides["asteroid" + l]) && bolides.spaceship.isVulnerable) {

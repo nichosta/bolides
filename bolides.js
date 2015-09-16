@@ -6,15 +6,6 @@ var bolides = {
         ctx: ''
     },
 
-    deltaNumbers: {
-    },
-
-    getDelta: function() {
-        bolides.deltaNumbers.now = Date.now();
-        bolides.deltaNumbers.delta = (bolides.deltaNumbers.now - bolides.deltaNumbers.then) / 10;
-        bolides.deltaNumbers.then = bolides.deltaNumbers.now;
-    },
-
     // Intervals to store interval ids
     intervals: {
         slowdownInterval: 0,
@@ -31,7 +22,6 @@ var bolides = {
         down: false,
         left: false,
         right: false,
-        space: false,
         // I really should delete this sometime
         r: false
     },
@@ -57,9 +47,9 @@ var bolides = {
         asteroid: document.createElement('img'),
         heart: document.createElement('img'),
         bullet: document.createElement('img'),
-        bolide: document.createElement('img')
+        bolide: document.createElement('img'),
+        ufo: document.createElement('img')
     },
-
 
     createBullets: function() {
         // Oh snap, Spaceship's got a gun!
@@ -67,7 +57,6 @@ var bolides = {
         bolides.bullet2 = new Bullet(bolides.spaceship);
         bolides.bullet3 = new Bullet(bolides.spaceship);
     },
-
 
     createAsteroids: function() {
         bolides.asteroid1 = new Asteroid();
@@ -83,7 +72,7 @@ var bolides = {
       }
     },
     isTouchingSpaceship: function(spaceship, asteroid) {
-      if (Math.pow(Math.abs(spaceship.x - (asteroid.x + 31)), 2) + Math.pow(Math.abs(spaceship.y - (asteroid.y + 31)), 2) <= 1200) {
+      if (Math.pow(Math.abs(spaceship.x - (asteroid.x + 31)), 2) + Math.pow(Math.abs(spaceship.y - (asteroid.y + 31)), 2) <= 1100) {
           return true;
       }
       else {
@@ -131,7 +120,13 @@ var bolides = {
                 bolides.keyPresses.right = true;
             }
             if (e.keyCode === 32) {
-                bolides.keyPresses.space = true;
+                  if (!bolides.bullet1.isBeingFired) {
+                      bolides.bullet1.fire();
+                  } else if (!bolides.bullet2.isBeingFired) {
+                      bolides.bullet2.fire();
+                  } else if (!bolides.bullet3.isBeingFired) {
+                      bolides.bullet3.fire();
+                  }
             }
             if (e.keyCode === 82) {
                 bolides.keyPresses.r = true;
@@ -164,35 +159,37 @@ var bolides = {
             if (e.keyCode === 39) {
                 bolides.keyPresses.right = false;
             }
-            if (e.keyCode === 32) {
-                bolides.keyPresses.space = false;
-            }
             if (e.keyCode === 82) {
                 bolides.keyPresses.r = false;
             }
         });
         // Set the spaceship slowdown interval
         bolides.intervals.slowdownInterval = setInterval(function() {
-          if (bolides.spaceship.velocity.x > 0.5) {
+          if (bolides.spaceship.velocity.x > 0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.x -= 0.5;
-          } else if (bolides.spaceship.velocity.x < -0.5) {
+          } else if (bolides.spaceship.velocity.x < -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.x += 0.5;
+          } else if (bolides.spaceship.velocity.x < 0.5 && bolides.spaceship.velocity.x > -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+            bolides.spaceship.velocity.x = 0;
           }
-          if (bolides.spaceship.velocity.y > 0.5) {
+          if (bolides.spaceship.velocity.y > 0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.y -= 0.5;
-          } else if (bolides.spaceship.velocity.y < -0.5) {
+          } else if (bolides.spaceship.velocity.y < -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.y += 0.5;
+          } else if (bolides.spaceship.velocity.y < 0.5 && bolides.spaceship.velocity.y > -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+            bolides.spaceship.velocity.y = 0;
           }
         }, 500);
         // Set the control interval
         bolides.intervals.controlInterval = setInterval(bolides.control, 100);
 
         // Set the image sources
-        bolides.images.ship.setAttribute('src', "images/spaceship.png");
-        bolides.images.asteroid.setAttribute('src', "images/asteroid.png");
-        bolides.images.heart.setAttribute('src', "images/heart.png");
-        bolides.images.bullet.setAttribute('src', "images/bullet.png");
-        bolides.images.bolide.setAttribute('src', "images/bolide.png");
+        bolides.images.ship.setAttribute('src', 'images/spaceship.png');
+        bolides.images.asteroid.setAttribute('src', 'images/asteroid.png');
+        bolides.images.heart.setAttribute('src', 'images/heart.png');
+        bolides.images.bullet.setAttribute('src', 'images/bullet.png');
+        bolides.images.bolide.setAttribute('src', 'images/bolide.png');
+        bolides.images.ufo.setAttribute('src', 'images/ufo.png');
         // Start looping
         bolides.loop();
     },
@@ -229,7 +226,6 @@ var bolides = {
             bolides.canva.height = window.innerHeight - 4;
             bolides.move();
             bolides.draw();
-            bolides.getDelta();
             requestAnimationFrame(bolides.loop);
         }
     },
@@ -295,21 +291,12 @@ var bolides = {
             }, 100);
             // Space bar or Q key?
         }
-        if (bolides.keyPresses.space) {
-            if (!bolides.bullet1.isBeingFired) {
-                bolides.bullet1.fire();
-            } else if (!bolides.bullet2.isBeingFired) {
-                bolides.bullet2.fire();
-            } else if (!bolides.bullet3.isBeingFired) {
-                bolides.bullet3.fire();
-            }
-        }
     },
 
     move: function() {
         // Ship Math
-        bolides.spaceship.x += /* bolides.deltaNumbers.delta */ bolides.spaceship.velocity.x;
-        bolides.spaceship.y += /* bolides.deltaNumbers.delta */ bolides.spaceship.velocity.y;
+        bolides.spaceship.x += bolides.spaceship.velocity.x;
+        bolides.spaceship.y += bolides.spaceship.velocity.y;
         // Side warps
         if (bolides.spaceship.x <= -25) {
             bolides.spaceship.x = window.innerWidth;
@@ -552,9 +539,9 @@ var bolides = {
         } else if (bolides.asteroid3.y <= -50) {
             bolides.asteroid3.isInMotion = false;
         }
-        /*
         // Collision detection
-        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - (bolides.asteroid1.x + 31)), 2) + Math.pow(Math.abs(bolides.spaceship.y - (bolides.asteroid1.y + 31)), 2)) <= 1050) {
+        for (var l = 1; l < 4; l++) {
+          if (bolides.isTouchingSpaceship(bolides.spaceship, bolides["asteroid" + l]) && bolides.spaceship.isVulnerable) {
             bolides.spaceship.hearts -= 1;
             bolides.spaceship.x = window.innerWidth / 2 - 18;
             bolides.spaceship.y = window.innerHeight / 2 - 31;
@@ -562,34 +549,18 @@ var bolides = {
             setTimeout(function() {
                 bolides.spaceship.isVulnerable = true;
             }, 2000);
+          }
         }
-        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - (bolides.asteroid2.x + 31)), 2) + Math.pow(Math.abs(bolides.spaceship.y - (bolides.asteroid2.y + 31)), 2)) <= 1050) {
-            bolides.spaceship.hearts -= 1;
-            bolides.spaceship.x = window.innerWidth / 2 - 18;
-            bolides.spaceship.y = window.innerHeight / 2 - 31;
-            bolides.spaceship.isVulnerable = false;
-            setTimeout(function() {
-                bolides.spaceship.isVulnerable = true;
-            }, 2000);
-        }
-        if (bolides.spaceship.isVulnerable && (Math.pow(Math.abs(bolides.spaceship.x - (bolides.asteroid3.x + 31)), 2) + Math.pow(Math.abs(bolides.spaceship.y - (bolides.asteroid3.y + 31)), 2)) <= 1050) {
-            bolides.spaceship.hearts -= 1;
-            bolides.spaceship.x = window.innerWidth / 2 - 18;
-            bolides.spaceship.y = window.innerHeight / 2 - 31;
-            bolides.spaceship.isVulnerable = false;
-            setTimeout(function() {
-                bolides.spaceship.isVulnerable = true;
-            }, 2000);
-        } */
         for (var i = 1; i < 4; i++) {
           for (var j = 1; j < 4; j++) {
-            if (bolides.isTouchingBullet(bolides["bullet" + i], bolides["asteroid" + j]))
+            if (bolides.isTouchingBullet(bolides["bullet" + i], bolides["asteroid" + j])) {
               bolides["asteroid" + j].isInMotion = false;
               bolides["bullet" + i].isBeingFired = false;
-            if (bolides["asteroid" + j].isBolide) {
-              bolides.score += 500;
-            } else {
-              bolides.score += 100;
+              if (bolides["asteroid" + j].isBolide) {
+                bolides.score += 500;
+              } else {
+                bolides.score += 100;
+              }
             }
           }
         }

@@ -321,117 +321,46 @@ var bolides = {
         } else if (bolides.spaceship.speed === 0 && !bolides.spaceship.isVulnerable) {
             bolides.images.ship.setAttribute('src', "images/badship.png");
         }
-        // Stop bullet 1
-        if (!bolides.bullet1.isBeingFired) {
-            bolides.bullet1.x = window.innerWidth - 65;
-            bolides.bullet1.y = 35;
-            bolides.bullet1.angle = 0;
-            bolides.bullet1.speed = 10;
-            bolides.bullet1.isCooling = false;
+        bolides.bulletList.forEach( function (bullet) {
+        // Stop bullet
+        if (!bullet.isBeingFired) {
+            bullet.x = window.innerWidth - 65;
+            bullet.y = 35;
+            bullet.angle = 0;
+            bullet.speed = 10;
+            bullet.isCooling = false;
         } else {
-            // Bullet math 1
-            bolides.bullet1.direction.x = Math.sin(bolides.bullet1.angle);
-            bolides.bullet1.direction.y = -Math.cos(bolides.bullet1.angle);
-            bolides.bullet1.x += bolides.bullet1.direction.x * bolides.bullet1.speed;
-            bolides.bullet1.y += bolides.bullet1.direction.y * bolides.bullet1.speed;
+            // Bullet math
+            bullet.direction.x = Math.sin(bullet.angle);
+            bullet.direction.y = -Math.cos(bullet.angle);
+            bullet.x += bullet.direction.x * bullet.speed;
+            bullet.y += bullet.direction.y * bullet.speed;
         }
-        // Stop bullet 2
-        if (!bolides.bullet2.isBeingFired) {
-            bolides.bullet2.x = window.innerWidth - 50;
-            bolides.bullet2.y = 35;
-            bolides.bullet2.angle = 0;
-            bolides.bullet2.speed = 10;
-            bolides.bullet2.isCooling = false;
-        } else {
-            // Bullet math 2
-            bolides.bullet2.direction.x = Math.sin(bolides.bullet2.angle);
-            bolides.bullet2.direction.y = -Math.cos(bolides.bullet2.angle);
-            bolides.bullet2.x += bolides.bullet2.direction.x * bolides.bullet2.speed;
-            bolides.bullet2.y += bolides.bullet2.direction.y * bolides.bullet2.speed;
-        }
-        // Stop bullet 3
-        if (!bolides.bullet3.isBeingFired) {
-            bolides.bullet3.x = window.innerWidth - 35;
-            bolides.bullet3.y = 35;
-            bolides.bullet3.angle = 0;
-            bolides.bullet3.speed = 10;
-            bolides.bullet3.isCooling = false;
-        } else {
-            // Bullet math 3
-            bolides.bullet3.direction.x = Math.sin(bolides.bullet3.angle);
-            bolides.bullet3.direction.y = -Math.cos(bolides.bullet3.angle);
-            bolides.bullet3.x += bolides.bullet3.direction.x * bolides.bullet3.speed;
-            bolides.bullet3.y += bolides.bullet3.direction.y * bolides.bullet3.speed;
-        }
-        // 1st Bullet dissipation and cooldown
-        if (bolides.bullet1.x <= -25 && !bolides.bullet1.isCooling) {
-            bolides.bullet1.isCooling = true;
+        if (bullet.x <= -25 && !bullet.isCooling) {
+            bullet.isCooling = true;
             setTimeout(function() {
-                bolides.bullet1.isBeingFired = false;
+                bullet.isBeingFired = false;
             }, 1000);
-        } else if (bolides.bullet1.x >= window.innerWidth && !bolides.bullet1.isCooling) {
-            bolides.bullet1.isCooling = true;
+        } else if (bullet.x >= window.innerWidth && !bullet.isCooling) {
+            bullet.isCooling = true;
             setTimeout(function() {
-                bolides.bullet1.isBeingFired = false;
+                bullet.isBeingFired = false;
             }, 1000);
         }
-        if (bolides.bullet1.y >= window.innerHeight + 30 && !bolides.bullet1.isCooling) {
-            bolides.bullet1.isCooling = true;
+        if (bullet.y >= window.innerHeight + 30 && !bullet.isCooling) {
+            bullet.isCooling = true;
             setTimeout(function() {
-                bolides.bullet1.isBeingFired = false;
+                bullet.isBeingFired = false;
             }, 1000);
-        } else if (bolides.bullet1.y <= 0 && !bolides.bullet1.isCooling) {
-            bolides.bullet1.isCooling = true;
+        } else if (bullet.y <= 0 && !bullet.isCooling) {
+            bullet.isCooling = true;
             setTimeout(function() {
-                bolides.bullet1.isBeingFired = false;
+                bullet.isBeingFired = false;
             }, 1000);
+          }
         }
-        // 2nd Bullet dissipation and cooldown
-        if (bolides.bullet2.x <= -25 && !bolides.bullet2.isCooling) {
-            bolides.bullet2.isCooling = true;
-            setTimeout(function() {
-                bolides.bullet2.isBeingFired = false;
-            }, 1000);
-        } else if (bolides.bullet1.x >= window.innerWidth && !bolides.bullet2.isCooling) {
-            bolides.bullet2.isCooling = true;
-            setTimeout(function() {
-                bolides.bullet2.isBeingFired = false;
-            }, 1000);
-        }
-        if (bolides.bullet2.y >= window.innerHeight + 30 && !bolides.bullet2.isCooling) {
-            bolides.bullet2.isCooling = true;
-            setTimeout(function() {
-                bolides.bullet2.isBeingFired = false;
-            }, 1000);
-        } else if (bolides.bullet2.y <= 0 && !bolides.bullet2.isCooling) {
-            bolides.bullet2.isCooling = true;
-            setTimeout(function() {
-                bolides.bullet2.isBeingFired = false;
-            }, 1000);
-        }
-        // 3rd Bullet dissipation and cooldown
-        if (bolides.bullet3.x <= -25 && !bolides.bullet3.isCooling) {
-            bolides.bullet3.isCooling = true;
-            setTimeout(function() {
-                bolides.bullet3.isBeingFired = false;
-            }, 1000);
-        } else if (bolides.bullet3.x >= window.innerWidth && !bolides.bullet3.isCooling) {
-            bolides.bullet3.isCooling = true;
-            setTimeout(function() {
-                bolides.bullet3.isBeingFired = false;
-            }, 1000);
-        }
-        if (bolides.bullet3.y >= window.innerHeight + 30 && !bolides.bullet3.isCooling) {
-            bolides.bullet3.isCooling = true;
-            setTimeout(function() {
-                bolides.bullet3.isBeingFired = false;
-            }, 1000);
-        } else if (bolides.bullet3.y <= 0 && !bolides.bullet3.isCooling) {
-            bolides.bullet3.isCooling = true;
-            setTimeout(function() {
-                bolides.bullet3.isBeingFired = false;
-            }, 1000);
-        }
+      );
+        // Asteroid math
         bolides.asteroidList.forEach(function(asteroid) {
           if (Math.random() < 0.5 && !asteroid.isInMotion) {
               asteroid.isBolide = Math.random() < 0.5;

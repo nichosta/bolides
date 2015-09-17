@@ -12,6 +12,35 @@ var bolides = {
         controlInterval: 0
     },
 
+    menu: {
+      menu: document.getElementById("menu"),
+      instructions: document.getElementById("instructions"),
+      credits: document.getElementById("credits"),
+      menustart: function() {
+        document.getElementById("playButton").addEventListener('click', function() {
+            bolides.initiate();
+            menu.style.display = "none";
+            document.getElementsByClassName('bolide')[0].style.display = 'none';
+          });
+
+          document.getElementById("instructionsButton").addEventListener('click', function() {
+            menu.style.display = "none";
+            instructions.style.display = "block";
+          });
+          instructions.addEventListener("click", function() {
+            menu.style.display = "block";
+            instructions.style.display = "none";
+          });
+          document.getElementById("creditsButton").addEventListener('click', function() {
+            menu.style.display = "none";
+            credits.style.display = "block";
+          });
+          credits.addEventListener("click", function() {
+            menu.style.display = "block";
+            credits.style.display = "none";
+      });
+    }
+    },
     // KeyPress object for storing keypresses
     keyPresses: {
         up: false,
@@ -48,7 +77,8 @@ var bolides = {
         heart: document.createElement('img'),
         bullet: document.createElement('img'),
         bolide: document.createElement('img'),
-        ufo: document.createElement('img')
+        ufo: document.createElement('img'),
+        ufobullet: document.createElement('img')
     },
 
     createBullets: function() {
@@ -192,6 +222,7 @@ var bolides = {
         bolides.images.bullet.setAttribute('src', 'images/bullet.png');
         bolides.images.bolide.setAttribute('src', 'images/bolide.png');
         bolides.images.ufo.setAttribute('src', 'images/ufo.png');
+        bolides.images.ufobullet.setAttribute('src', 'images/evilbullet.png');
         // Start looping
         bolides.loop();
     },
@@ -324,11 +355,25 @@ var bolides = {
         bolides.bulletList.forEach( function (bullet) {
         // Stop bullet
         if (!bullet.isBeingFired) {
+          if (bullet === bolides.bullet1) {
             bullet.x = window.innerWidth - 65;
             bullet.y = 35;
             bullet.angle = 0;
             bullet.speed = 10;
             bullet.isCooling = false;
+          } else if (bullet === bolides.bullet2) {
+            bullet.x = window.innerWidth - 50;
+            bullet.y = 35;
+            bullet.angle = 0;
+            bullet.speed = 10;
+            bullet.isCooling = false;
+          } else {
+            bullet.x = window.innerWidth - 35;
+            bullet.y = 35;
+            bullet.angle = 0;
+            bullet.speed = 10;
+            bullet.isCooling = false;
+          }
         } else {
             // Bullet math
             bullet.direction.x = Math.sin(bullet.angle);
@@ -363,13 +408,13 @@ var bolides = {
         // Asteroid math
         bolides.asteroidList.forEach(function(asteroid) {
           if (Math.random() < 0.5 && !asteroid.isInMotion) {
-              asteroid.isBolide = Math.random() < 0.5;
+              asteroid.isBolide = Math.random() < 0.05;
               asteroid.x = (Math.random() * (window.innerWidth + 100) + 50);
               asteroid.y = -50;
               asteroid.angle = Math.random() * 2.9670597283903604 + 1.6580627893946132;
               asteroid.isInMotion = true;
           } else if (!asteroid.isInMotion) {
-              asteroid.isBolide = Math.random() < 0.5;
+              asteroid.isBolide = Math.random() < 0.05;
               asteroid.x = window.innerWidth + 50;
               asteroid.y = Math.random() * (window.innerHeight - 50) + 50;
               asteroid.angle = Math.random() * 2.9670597283903604 + 3.2288591161895095;
@@ -509,4 +554,4 @@ var bolides = {
     }
 };
 
-bolides.initiate();
+bolides.menu.menustart();

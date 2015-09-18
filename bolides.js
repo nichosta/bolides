@@ -21,6 +21,7 @@ var bolides = {
             bolides.initiate();
             menu.style.display = "none";
             document.getElementsByClassName('bolide')[0].style.display = 'none';
+            document.getElementsByClassName('gitRibbon')[0].style.display = 'none';
           });
 
           document.getElementById("instructionsButton").addEventListener('click', function() {
@@ -51,7 +52,6 @@ var bolides = {
         down: false,
         left: false,
         right: false,
-        // I really should delete this sometime
         r: false
     },
     // Attributes of the player's ship declared
@@ -297,7 +297,7 @@ var bolides = {
             if (bolides.spaceship.speed > 0) {
                 bolides.spaceship.speed -= 1;
             }
-            // R key? (debug please delete)
+            // R key?
         }
         if (bolides.keyPresses.r) {
             // Then remove a heart.

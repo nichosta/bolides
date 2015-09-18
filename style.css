@@ -1,4 +1,11 @@
 @font-face {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Work Sans Thin'), local('WorkSans-Thin'), url(http://fonts.gstatic.com/s/worksans/v1/S5P2Ny-Dw8BHKH0UfdbgXY4P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+@font-face {
     font-family: 'Ubuntu';
     font-style: normal;
     font-weight: 300;
@@ -15,26 +22,20 @@ canvas {
     background-size: cover;
 }
 .gitRibbon {
-    font-family: sans-serif;
-    text-decoration: none;
-    vertical-align: middle;
-    color: #333;
     position: absolute;
-    text-align: center;
-    top: 50px;
-    right: -50px;
+    top: 45px;
+    right: -90px;
+    padding: 5px 100px;
     transform: rotate(40deg);
-    background: #fff;
-    padding: 7px;
-    width: 250px;
-    box-shadow: 0 0 5px #fff;
-}
-@font-face {
-  font-family: 'Work Sans';
-  font-style: normal;
-  font-weight: 100;
-  src: local('Work Sans Thin'), local('WorkSans-Thin'), url(http://fonts.gstatic.com/s/worksans/v1/S5P2Ny-Dw8BHKH0UfdbgXY4P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+    background: #1e3e4a;
+    color: #fff;
+    text-decoration: none;
+    border: dashed 1px #fff;
+    box-shadow:
+        0 5px #1e3e4a,
+        0 -5px #1e3e4a,
+        0 5px 5px #000;
+    cursor: url(http://erikboesen.com/images/fork.ico), pointer;
 }
 
 * {
@@ -120,9 +121,10 @@ button:hover {
     image-rendering: pixelated; /* Chrome */
     image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
     -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
-    height: 620px;
+    height: 2000px;
     width: 1540px;
     position: absolute;
+    transform: rotate(90deg);
     top: 35px;
     z-index: -10;
     animation: bolide 60s infinite linear;

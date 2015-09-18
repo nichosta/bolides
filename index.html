@@ -1,25 +1,47 @@
+<!--
+  All code copyright of Nicholas Costa. Please do not reproduce without permission.
+  Art and menu by Erik Boesen.
+-->
 <!DOCTYPE html>
 <html>
 <head>
     <link href="style.css" rel="stylesheet"/>
     <link rel="icon" href="images/favicon.ico"/>
     <meta charset="utf-8"/>
-    <meta name="keywords" content="bolides, nicholas costa, erik boesen, infinite games, html game, html5, canvas game" />
     <meta name="author" content="Nicholas Costa &amp; Erik Boesen"/>
     <meta name="description" content="An HTML5 game made using Canvas, based off the classic arcade game Asteroids." />
     <title>Bolides | Infinite Games</title>
 </head>
 <body>
-    <canvas id="canvas">Upgrade to Chrome or Firefox to use the Canvas API.</canvas>
-    <!--<a class="gitRibbon" href="https://github.com/BrainiacMainiac/bolides">Fork this on GitHub</a>-->
-    <script>
-        // Radian converter
-        function degreesToRadians(degrees) {
-            return (Math.PI / 180) * degrees;
-        };
-    </script>
-    <script src="Bullet.js"></script>
-    <script src="Asteroid.js"></script>
-    <script src="bolides.js"></script>
+  <div class="bg"></div>
+  <div id="menu">
+      <h1>Bolides</h1>
+      <button id="playButton">Play</button>
+      <button id="instructionsButton">Instructions</button>
+      <button id="creditsButton">Credits</button>
+  </div>
+  <div id="instructions">
+      <p>Instructions</p>
+      <p>Press space to fire, WASD or arrow keys to move. Don't die.</p>
+      <p>&laquo; Click again to close &raquo;</p>
+  </div>
+  <div id="credits">
+      <p>Game Engine: <a href="http://github.com/BrainiacMainiac">Nicholas Costa</a></p>
+      <p>Art &amp; Visuals: <a href="http://erikboesen.com">Erik Boesen</a></p>
+      <p>&laquo; Click again to close &raquo;</p>
+  </div>
+  <script src="menu.js"></script>
+  <div class="bolide"></div>
+  <canvas id="canvas">Upgrade to Chrome or Firefox to use the Canvas API.</canvas>
+  <!--<a class="gitRibbon" href="https://github.com/BrainiacMainiac/bolides">Fork this on GitHub</a>-->
+  <script>
+      // Radian converter
+      function degreesToRadians(degrees) {
+          return (Math.PI / 180) * degrees;
+      };
+  </script>
+  <script src="Bullet.js"></script>
+  <script src="Asteroid.js"></script>
+  <script src="bolides.js"></script>
 </body>
 </html>

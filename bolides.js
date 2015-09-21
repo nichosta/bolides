@@ -9,7 +9,9 @@ var bolides = {
     // Intervals to store interval ids
     intervals: {
         slowdownInterval: 0,
-        controlInterval: 0
+        controlInterval: 0,
+        // Whatever you do, don't blink. Blink and you're dead.
+        blinkInterval: 0
     },
 
     menu: {
@@ -68,7 +70,8 @@ var bolides = {
         },
         // Starting health
         hearts: 3,
-        isVulnerable: true
+        isVulnerable: true,
+        isBlinking: false
     },
     // Images used by the project are created here
     images: {
@@ -214,6 +217,16 @@ var bolides = {
         }, 500);
         // Set the control interval
         bolides.intervals.controlInterval = setInterval(bolides.control, 100);
+        // Set the blinking interval
+        bolides.intervals.blinkInterval = setInterval(function () {
+            if (!bolides.spaceship.isVulnerable && bolides.spaceship.isBlinking) {
+              bolides.spaceship.isBlinking = false;
+            } else if (!bolides.spaceship.isVulnerable && !bolides.spaceship.isBlinking) {
+              bolides.spaceship.isBlinking = true;
+            } else if (bolides.spaceship.isVulnerable && bolides.spaceship.isBlinking) {
+              bolides.spaceship.isBlinking = false;
+            }
+          }, 50);
 
         // Set the image sources
         bolides.images.ship.setAttribute('src', 'images/spaceship.png');
@@ -223,6 +236,12 @@ var bolides = {
         bolides.images.bolide.setAttribute('src', 'images/bolide.png');
         bolides.images.ufo.setAttribute('src', 'images/ufo.png');
         bolides.images.ufobullet.setAttribute('src', 'images/evilbullet.png');
+
+        //Set vital attributes
+        bolides.spaceship.hearts = 3;
+        bolides.spaceship.velocity.x = 0;
+        bolides.spaceship.velocity.y = 0;
+
         // Start looping
         bolides.loop();
     },
@@ -237,13 +256,14 @@ var bolides = {
         bolides.canvas.ctx.fillText("Restart?", window.innerWidth / 2 - window.innerWidth / 12 + 40, window.innerHeight / 2 + 20);
         addEventListener('click', function(e) {
             if (((window.innerWidth / 2 - window.innerWidth / 12 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 12 + 250)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
-                window.location = window.location;
+                bolides.initiate();
             }
         });
         bolides.canvas.ctx.fillStyle = "white";
         bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 + 90);
         clearInterval(bolides.intervals.slowdownInterval);
         clearInterval(bolides.intervals.controlInterval);
+        clearInterval(bolides.intervals.blinkInterval);
         addEventListener('resize', bolides.gameOver);
     },
 
@@ -341,16 +361,12 @@ var bolides = {
             bolides.spaceship.y = window.innerHeight;
         }
         // If it's moving and vulnerable
-        if (bolides.spaceship.speed !== 0 && bolides.spaceship.isVulnerable) {
+        if (bolides.spaceship.velocity.x + bolides.spaceship.velocity.y !== 0 && bolides.spaceship.isVulnerable) {
             // Use the moving ship pic.
             bolides.images.ship.setAttribute('src', "images/spaceship-move.png");
             // Elsewise, don't.
-        } else if (bolides.spaceship.speed === 0 && bolides.spaceship.isVulnerable) {
+        } else if (bolides.spaceship.velocity.x + bolides.spaceship.velocity.y === 0 && bolides.spaceship.isVulnerable) {
             bolides.images.ship.setAttribute('src', "images/spaceship.png");
-        } else if (bolides.spaceship.speed !== 0 && !bolides.spaceship.isVulnerable) {
-            bolides.images.ship.setAttribute('src', "images/badship-move.png");
-        } else if (bolides.spaceship.speed === 0 && !bolides.spaceship.isVulnerable) {
-            bolides.images.ship.setAttribute('src', "images/badship.png");
         }
         bolides.bulletList.forEach( function (bullet) {
         // Stop bullet
@@ -465,16 +481,20 @@ var bolides = {
     draw: function() {
         // Clear the canvas
         bolides.canvas.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        // Save it so I can mess about as much as I want
-        bolides.canvas.ctx.save();
-        // Set the origin to the ship's center
-        bolides.canvas.ctx.translate(bolides.spaceship.x + 18, bolides.spaceship.y + 31);
-        // Rotate the ship around the center by the angle of the ship
-        bolides.canvas.ctx.rotate(bolides.spaceship.angle);
-        // Draw the ship
-        bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
-        // Restore all messing about
-        bolides.canvas.ctx.restore();
+        if (bolides.spaceship.isBlinking) {
+
+        } else {
+          // Save it so I can mess about as much as I want
+          bolides.canvas.ctx.save();
+          // Set the origin to the ship's center
+          bolides.canvas.ctx.translate(bolides.spaceship.x + 18, bolides.spaceship.y + 31);
+          // Rotate the ship around the center by the angle of the ship
+          bolides.canvas.ctx.rotate(bolides.spaceship.angle);
+          // Draw the ship
+          bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
+          // Restore all messing about
+          bolides.canvas.ctx.restore();
+        }
         // Hey look more saving
         bolides.canvas.ctx.save();
         // Set the origin to the bullet's origin

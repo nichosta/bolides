@@ -1,5 +1,6 @@
 /*jshint globals: false, unused: false, strict: false, debug: true, globalstrict: true, moz: true, browser: true, devel: true */
 var bolides = {
+    level: 0,
     score: 0,
     canva: 0,
     canvas: {
@@ -241,8 +242,53 @@ var bolides = {
         bolides.spaceship.hearts = 3;
         bolides.spaceship.velocity.x = 0;
         bolides.spaceship.velocity.y = 0;
+        bolides.asteroidList.forEach(function(asteroid){
+          asteroid.speed = 4;
+        });
 
         // Start looping
+        bolides.loop();
+    },
+    // For restarting
+    restart: function() {
+      // Set the spaceship slowdown interval
+      bolides.intervals.slowdownInterval = setInterval(function() {
+        if (bolides.spaceship.velocity.x > 0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+          bolides.spaceship.velocity.x -= 0.5;
+        } else if (bolides.spaceship.velocity.x < -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+          bolides.spaceship.velocity.x += 0.5;
+        } else if (bolides.spaceship.velocity.x < 0.5 && bolides.spaceship.velocity.x > -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+          bolides.spaceship.velocity.x = 0;
+        }
+        if (bolides.spaceship.velocity.y > 0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+          bolides.spaceship.velocity.y -= 0.5;
+        } else if (bolides.spaceship.velocity.y < -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+          bolides.spaceship.velocity.y += 0.5;
+        } else if (bolides.spaceship.velocity.y < 0.5 && bolides.spaceship.velocity.y > -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+          bolides.spaceship.velocity.y = 0;
+        }
+      }, 500);
+      // Set the control interval
+      bolides.intervals.controlInterval = setInterval(bolides.control, 100);
+      // Set the blinking interval
+      bolides.intervals.blinkInterval = setInterval(function () {
+          if (!bolides.spaceship.isVulnerable && bolides.spaceship.isBlinking) {
+            bolides.spaceship.isBlinking = false;
+          } else if (!bolides.spaceship.isVulnerable && !bolides.spaceship.isBlinking) {
+            bolides.spaceship.isBlinking = true;
+          } else if (bolides.spaceship.isVulnerable && bolides.spaceship.isBlinking) {
+            bolides.spaceship.isBlinking = false;
+          }
+        }, 50);
+
+        //Set vital attributes
+        bolides.spaceship.hearts = 3;
+        bolides.spaceship.velocity.x = 0;
+        bolides.spaceship.velocity.y = 0;
+        bolides.asteroidList.forEach(function(asteroid){
+          asteroid.speed = 4;
+        });
+        // Start the loop
         bolides.loop();
     },
 
@@ -256,7 +302,7 @@ var bolides = {
         bolides.canvas.ctx.fillText("Restart?", window.innerWidth / 2 - window.innerWidth / 12 + 40, window.innerHeight / 2 + 20);
         addEventListener('click', function(e) {
             if (((window.innerWidth / 2 - window.innerWidth / 12 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 12 + 250)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
-                bolides.initiate();
+                bolides.restart();
             }
         });
         bolides.canvas.ctx.fillStyle = "white";

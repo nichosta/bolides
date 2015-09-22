@@ -1,6 +1,6 @@
 var Asteroid = function() {
-  this.reset()
-}
+  this.reset();
+};
 Asteroid.prototype = {
   reset: function() {
         // Same attributes as the ship, aside from pos
@@ -10,9 +10,9 @@ Asteroid.prototype = {
         this.direction = {
             x: 0,
             y: 0
-        },
+        };
         this.speed = 4;
         this.isInMotion = false;
         this.isBolide = false;
     }
-  }
+  };

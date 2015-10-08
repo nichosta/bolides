@@ -4,8 +4,8 @@ var UFO = function(bullet) {
 };
 UFO.prototype.reset = function() {
   // Coordinates
-  this.x = 0;
-  this.y = 0;
+  this.x = 100;
+  this.y = 100;
   // Direction
   this.direction = 0;
   // Speed

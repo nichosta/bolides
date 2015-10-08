@@ -1,5 +1,6 @@
-var UFO = function() {
+var UFO = function(bullet) {
   this.reset();
+  this.bullet = bullet;
 };
 UFO.prototype.reset = function() {
   // Coordinates

@@ -23,7 +23,7 @@ EvilBullet.prototype = {
         this.isBeingFired = true;
         this.x = this.ufo.x;
         this.y = this.ufo.y + 31;
-        this.angle = this.ufo.angle;
+        this.angle = Math.atan2(bolides.spaceship.y - this.y, bolides.spaceship.x - this.x);
         this.speed = 10;
     }
 };

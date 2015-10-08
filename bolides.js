@@ -1,4 +1,4 @@
-/*jshint globals: false, unused: false, strict: false, debug: true, globalstrict: true, moz: true, browser: true, devel: true */
+/*jshint loopfunc: true, globals: false, unused: false, strict: false, debug: true, globalstrict: true, moz: true, browser: true, devel: true */
 var bolides = {
     level: 0,
     score: 0,
@@ -99,6 +99,21 @@ var bolides = {
         bolides.asteroid3 = new Asteroid();
         bolides.asteroidList = [bolides.asteroid1, bolides.asteroid2, bolides.asteroid3];
     },
+
+    createEvilBullets: function() {
+      bolides.evilBullet1 = new EvilBullet();
+      bolides.evilBullet2 = new EvilBullet();
+      bolides.evilBullet3 = new EvilBullet();
+      bolides.evilBulletList = [bolides.evilBullet1, bolides.evilBullet2, bolides.evilBullet3];
+    },
+
+    createUFOs: function() {
+      bolides.ufo1 = new UFO(bolides.evilBullet1);
+      bolides.ufo2 = new UFO(bolides.evilBullet2);
+      bolides.ufo3 = new UFO(bolides.evilBullet3);
+      bolides.ufoList = [bolides.ufo1, bolides.ufo2, bolides.ufo3];
+    },
+
     isTouchingBullet: function(bullet, asteroid) {
       if (((Math.pow(Math.abs(bullet.x - (asteroid.x + 31)), 2)) + (Math.pow(Math.abs(bullet.y - (asteroid.y + 31)), 2)) <= 1050) && bullet.isBeingFired) {
           return true;
@@ -108,7 +123,7 @@ var bolides = {
       }
     },
     isTouchingSpaceship: function(spaceship, asteroid) {
-      if (Math.pow(Math.abs(spaceship.x - (asteroid.x + 31)), 2) + Math.pow(Math.abs(spaceship.y - (asteroid.y + 31)), 2) <= 1100) {
+      if (Math.pow(Math.abs(spaceship.x - (asteroid.x + 31)), 2) + Math.pow(Math.abs(spaceship.y - (asteroid.y + 31)), 2) <= 1200) {
           return true;
       }
       else {
@@ -617,6 +632,12 @@ var bolides = {
             bolides.canvas.ctx.fillStyle = 'red';
             bolides.canvas.ctx.fillText(bolides.spaceship.hearts, 90, 30);
         }
+        bolides.ufoList.forEach(function(ufo) {
+          bolides.canvas.ctx.drawImage(bolides.images.ufo, ufo.x, ufo.y);
+        });
+        bolides.evilBulletList.forEach(function(bullet) {
+          bolides.canvas.ctx.drawImage(bolides.images.ufobullet, bullet.x, bullet.y);
+        });
     }
 };
 

@@ -143,6 +143,8 @@ var bolides = {
         // Create assets
         bolides.createBullets();
         bolides.createAsteroids();
+        bolides.createUFOs();
+        bolides.createEvilBullets();
 
         // Keydown listeners
         addEventListener('keydown', function(e) {

@@ -11,7 +11,7 @@ Asteroid.prototype = {
             x: 0,
             y: 0
         };
-        this.speed = 4;
+        this.speed = 5;
         this.isInMotion = false;
         this.isBolide = false;
     }

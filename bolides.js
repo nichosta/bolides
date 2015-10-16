@@ -1,5 +1,6 @@
-/*jshint globals: false, unused: false, strict: false, debug: true, globalstrict: true, moz: true, browser: true, devel: true */
+/*jshint loopfunc: true, globals: false, unused: false, strict: false, debug: true, globalstrict: true, moz: true, browser: true, devel: true */
 var bolides = {
+    level: 1,
     score: 0,
     canva: 0,
     canvas: {
@@ -9,7 +10,9 @@ var bolides = {
     // Intervals to store interval ids
     intervals: {
         slowdownInterval: 0,
-        controlInterval: 0
+        controlInterval: 0,
+        // Whatever you do, don't blink. Blink and you're dead.
+        blinkInterval: 0
     },
 
     menu: {
@@ -21,6 +24,7 @@ var bolides = {
             bolides.initiate();
             menu.style.display = "none";
             document.getElementsByClassName('bolide')[0].style.display = 'none';
+            document.getElementsByClassName('gitRibbon')[0].style.display = 'none';
           });
 
           document.getElementById("instructionsButton").addEventListener('click', function() {
@@ -51,7 +55,6 @@ var bolides = {
         down: false,
         left: false,
         right: false,
-        // I really should delete this sometime
         r: false
     },
     // Attributes of the player's ship declared
@@ -68,7 +71,8 @@ var bolides = {
         },
         // Starting health
         hearts: 3,
-        isVulnerable: true
+        isVulnerable: true,
+        isBlinking: false
     },
     // Images used by the project are created here
     images: {
@@ -81,6 +85,24 @@ var bolides = {
         ufobullet: document.createElement('img')
     },
 
+    // Sound used by the project is created here
+    sound: {
+      blaster: document.createElement('audio'),
+      asteroidDeath: document.createElement('audio'),
+      bolideDeath: document.createElement('audio'),
+      spaceshipDamage: document.createElement('audio'),
+      playIt: function(sound, time) {
+        sound.play();
+        if (arguments.length > 1) {
+          if (time > 0) {
+            setTimeout(function() { sound.stop(); }, time);
+          }
+        } else {
+          throw new Error("Whoops! Specify a time. Zero makes it play all the way through.");
+        }
+      }
+    },
+
     createBullets: function() {
         // Oh snap, Spaceship's got a gun!
         bolides.bullet1 = new Bullet(bolides.spaceship);
@@ -91,25 +113,28 @@ var bolides = {
 
     createAsteroids: function() {
         bolides.asteroid1 = new Asteroid();
-        bolides.asteroid2 = new Asteroid();
-        bolides.asteroid3 = new Asteroid();
-        bolides.asteroidList = [bolides.asteroid1, bolides.asteroid2, bolides.asteroid3];
+        bolides.asteroidList = [bolides.asteroid1];
     },
+
+    createEvilBullets: function() {
+      bolides.evilBullet1 = new EvilBullet();
+      bolides.evilBullet2 = new EvilBullet();
+      bolides.evilBullet3 = new EvilBullet();
+      bolides.evilBulletList = [bolides.evilBullet1, bolides.evilBullet2, bolides.evilBullet3];
+    },
+
+    createUFOs: function() {
+      bolides.ufo1 = new UFO(bolides.evilBullet1);
+      bolides.ufo2 = new UFO(bolides.evilBullet2);
+      bolides.ufo3 = new UFO(bolides.evilBullet3);
+      bolides.ufoList = [bolides.ufo1, bolides.ufo2, bolides.ufo3];
+    },
+
     isTouchingBullet: function(bullet, asteroid) {
-      if (((Math.pow(Math.abs(bullet.x - (asteroid.x + 31)), 2)) + (Math.pow(Math.abs(bullet.y - (asteroid.y + 31)), 2)) <= 1050) && bullet.isBeingFired) {
-          return true;
-      }
-      else {
-        return false;
-      }
+      return ((Math.pow(Math.abs(bullet.x - (asteroid.x + 31)), 2)) + (Math.pow(Math.abs(bullet.y - (asteroid.y + 31)), 2)) <= 1100) && bullet.isBeingFired;
     },
     isTouchingSpaceship: function(spaceship, asteroid) {
-      if (Math.pow(Math.abs(spaceship.x - (asteroid.x + 31)), 2) + Math.pow(Math.abs(spaceship.y - (asteroid.y + 31)), 2) <= 1100) {
-          return true;
-      }
-      else {
-        return false;
-      }
+      return Math.pow(Math.abs(spaceship.x + 18 - (asteroid.x + 31)), 2) + Math.pow(Math.abs(spaceship.y + 31 - (asteroid.y + 31)), 2) <= 1300;
     },
 
     initiate: function () {
@@ -124,6 +149,8 @@ var bolides = {
         // Create assets
         bolides.createBullets();
         bolides.createAsteroids();
+      //  bolides.createUFOs();
+     //   bolides.createEvilBullets();
 
         // Keydown listeners
         addEventListener('keydown', function(e) {
@@ -153,11 +180,14 @@ var bolides = {
             }
             if (e.keyCode === 32) {
                   if (!bolides.bullet1.isBeingFired) {
-                      bolides.bullet1.fire();
+                    bolides.sound.playIt(bolides.sound.blaster, 0);
+                    bolides.bullet1.fire();
                   } else if (!bolides.bullet2.isBeingFired) {
-                      bolides.bullet2.fire();
+                    bolides.sound.playIt(bolides.sound.blaster, 0);
+                    bolides.bullet2.fire();
                   } else if (!bolides.bullet3.isBeingFired) {
-                      bolides.bullet3.fire();
+                    bolides.sound.playIt(bolides.sound.blaster, 0);
+                    bolides.bullet3.fire();
                   }
             }
             if (e.keyCode === 82) {
@@ -199,14 +229,14 @@ var bolides = {
         bolides.intervals.slowdownInterval = setInterval(function() {
           if (bolides.spaceship.velocity.x > 0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.x -= 0.5;
-          } else if (bolides.spaceship.velocity.x < -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+          } else if (bolides.spaceship.velocity.x <= -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.x += 0.5;
           } else if (bolides.spaceship.velocity.x < 0.5 && bolides.spaceship.velocity.x > -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.x = 0;
           }
           if (bolides.spaceship.velocity.y > 0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.y -= 0.5;
-          } else if (bolides.spaceship.velocity.y < -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
+          } else if (bolides.spaceship.velocity.y <= -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.y += 0.5;
           } else if (bolides.spaceship.velocity.y < 0.5 && bolides.spaceship.velocity.y > -0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
             bolides.spaceship.velocity.y = 0;
@@ -214,6 +244,16 @@ var bolides = {
         }, 500);
         // Set the control interval
         bolides.intervals.controlInterval = setInterval(bolides.control, 100);
+        // Set the blinking interval
+        bolides.intervals.blinkInterval = setInterval(function () {
+            if (!bolides.spaceship.isVulnerable && bolides.spaceship.isBlinking) {
+              bolides.spaceship.isBlinking = false;
+            } else if (!bolides.spaceship.isVulnerable && !bolides.spaceship.isBlinking) {
+              bolides.spaceship.isBlinking = true;
+            } else if (bolides.spaceship.isVulnerable && bolides.spaceship.isBlinking) {
+              bolides.spaceship.isBlinking = false;
+            }
+          }, 50);
 
         // Set the image sources
         bolides.images.ship.setAttribute('src', 'images/spaceship.png');
@@ -223,6 +263,20 @@ var bolides = {
         bolides.images.bolide.setAttribute('src', 'images/bolide.png');
         bolides.images.ufo.setAttribute('src', 'images/ufo.png');
         bolides.images.ufobullet.setAttribute('src', 'images/evilbullet.png');
+
+/*
+        // Set the sound sources
+        bolides.sound.blaster.setAttribute();
+        bolides.sound.asteroidDeath.setAttribute();
+        bolides.sound.bolideDeath.setAttribute();
+        bolides.sound.spaceshipDamage.setAttribute();
+
+*/
+        //Set vital attributes
+        bolides.spaceship.hearts = 3;
+        bolides.spaceship.velocity.x = 0;
+        bolides.spaceship.velocity.y = 0;
+
         // Start looping
         bolides.loop();
     },
@@ -237,13 +291,15 @@ var bolides = {
         bolides.canvas.ctx.fillText("Restart?", window.innerWidth / 2 - window.innerWidth / 12 + 40, window.innerHeight / 2 + 20);
         addEventListener('click', function(e) {
             if (((window.innerWidth / 2 - window.innerWidth / 12 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 12 + 250)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
-                window.location = window.location;
+              window.location = window.location;
             }
         });
         bolides.canvas.ctx.fillStyle = "white";
         bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 + 90);
+        bolides.canvas.ctx.fillText("Level: " + bolides.level, window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 + 150);
         clearInterval(bolides.intervals.slowdownInterval);
         clearInterval(bolides.intervals.controlInterval);
+        clearInterval(bolides.intervals.blinkInterval);
         addEventListener('resize', bolides.gameOver);
     },
 
@@ -297,7 +353,7 @@ var bolides = {
             if (bolides.spaceship.speed > 0) {
                 bolides.spaceship.speed -= 1;
             }
-            // R key? (debug please delete)
+            // R key?
         }
         if (bolides.keyPresses.r) {
             // Then remove a heart.
@@ -326,6 +382,12 @@ var bolides = {
     },
 
     move: function() {
+      if (bolides.level * 100 <= bolides.score) {
+        bolides.score = 0;
+        bolides.level++;
+        bolides["asteroid" + bolides.level] = new Asteroid();
+        bolides.asteroidList.push(bolides['asteroid' + bolides.level]);
+      }
         // Ship Math
         bolides.spaceship.x += bolides.spaceship.velocity.x;
         bolides.spaceship.y += bolides.spaceship.velocity.y;
@@ -341,39 +403,28 @@ var bolides = {
             bolides.spaceship.y = window.innerHeight;
         }
         // If it's moving and vulnerable
-        if (bolides.spaceship.speed !== 0 && bolides.spaceship.isVulnerable) {
+        if (bolides.spaceship.velocity.x + bolides.spaceship.velocity.y !== 0 && bolides.spaceship.isVulnerable) {
             // Use the moving ship pic.
             bolides.images.ship.setAttribute('src', "images/spaceship-move.png");
             // Elsewise, don't.
-        } else if (bolides.spaceship.speed === 0 && bolides.spaceship.isVulnerable) {
+        } else if (bolides.spaceship.velocity.x + bolides.spaceship.velocity.y === 0 && bolides.spaceship.isVulnerable) {
             bolides.images.ship.setAttribute('src', "images/spaceship.png");
-        } else if (bolides.spaceship.speed !== 0 && !bolides.spaceship.isVulnerable) {
-            bolides.images.ship.setAttribute('src', "images/badship-move.png");
-        } else if (bolides.spaceship.speed === 0 && !bolides.spaceship.isVulnerable) {
-            bolides.images.ship.setAttribute('src', "images/badship.png");
         }
+        // if (player.shoes === ugly) {console.log("WHAT'RE THOSE")}
         bolides.bulletList.forEach( function (bullet) {
         // Stop bullet
         if (!bullet.isBeingFired) {
           if (bullet === bolides.bullet1) {
             bullet.x = window.innerWidth - 65;
-            bullet.y = 35;
-            bullet.angle = 0;
-            bullet.speed = 10;
-            bullet.isCooling = false;
           } else if (bullet === bolides.bullet2) {
             bullet.x = window.innerWidth - 50;
-            bullet.y = 35;
-            bullet.angle = 0;
-            bullet.speed = 10;
-            bullet.isCooling = false;
           } else {
             bullet.x = window.innerWidth - 35;
-            bullet.y = 35;
-            bullet.angle = 0;
-            bullet.speed = 10;
-            bullet.isCooling = false;
           }
+          bullet.y = 35;
+          bullet.angle = 0;
+          bullet.speed = 10;
+          bullet.isCooling = false;
         } else {
             // Bullet math
             bullet.direction.x = Math.sin(bullet.angle);
@@ -437,25 +488,28 @@ var bolides = {
         }
         );
         // Collision detection
-        for (var l = 1; l < 4; l++) {
+        for (var l = 1; l <= bolides.asteroidList.length; l++) {
           if (bolides.isTouchingSpaceship(bolides.spaceship, bolides["asteroid" + l]) && bolides.spaceship.isVulnerable) {
             bolides.spaceship.hearts -= 1;
             bolides.spaceship.x = window.innerWidth / 2 - 18;
             bolides.spaceship.y = window.innerHeight / 2 - 31;
             bolides.spaceship.isVulnerable = false;
+            bolides.sound.playIt(bolides.sound.spaceshipDamage, 0);
             setTimeout(function() {
                 bolides.spaceship.isVulnerable = true;
             }, 2000);
           }
         }
-        for (var i = 1; i < 4; i++) {
-          for (var j = 1; j < 4; j++) {
+        for (var i = 1; i <= bolides.bulletList.length; i++) {
+          for (var j = 1; j <= bolides.asteroidList.length; j++) {
             if (bolides.isTouchingBullet(bolides["bullet" + i], bolides["asteroid" + j])) {
               bolides["asteroid" + j].isInMotion = false;
               bolides["bullet" + i].isBeingFired = false;
               if (bolides["asteroid" + j].isBolide) {
+                bolides.sound.playIt(bolides.sound.bolideDeath, 0);
                 bolides.score += 500;
               } else {
+                bolides.sound.playIt(bolides.sound.asteroidDeath, 0);
                 bolides.score += 100;
               }
             }
@@ -465,67 +519,44 @@ var bolides = {
     draw: function() {
         // Clear the canvas
         bolides.canvas.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        // Save it so I can mess about as much as I want
-        bolides.canvas.ctx.save();
-        // Set the origin to the ship's center
-        bolides.canvas.ctx.translate(bolides.spaceship.x + 18, bolides.spaceship.y + 31);
-        // Rotate the ship around the center by the angle of the ship
-        bolides.canvas.ctx.rotate(bolides.spaceship.angle);
-        // Draw the ship
-        bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
-        // Restore all messing about
-        bolides.canvas.ctx.restore();
-        // Hey look more saving
-        bolides.canvas.ctx.save();
-        // Set the origin to the bullet's origin
-        bolides.canvas.ctx.translate(bolides.bullet1.x + 3, bolides.bullet1.y - 12.5);
-        // Rotate the canvas
-        bolides.canvas.ctx.rotate(bolides.bullet1.angle);
-        // Fastest draw in the west
-        bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
-        // Restore again
-        bolides.canvas.ctx.restore();
-        // Repeat with all bullets
-        bolides.canvas.ctx.save();
-        bolides.canvas.ctx.translate(bolides.bullet2.x + 3, bolides.bullet2.y - 12.5);
-        bolides.canvas.ctx.rotate(bolides.bullet2.angle);
-        bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
-        bolides.canvas.ctx.restore();
-        bolides.canvas.ctx.save();
-        bolides.canvas.ctx.translate(bolides.bullet3.x + 3, bolides.bullet3.y - 12.5);
-        bolides.canvas.ctx.rotate(bolides.bullet3.angle);
-        bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
-        bolides.canvas.ctx.restore();
-        // Draw the 1st asteroid
-        if (bolides.asteroid1.isBolide) {
-          bolides.canvas.ctx.save();
-          bolides.canvas.ctx.translate(bolides.asteroid1.x + 31, bolides.asteroid1.y + 31);
-          bolides.canvas.ctx.rotate(bolides.asteroid1.angle);
-          bolides.canvas.ctx.drawImage(bolides.images.bolide, -31, -31, 62, 154);
-          bolides.canvas.ctx.restore();
+        if (bolides.spaceship.isBlinking) {
+
         } else {
-          bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid1.x, bolides.asteroid1.y, 62, 62);
-        }
-        // Draw the 2nd asteroid
-        if (bolides.asteroid2.isBolide) {
+          // Save it so I can mess about as much as I want
           bolides.canvas.ctx.save();
-          bolides.canvas.ctx.translate(bolides.asteroid2.x + 31, bolides.asteroid2.y + 31);
-          bolides.canvas.ctx.rotate(bolides.asteroid2.angle);
-          bolides.canvas.ctx.drawImage(bolides.images.bolide, -31, -31, 62, 154);
+          // Set the origin to the ship's center
+          bolides.canvas.ctx.translate(bolides.spaceship.x + 18, bolides.spaceship.y + 31);
+          // Rotate the ship around the center by the angle of the ship
+          bolides.canvas.ctx.rotate(bolides.spaceship.angle);
+          // Draw the ship
+          bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
+          // Restore all messing about
           bolides.canvas.ctx.restore();
-        } else {
-          bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid2.x, bolides.asteroid2.y, 62, 62);
         }
-        // Draw the 3rd asteroid
-        if (bolides.asteroid3.isBolide) {
+        bolides.bulletList.forEach(function(bullet) {
           bolides.canvas.ctx.save();
-          bolides.canvas.ctx.translate(bolides.asteroid3.x + 31, bolides.asteroid3.y + 31);
-          bolides.canvas.ctx.rotate(bolides.asteroid3.angle);
-          bolides.canvas.ctx.drawImage(bolides.images.bolide, -31, -31, 62, 154);
+          // Set the origin to the bullet's origin
+          bolides.canvas.ctx.translate(bullet.x + 3, bullet.y - 12.5);
+          // Rotate the canvas
+          bolides.canvas.ctx.rotate(bullet.angle);
+          // Fastest draw in the west
+          bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
+          // Restore again
           bolides.canvas.ctx.restore();
-        } else {
-          bolides.canvas.ctx.drawImage(bolides.images.asteroid, bolides.asteroid3.x, bolides.asteroid3.y, 62, 62);
-        }
+        });
+        // Draw the asteroids
+        bolides.asteroidList.forEach(function(asteroid) {
+          if (asteroid.isBolide) {
+            bolides.canvas.ctx.save();
+            bolides.canvas.ctx.translate(asteroid.x + 31, asteroid.y + 31);
+            bolides.canvas.ctx.rotate(asteroid.angle);
+            bolides.canvas.ctx.drawImage(bolides.images.bolide, -31, -31, 62, 154);
+            bolides.canvas.ctx.restore();
+          } else {
+            bolides.canvas.ctx.drawImage(bolides.images.asteroid, asteroid.x, asteroid.y, 62, 62);
+          }
+        });
+
         // HUD Style
         bolides.canvas.ctx.fillStyle = "white";
         bolides.canvas.ctx.font = "24px Ubuntu";
@@ -534,7 +565,7 @@ var bolides = {
         // Draw Ammo word
         bolides.canvas.ctx.fillText("Ammo:", window.innerWidth - 150, 30);
         // Draw speed words
-        bolides.canvas.ctx.fillText("Speed: " + bolides.spaceship.velocity.x + ", " + bolides.spaceship.velocity.y, 10, window.innerHeight - 20);
+        bolides.canvas.ctx.fillText("Level: " + bolides.level, 10, window.innerHeight - 20);
         // Draw score
         bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth - 150, window.innerHeight - 20);
         // Check for the number of hearts and draw that many
@@ -551,6 +582,14 @@ var bolides = {
             bolides.canvas.ctx.fillStyle = 'red';
             bolides.canvas.ctx.fillText(bolides.spaceship.hearts, 90, 30);
         }
+        // Sorry, no UFOs for now :(
+    /*    bolides.ufoList.forEach(function(ufo) {
+    *      bolides.canvas.ctx.drawImage(bolides.images.ufo, ufo.x, ufo.y);
+    *    });
+    *    bolides.evilBulletList.forEach(function(bullet) {
+    *      bolides.canvas.ctx.drawImage(bolides.images.ufobullet, bullet.x, bullet.y);
+    *    });
+    */
     }
 };
 

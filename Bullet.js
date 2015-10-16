@@ -9,7 +9,7 @@ Bullet.prototype = {
         this.x = 0;
         this.y = 0;
         // Speed depends on Spaceship's speed, btw.
-        this.speed = 10;
+        this.speed = 15;
         // Angle is spaceship's angle until fired
         this.angle = 0;
         // Direction stuff again! How advanced!

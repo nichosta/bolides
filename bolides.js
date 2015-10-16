@@ -283,20 +283,20 @@ var bolides = {
 
     gameOver: function() {
         bolides.canvas.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        bolides.canvas.ctx.font = "48px Ubuntu";
+        bolides.canvas.ctx.font = "48px Arcade";
         bolides.canvas.ctx.fillStyle = "white";
-        bolides.canvas.ctx.fillText("Game Over", window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 - 50);
-        bolides.canvas.ctx.fillRect(window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 - 26, 250, 60);
+        bolides.canvas.ctx.fillText("Game Over", window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 - 50);
+        bolides.canvas.ctx.fillRect(window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 - 26, 420, 60);
         bolides.canvas.ctx.fillStyle = "black";
-        bolides.canvas.ctx.fillText("Restart?", window.innerWidth / 2 - window.innerWidth / 12 + 40, window.innerHeight / 2 + 20);
+        bolides.canvas.ctx.fillText("Restart?", window.innerWidth / 2 - window.innerWidth / 6 + 30, window.innerHeight / 2 + 25);
         addEventListener('click', function(e) {
-            if (((window.innerWidth / 2 - window.innerWidth / 12 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 12 + 250)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
+            if (((window.innerWidth / 2 - window.innerWidth / 6 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 6 + 420)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
               window.location = window.location;
             }
         });
         bolides.canvas.ctx.fillStyle = "white";
-        bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 + 90);
-        bolides.canvas.ctx.fillText("Level: " + bolides.level, window.innerWidth / 2 - window.innerWidth / 12, window.innerHeight / 2 + 150);
+        bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 + 90);
+        bolides.canvas.ctx.fillText("Level: " + bolides.level, window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 + 150);
         clearInterval(bolides.intervals.slowdownInterval);
         clearInterval(bolides.intervals.controlInterval);
         clearInterval(bolides.intervals.blinkInterval);
@@ -559,28 +559,24 @@ var bolides = {
 
         // HUD Style
         bolides.canvas.ctx.fillStyle = "white";
-        bolides.canvas.ctx.font = "24px Ubuntu";
-        // Draw Health word
-        bolides.canvas.ctx.fillText("Health:", 10, 30);
-        // Draw Ammo word
-        bolides.canvas.ctx.fillText("Ammo:", window.innerWidth - 150, 30);
-        // Draw speed words
+        bolides.canvas.ctx.font = "24px Arcade";
+        // Draw level word
         bolides.canvas.ctx.fillText("Level: " + bolides.level, 10, window.innerHeight - 20);
         // Draw score
-        bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth - 150, window.innerHeight - 20);
+        bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth - 250, window.innerHeight - 20);
         // Check for the number of hearts and draw that many
         if (bolides.spaceship.hearts === 3) {
-            bolides.canvas.ctx.drawImage(bolides.images.heart, 90, 15);
-            bolides.canvas.ctx.drawImage(bolides.images.heart, 110, 15);
-            bolides.canvas.ctx.drawImage(bolides.images.heart, 130, 15);
+            bolides.canvas.ctx.drawImage(bolides.images.heart, 5, 15);
+            bolides.canvas.ctx.drawImage(bolides.images.heart, 35, 15);
+            bolides.canvas.ctx.drawImage(bolides.images.heart, 65, 15);
         } else if (bolides.spaceship.hearts === 2) {
-            bolides.canvas.ctx.drawImage(bolides.images.heart, 90, 15);
-            bolides.canvas.ctx.drawImage(bolides.images.heart, 110, 15);
+            bolides.canvas.ctx.drawImage(bolides.images.heart, 5, 15);
+            bolides.canvas.ctx.drawImage(bolides.images.heart, 35, 15);
         } else if (bolides.spaceship.hearts === 1) {
-            bolides.canvas.ctx.drawImage(bolides.images.heart, 90, 15);
+            bolides.canvas.ctx.drawImage(bolides.images.heart, 5, 15);
         } else {
             bolides.canvas.ctx.fillStyle = 'red';
-            bolides.canvas.ctx.fillText(bolides.spaceship.hearts, 90, 30);
+            bolides.canvas.ctx.fillText(bolides.spaceship.hearts, 0, 30);
         }
         // Sorry, no UFOs for now :(
     /*    bolides.ufoList.forEach(function(ufo) {

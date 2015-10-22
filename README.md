@@ -10,4 +10,4 @@
 # Shoot asteroids to gain points!
 
 # [Play the current stable build!](http://erikboesen.com/bolides)
-# [Play the current beta version!](http://BrainiacMainiac.github.io/bolides/) (Still in alpha)
+# [Play the current beta version!](http://BrainiacMainiac.github.io/bolides/) (Not done, lots of bugs)

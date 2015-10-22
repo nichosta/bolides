@@ -10,6 +10,7 @@ var bolides = {
   canvas: {
     ctx: ''
   },
+  paused: false,
 
   // Interval object to store interval ids
   intervals: {
@@ -87,7 +88,7 @@ var bolides = {
     bullet: document.createElement('img'),
     bolide: document.createElement('img'),
     ufo: document.createElement('img'),
-    ufobullet: document.createElement('img')
+    ufobullet: document.createElement('img'),
   },
 
   // Sound used by the project is created here
@@ -204,6 +205,9 @@ var bolides = {
       if (e.keyCode === 82) {
         bolides.keyPresses.r = true;
       }
+      if (e.keyCode === 80) {
+        bolides.pause();
+      }
     });
 
     // Keyup listeners
@@ -282,9 +286,8 @@ var bolides = {
             bolides.sound.asteroidDeath.setAttribute();
             bolides.sound.bolideDeath.setAttribute();
             bolides.sound.spaceshipDamage.setAttribute();
-
     */
-    //Set vital attributes, just in casr
+    //Set vital attributes, just in case
     bolides.spaceship.hearts = 3;
     bolides.spaceship.velocity.x = 0;
     bolides.spaceship.velocity.y = 0;
@@ -309,8 +312,8 @@ var bolides = {
       if (((window.innerWidth / 2 - window.innerWidth / 6 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 6 + 420)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
         // Basically reloads the page
         window.location = window.location;
-      }
-    });
+        }
+      });
     // Draw in the final level and score
     bolides.canvas.ctx.fillStyle = "white";
     bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 + 90);
@@ -323,6 +326,19 @@ var bolides = {
     addEventListener('resize', bolides.gameOver);
   },
 
+  // Pause function
+  pause: function() {
+    if (bolides.paused) {
+      bolides.paused = false;
+      bolides.intervals.controlInterval = setInterval(bolides.control, 100);
+      bolides.loop();
+    } else if (!bolides.paused) {
+      bolides.paused = true;
+      clearInterval(bolides.intervals.controlInterval);
+    }
+  },
+
+  // Loop
   loop: function() {
     // Is the player out of health?
     if (bolides.spaceship.hearts <= 0) {
@@ -336,10 +352,11 @@ var bolides = {
       bolides.move();
       bolides.draw();
       // Get the next frame
+      if (!bolides.paused) {
       requestAnimationFrame(bolides.loop);
+      }
     }
   },
-
   control: function() {
     // Up key or W key?
     // Does several formulas to make sure you can speed up (there's a max speed)
@@ -542,31 +559,6 @@ var bolides = {
   draw: function() {
     // Clear the canvas
     bolides.canvas.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    if (bolides.spaceship.isBlinking) {
-
-    } else {
-      // Save its state
-      bolides.canvas.ctx.save();
-      // Set the origin to the ship's center
-      bolides.canvas.ctx.translate(bolides.spaceship.x + 18, bolides.spaceship.y + 31);
-      // Rotate the ship around the center by the angle of the ship
-      bolides.canvas.ctx.rotate(bolides.spaceship.angle);
-      // Draw the ship
-      bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
-      // Restore to normal
-      bolides.canvas.ctx.restore();
-    }
-    bolides.bulletList.forEach(function(bullet) {
-      bolides.canvas.ctx.save();
-      // Set the origin to the bullet's origin
-      bolides.canvas.ctx.translate(bullet.x + 3, bullet.y - 12.5);
-      // Rotate the canvas
-      bolides.canvas.ctx.rotate(bullet.angle);
-      // Fastest draw in the west
-      bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
-      // Restore again
-      bolides.canvas.ctx.restore();
-    });
     // Draw the asteroids
     bolides.asteroidList.forEach(function(asteroid) {
       if (asteroid.isBolide) {
@@ -614,6 +606,32 @@ var bolides = {
      *      bolides.canvas.ctx.drawImage(bolides.images.ufobullet, bullet.x, bullet.y);
      *    });
      */
+     // Spaceship almost last so it overlaps most things
+     if (bolides.spaceship.isBlinking) {
+
+     } else {
+       // Save its state
+       bolides.canvas.ctx.save();
+       // Set the origin to the ship's center
+       bolides.canvas.ctx.translate(bolides.spaceship.x + 18, bolides.spaceship.y + 31);
+       // Rotate the ship around the center by the angle of the ship
+       bolides.canvas.ctx.rotate(bolides.spaceship.angle);
+       // Draw the ship
+       bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
+       // Restore to normal
+       bolides.canvas.ctx.restore();
+     }
+     bolides.bulletList.forEach(function(bullet) {
+       bolides.canvas.ctx.save();
+       // Set the origin to the bullet's origin
+       bolides.canvas.ctx.translate(bullet.x + 3, bullet.y - 12.5);
+       // Rotate the canvas
+       bolides.canvas.ctx.rotate(bullet.angle);
+       // Fastest draw in the west
+       bolides.canvas.ctx.drawImage(bolides.images.bullet, -3, -12.5);
+       // Restore again
+       bolides.canvas.ctx.restore();
+     });
   }
 };
 // Start the menu and not the game

@@ -24,6 +24,7 @@ var bolides = {
     menu: document.getElementById("menu"),
     instructions: document.getElementById("instructions"),
     credits: document.getElementById("credits"),
+    shop: document.getElementById("shop"),
     menustart: function() {
       document.getElementById("playButton").addEventListener('click', function() {
         bolides.initiate();
@@ -46,6 +47,14 @@ var bolides = {
       credits.addEventListener("click", function() {
         menu.style.display = "block";
         credits.style.display = "none";
+      });
+      document.getElementById("shopButton").addEventListener('click', function() {
+        menu.style.display = "none";
+        shop.style.display = "block";
+      });
+      shop.addEventListener("click", function() {
+        menu.style.display = "block";
+        shop.style.display = "none";
       });
     }
   },

@@ -144,7 +144,7 @@ button:hover {
         right: -150vw;
     }
 }
-#instructions, #credits {
+#instructions, #credits, #shop {
     display: none;
     font-family: "Work Sans", sans-serif;
     font-size: 2em;

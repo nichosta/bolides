@@ -1,5 +1,7 @@
 
-/*jshint loopfunc: true, globals: false, unused: false, strict: false, debug: true, globalstrict: true, moz: true, browser: true, devel: true */
+/*jshint loopfunc: true, unused: false, strict: true, debug: true, globalstrict: true, moz: true, browser: true, devel: true, undef: true */
+/* globals [Asteroid, Asteroid, Bullet, EvilBullet, UFO, degreesToRadians,,] */
+'use strict';
 var bolides = {
   // Self explanatory
   level: 1,
@@ -28,33 +30,33 @@ var bolides = {
     menustart: function() {
       document.getElementById("playButton").addEventListener('click', function() {
         bolides.initiate();
-        menu.style.display = "none";
+        bolides.menu.menu.style.display = "none";
         document.getElementsByClassName('bolide')[0].style.display = 'none';
         document.getElementsByClassName('gitRibbon')[0].style.display = 'none';
       });
       document.getElementById("instructionsButton").addEventListener('click', function() {
-        menu.style.display = "none";
-        instructions.style.display = "block";
+        bolides.menu.menu.style.display = "none";
+        bolides.menu.instructions.style.display = "block";
       });
-      instructions.addEventListener("click", function() {
-        menu.style.display = "block";
-        instructions.style.display = "none";
+      bolides.menu.instructions.addEventListener("click", function() {
+        bolides.menu.menu.style.display = "block";
+        bolides.menu.instructions.style.display = "none";
       });
       document.getElementById("creditsButton").addEventListener('click', function() {
-        menu.style.display = "none";
-        credits.style.display = "block";
+        bolides.menu.menu.style.display = "none";
+        bolides.menu.credits.style.display = "block";
       });
-      credits.addEventListener("click", function() {
-        menu.style.display = "block";
-        credits.style.display = "none";
+      bolides.menu.credits.addEventListener("click", function() {
+        bolides.menu.menu.style.display = "block";
+        bolides.menu.credits.style.display = "none";
       });
       document.getElementById("shopButton").addEventListener('click', function() {
-        menu.style.display = "none";
-        shop.style.display = "block";
+        bolides.menu.menu.style.display = "none";
+        bolides.menu.shop.style.display = "block";
       });
-      shop.addEventListener("click", function() {
-        menu.style.display = "block";
-        shop.style.display = "none";
+      bolides.menu.shop.addEventListener("click", function() {
+        bolides.menu.menu.style.display = "block";
+        bolides.menu.shop.style.display = "none";
       });
     }
   },

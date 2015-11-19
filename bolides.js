@@ -417,6 +417,7 @@ var bolides = {
     }
     if (bolides.keyPresses.right || bolides.keyPresses.d) {
       // Then change its angle by -20 degrees over 1/10 second
+      //blaze it
       var rightInterval = setInterval(function() {
         bolides.spaceship.angle += degreesToRadians(6);
       }, 20);

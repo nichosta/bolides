@@ -9,5 +9,8 @@
 ### WASD also works!
 # Shoot asteroids to gain points!
 
-# [Play the current stable build!](http://erikboesen.com/bolides)
-# [Play the current beta version!](http://BrainiacMainiac.github.io/bolides/) (Not done, lots of bugs)
+# [Play the game!](http://nichosta.github.io/bolides/)
+
+Copyright Nicholas Costa, 2015
+Also [Erik Boesen](http://erikboesen.com) did the artwork
+Liscenced under ASK ME Before You Use It

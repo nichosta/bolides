@@ -1,5 +1,5 @@
 # bolides
-## Recreation and enhancement of the classic arcade game Asteroids.
+## Recreation and enhancement (heh heh heh) of the classic arcade game Asteroids.
 
 # Controls:
 ### Up key to accelerate in the direction you're facing

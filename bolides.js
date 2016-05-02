@@ -1,6 +1,6 @@
 
 /*jshint loopfunc: true, unused: false, strict: true, debug: true, globalstrict: true, moz: true, browser: true, devel: true, undef: true */
-/* globals [Asteroid, Asteroid, Bullet, EvilBullet, UFO, degreesToRadians,,] */
+/* globals Asteroid, Bullet, EvilBullet, UFO, degreesToRadians */ // Errors are really distacting, so I killed most of them
 'use strict';
 var bolides = {
   // Self explanatory
@@ -12,6 +12,7 @@ var bolides = {
   canvas: {
     ctx: ''
   },
+	// Pause variable
   paused: false,
 
   // Interval object to store interval ids
@@ -22,6 +23,7 @@ var bolides = {
     blinkInterval: 0
   },
   // All the stuff related to the main menu (mostly self explanatory)
+	// P.S. Erik made this
   menu: {
     menu: document.getElementById("menu"),
     instructions: document.getElementById("instructions"),
@@ -70,8 +72,6 @@ var bolides = {
     down: false,
     left: false,
     right: false,
-    // R is for debug
-    r: false
   },
   // Attributes of the player's ship declared
   spaceship: {
@@ -102,25 +102,6 @@ var bolides = {
     ufobullet: document.createElement('img'),
   },
 
-  // Sound used by the project is created here
-  sound: {
-    blaster: document.createElement('audio'),
-    asteroidDeath: document.createElement('audio'),
-    bolideDeath: document.createElement('audio'),
-    spaceshipDamage: document.createElement('audio'),
-    playIt: function(sound, time) {
-      sound.play();
-      if (arguments.length > 1) {
-        if (time > 0) {
-          setTimeout(function() {
-            sound.stop();
-          }, time);
-        }
-      } else {
-        throw new Error("Whoops! Specify a time. Zero makes it play all the way through.");
-      }
-    }
-  },
   // Making all the bullets used in the program
   createBullets: function() {
     bolides.bullet1 = new Bullet(bolides.spaceship);
@@ -128,33 +109,21 @@ var bolides = {
     bolides.bullet3 = new Bullet(bolides.spaceship);
     bolides.bulletList = [bolides.bullet1, bolides.bullet2, bolides.bullet3];
   },
-  // New asteroids are dynamically generated as the game progresses; that's why there's only 1 to begin with
+  // New asteroids are dynamically generated as the game progresses; that's why there's only one to begin with
   createAsteroids: function() {
     bolides.asteroid1 = new Asteroid();
     bolides.asteroidList = [bolides.asteroid1];
   },
-  // Create the bullets used by the ufos
-  createEvilBullets: function() {
-    bolides.evilBullet1 = new EvilBullet();
-    bolides.evilBullet2 = new EvilBullet();
-    bolides.evilBullet3 = new EvilBullet();
-    bolides.evilBulletList = [bolides.evilBullet1, bolides.evilBullet2, bolides.evilBullet3];
-  },
-  // Create the ufos and associate the bullets with them
-  createUFOs: function() {
-    bolides.ufo1 = new UFO(bolides.evilBullet1);
-    bolides.ufo2 = new UFO(bolides.evilBullet2);
-    bolides.ufo3 = new UFO(bolides.evilBullet3);
-    bolides.ufoList = [bolides.ufo1, bolides.ufo2, bolides.ufo3];
-  },
   // Functions for determining collisions
-  // This functions is for asteroid / bullet collisions
+	// I know they're really ugly, but they're staying the way they are.
+  // This function is for asteroid / bullet collisions
   isTouchingBullet: function(bullet, asteroid) {
-    return ((Math.pow(Math.abs(bullet.x - (asteroid.x + 31)), 2)) + (Math.pow(Math.abs(bullet.y - (asteroid.y + 31)), 2)) <= 1100) && bullet.isBeingFired;
+    return (
+			(Math.pow(Math.abs(bullet.x - (asteroid.x + 31)), 2)) + (Math.pow(Math.abs(bullet.y - (asteroid.y + 31)), 2)) <= 1100) && bullet.isBeingFired;
   },
   // This function is for asteroid / spaceship collisions
   isTouchingSpaceship: function(spaceship, asteroid) {
-    return Math.pow(Math.abs(spaceship.x + 18 - (asteroid.x + 31)), 2) + Math.pow(Math.abs(spaceship.y + 31 - (asteroid.y + 31)), 2) <= 1300;
+    return (Math.pow(Math.abs(spaceship.x + 18 - (asteroid.x + 31)), 2) + Math.pow(Math.abs(spaceship.y + 31 - (asteroid.y + 31)), 2) <= 1300);
   },
   // Start all the stuff
   initiate: function() {
@@ -169,9 +138,7 @@ var bolides = {
     // Create assets
     bolides.createBullets();
     bolides.createAsteroids();
-    // Sorry, not yet :)
-    //  bolides.createUFOs();
-    //   bolides.createEvilBullets();
+		// This is where I would put my UFOs... IF I HAD ANY
 
     // Keydown listeners
     addEventListener('keydown', function(e) {
@@ -203,20 +170,14 @@ var bolides = {
       // Checks for fireability from each bullet
       if (e.keyCode === 32) {
         if (!bolides.bullet1.isBeingFired) {
-          bolides.sound.playIt(bolides.sound.blaster, 0);
           bolides.bullet1.fire();
         } else if (!bolides.bullet2.isBeingFired) {
-          bolides.sound.playIt(bolides.sound.blaster, 0);
           bolides.bullet2.fire();
         } else if (!bolides.bullet3.isBeingFired) {
-          bolides.sound.playIt(bolides.sound.blaster, 0);
           bolides.bullet3.fire();
         }
       }
-      if (e.keyCode === 82) {
-        bolides.keyPresses.r = true;
-      }
-      if (e.keyCode === 80) {
+      if (e.keyCode === 80) { // This is P, by the way
         bolides.pause();
       }
     });
@@ -248,11 +209,9 @@ var bolides = {
         bolides.keyPresses.right = false;
       }
       // No space key listener here!
-      if (e.keyCode === 82) {
-        bolides.keyPresses.r = false;
-      }
     });
     // Set the spaceship slowdown interval (0.5 speed every half second)
+		// Again, this is staying the way it is, even though it's ugly.
     bolides.intervals.slowdownInterval = setInterval(function() {
       if (bolides.spaceship.velocity.x > 0.5 && !bolides.keyPresses.w && !bolides.keyPresses.up) {
         bolides.spaceship.velocity.x -= 0.5;
@@ -291,14 +250,7 @@ var bolides = {
     bolides.images.ufo.setAttribute('src', 'images/ufo.png');
     bolides.images.ufobullet.setAttribute('src', 'images/evilbullet.png');
 
-    /*
-            // Set the sound sources
-            bolides.sound.blaster.setAttribute();
-            bolides.sound.asteroidDeath.setAttribute();
-            bolides.sound.bolideDeath.setAttribute();
-            bolides.sound.spaceshipDamage.setAttribute();
-    */
-    //Set vital attributes, just in case
+    //Set vital attributes again, just in case
     bolides.spaceship.hearts = 3;
     bolides.spaceship.velocity.x = 0;
     bolides.spaceship.velocity.y = 0;
@@ -315,6 +267,8 @@ var bolides = {
     bolides.canvas.ctx.fillStyle = "white";
     // Draw the game over menu
     bolides.canvas.ctx.fillText("Game Over", window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 - 50);
+		// All this code was done on an 11-inch Macbook, so it probably looks awful on other computers.
+		// Oh well.
     bolides.canvas.ctx.fillRect(window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 - 26, 420, 60);
     bolides.canvas.ctx.fillStyle = "black";
     // Draw the restart button
@@ -325,26 +279,33 @@ var bolides = {
         window.location = window.location;
         }
       });
+		// Yes I did just do that
     // Draw in the final level and score
     bolides.canvas.ctx.fillStyle = "white";
     bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 + 90);
     bolides.canvas.ctx.fillText("Level: " + bolides.level, window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 + 150);
     // Remove all the intervals from the game
+		// I'm not sure this actually matters, I just wanted to be thorough.
     clearInterval(bolides.intervals.slowdownInterval);
     clearInterval(bolides.intervals.controlInterval);
     clearInterval(bolides.intervals.blinkInterval);
     // Reruns the program every time the window gets resized
+		// This makes sure the whole thing looks nice all the time
     addEventListener('resize', bolides.gameOver);
   },
 
   // Pause function
+	// Handles both pausing and unpausing
   pause: function() {
+		// Unpausing
     if (bolides.paused) {
       bolides.paused = false;
       bolides.intervals.controlInterval = setInterval(bolides.control, 100);
       bolides.loop();
+		// Pausing
     } else if (!bolides.paused) {
       bolides.paused = true;
+			// I get rid of the control interval so you can't move while it's paused
       clearInterval(bolides.intervals.controlInterval);
     }
   },
@@ -357,14 +318,14 @@ var bolides = {
       bolides.gameOver();
     } else {
       // No? Then move and draw everything, then loop again.
-      // PS: also resize the canvas
+      // PS: also resize the canvas, just in case
       bolides.canva.width = window.innerWidth - 4;
       bolides.canva.height = window.innerHeight - 4;
       bolides.move();
       bolides.draw();
       // Get the next frame
       if (!bolides.paused) {
-      requestAnimationFrame(bolides.loop);
+      	requestAnimationFrame(bolides.loop);
       }
     }
   },
@@ -398,12 +359,7 @@ var bolides = {
       }
     }
     // Down key does nothing, atm (may change)
-    // R is for debug, it removes life
-    if (bolides.keyPresses.r) {
-      // Then remove a heart.
-      bolides.spaceship.hearts -= 1;
-      // Left key or A key?
-    }
+    // Left key or A key?
     if (bolides.keyPresses.left || bolides.keyPresses.a) {
       // Then change its angle by 20 degrees over 1/10 second
       // This animation (and the right one, below) is added to smoothen turning
@@ -413,8 +369,8 @@ var bolides = {
       setTimeout(function() {
         clearInterval(leftInterval);
       }, 100);
-      // Right key or D key?
     }
+		// Right key or D key?
     if (bolides.keyPresses.right || bolides.keyPresses.d) {
       // Then change its angle by -20 degrees over 1/10 second
       var rightInterval = setInterval(function() {
@@ -459,7 +415,6 @@ var bolides = {
     } else if (bolides.spaceship.velocity.x + bolides.spaceship.velocity.y === 0 && bolides.spaceship.isVulnerable) {
       bolides.images.ship.setAttribute('src', "images/spaceship.png");
     }
-    // if (player.shoes === ugly) {console.log("WHAT'RE THOSE")}
     bolides.bulletList.forEach(function(bullet) {
       // Stop bullet
       if (!bullet.isBeingFired) {
@@ -506,6 +461,10 @@ var bolides = {
       }
     });
     // Asteroid movement math
+		// Dynamic number of asteroids === Use forEach on asteroid list
+		// Fun fact: At least 5 times while coding this, I encountered a bug due to typing "asteroid" as "asteriod"
+		// Also "bolides" as "boldies" or "boildes"
+		// Anyway, a good chunk of this math is exactly the same as what the spaceship has.
     bolides.asteroidList.forEach(function(asteroid) {
       // Choose where the asteroid comes from, its angle, and whether or not it's a bolide.
       if (Math.random() < 0.5 && !asteroid.isInMotion) {
@@ -538,13 +497,13 @@ var bolides = {
       }
     });
     // Collision detection (spaceship)
+		// I used for loops instead of forEaches here because I think they look clearer
     for (var l = 1; l <= bolides.asteroidList.length; l++) {
       if (bolides.isTouchingSpaceship(bolides.spaceship, bolides["asteroid" + l]) && bolides.spaceship.isVulnerable) {
         bolides.spaceship.hearts -= 1;
         bolides.spaceship.x = window.innerWidth / 2 - 18;
         bolides.spaceship.y = window.innerHeight / 2 - 31;
         bolides.spaceship.isVulnerable = false;
-        bolides.sound.playIt(bolides.sound.spaceshipDamage, 0);
         setTimeout(function() {
           bolides.spaceship.isVulnerable = true;
         }, 2000);
@@ -557,29 +516,32 @@ var bolides = {
           bolides["asteroid" + j].isInMotion = false;
           bolides["bullet" + i].isBeingFired = false;
           if (bolides["asteroid" + j].isBolide) {
-            bolides.sound.playIt(bolides.sound.bolideDeath, 0);
             bolides.score += 500;
           } else {
-            bolides.sound.playIt(bolides.sound.asteroidDeath, 0);
             bolides.score += 100;
           }
         }
       }
     }
   },
+
+	// The whole drawing function
   draw: function() {
     // Clear the canvas
     bolides.canvas.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     // Draw the asteroids
     bolides.asteroidList.forEach(function(asteroid) {
+			// If the asteroid is a bolide
       if (asteroid.isBolide) {
-        // The usual
+        // Make sure it's facing the right way
         bolides.canvas.ctx.save();
         bolides.canvas.ctx.translate(asteroid.x + 31, asteroid.y + 31);
         bolides.canvas.ctx.rotate(asteroid.angle);
         bolides.canvas.ctx.drawImage(bolides.images.bolide, -31, -31, 62, 154);
         bolides.canvas.ctx.restore();
       } else {
+				// Otherwise you can just draw it normally, no one will notice
+				// #Lifehacks
         bolides.canvas.ctx.drawImage(bolides.images.asteroid, asteroid.x, asteroid.y, 62, 62);
       }
     });
@@ -592,31 +554,9 @@ var bolides = {
     // Draw score
     bolides.canvas.ctx.fillText("Score: " + bolides.score, window.innerWidth - 250, window.innerHeight - 20);
     // Check for the number of hearts and draw that many
-    if (bolides.spaceship.hearts === 3) {
-      // 3 hearts
-      bolides.canvas.ctx.drawImage(bolides.images.heart, 5, 15);
-      bolides.canvas.ctx.drawImage(bolides.images.heart, 35, 15);
-      bolides.canvas.ctx.drawImage(bolides.images.heart, 65, 15);
-    } else if (bolides.spaceship.hearts === 2) {
-      // 2 hearts
-      bolides.canvas.ctx.drawImage(bolides.images.heart, 5, 15);
-      bolides.canvas.ctx.drawImage(bolides.images.heart, 35, 15);
-    } else if (bolides.spaceship.hearts === 1) {
-      // 1 heart
-      bolides.canvas.ctx.drawImage(bolides.images.heart, 5, 15);
-    } else {
-      // For all you hackers out there, if you get more than 3 hearts
-      bolides.canvas.ctx.fillStyle = 'red';
-      bolides.canvas.ctx.fillText(bolides.spaceship.hearts, 0, 30);
-    }
-    // Sorry, no UFOs for now :(
-    /*    bolides.ufoList.forEach(function(ufo) {
-     *      bolides.canvas.ctx.drawImage(bolides.images.ufo, ufo.x, ufo.y);
-     *    });
-     *    bolides.evilBulletList.forEach(function(bullet) {
-     *      bolides.canvas.ctx.drawImage(bolides.images.ufobullet, bullet.x, bullet.y);
-     *    });
-     */
+		for (var i = 1; i <= bolides.spaceship.hearts; i++) {
+			bolides.canvas.ctx.drawImage(bolides.images.heart, (i - 1) * 30 + 5, 15);
+		}
      // Spaceship almost last so it overlaps most things
      if (bolides.spaceship.isBlinking) {
 
@@ -632,6 +572,8 @@ var bolides = {
        // Restore to normal
        bolides.canvas.ctx.restore();
      }
+		 // There isn't really a reason the bullets are drawn over the spaceship.
+		 // They just are.
      bolides.bulletList.forEach(function(bullet) {
        bolides.canvas.ctx.save();
        // Set the origin to the bullet's origin
@@ -647,3 +589,4 @@ var bolides = {
 };
 // Start the menu and not the game
 bolides.menu.menustart();
+// 593, huh? Not bad for a project I literally started in my basement at age 14.

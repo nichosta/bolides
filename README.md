@@ -1,3 +1,6 @@
+# NOTE: As of May 8th, Bolides is no longer maintained and updated (not like it was anyway).
+# If you want to play an updated version, try [Bolides Multiplayer](http://github.com/nichosta/bolides-multi) instead.
+
 # bolides
 ## Recreation and enhancement (heh heh heh) of the classic arcade game Asteroids.
 

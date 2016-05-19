@@ -31,8 +31,9 @@ var bolides = {
     shop: document.getElementById("shop"),
     menustart: function() {
       document.getElementById("playButton").addEventListener('click', function() {
-        bolides.initiate();
+      //  bolides.initiate();
         bolides.menu.menu.style.display = "none";
+        document.getElementById('login').style.display = 'block';
         document.getElementsByClassName('bolide')[0].style.display = 'none';
         document.getElementsByClassName('gitRibbon')[0].style.display = 'none';
       });

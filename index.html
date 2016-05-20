@@ -1,62 +1,62 @@
-<!--
-  All code copyright of Nicholas Costa. Please do not reproduce without permission.
-  Art and menu by Erik Boesen.
--->
 <!DOCTYPE html>
 <html>
+
 <head>
-    <link href="style.css" rel="stylesheet">
-    <link rel="icon" href="favicon.ico">
     <meta charset="utf-8">
-    <meta name="author" content="Nicholas Costa &amp; Erik Boesen">
-    <meta name="description" content="An HTML5 game made using Canvas, based off the classic arcade game Asteroids." >
     <title>Bolides</title>
+    <meta name="author" content="Nicholas Costa, Erik Boesen">
+    <meta name="description" content="An HTML5 recreation of the arcade game Asteroids.">
+    <link rel="icon" href="favicon.ico">
+    <link href="style.css" rel="stylesheet">
 </head>
+
 <body>
-  <div class="bg"></div>
-  <div id="menu">
-      <h1>Bolides</h1>
-      <button id="playButton">Play</button>
-      <button id="instructionsButton">Instructions</button>
-      <button id="creditsButton">Credits</button>
-      <button id="shopButton">Shop</button>
-  </div>
-  <div id="instructions">
-      <p>Instructions</p>
-      <p>Press space to fire, WASD or arrow keys to move.
-        Asteroids are worth 100 pts, Bolides are worth 500 pts.
-        Gain the level # times 100 pts to get to the next level.</p>
-      <p>&laquo; Click again to close &raquo;</p>
-  </div>
-  <div id="credits">
-      <p>Game Engine: <a href="http://github.com/BrainiacMainiac">Nicholas Costa</a></p>
-      <p>Art &amp; Sound: <a href="http://erikboesen.com">Erik Boesen</a></p>
-      <p>&laquo; Click again to close &raquo;</p>
-  </div>
-  <div id="shop">
-      <img src="images/bullet.png">
-      <h3>Bullet</h3>
-      <button>Upgrade</button>
-  </div>
-  <div class="bolide"></div>
-  <div id="login">
-    <h3>Login to Bolides Multiplayer</h3>
-    <input id="username" placeholder="Username" type="text">
-    <input id="password" placeholder="Password" type="password">
-    <input id="loginButton" type="submit">
-    </div>
-  <canvas id="canvas">Upgrade to Chrome or Firefox to use the Canvas API.</canvas>
-  <a class="gitRibbon" href="https://github.com/BrainiacMainiac/bolides">Fork this on GitHub</a>
-  <script>
-      // Radian converter
-      function degreesToRadians(degrees) {
-          return (Math.PI / 180) * degrees;
-      };
-  </script>
-  <script src="Bullet.js"></script>
-  <script src="Asteroid.js"></script>
-  <script src="bolides.js"></script>
-  <script src="UFO.js"></script>
-  <script src="EvilBullet.js"></script>
+    <section id="menu">
+        <div class="bg"></div>
+        <nav>
+            <h1>Bolides</h1>
+            <button id="playButton">Play</button>
+            <button id="instructionsButton">Instructions</button>
+            <button id="creditsButton">Credits</button>
+            <!--<button id="shopButton">Shop</button>-->
+        </nav>
+        <div id="instructions">
+            <p>Instructions</p>
+            <p>Press space to fire, WASD or arrow keys to move. Asteroids are worth 100 pts, Bolides are worth 500 pts. Gain the level # times 100 pts to get to the next level.</p>
+            <p>&laquo; Click again to close &raquo;</p>
+        </div>
+        <div id="credits">
+            <p>Game Engine: <a href="http://github.com/BrainiacMainiac">Nicholas Costa</a></p>
+            <p>Art &amp; Sound: <a href="http://erikboesen.com">Erik Boesen</a></p>
+            <p>&laquo; Click again to close &raquo;</p>
+        </div>
+        <!--
+        <div id="shop">
+            <img src="images/bullet.png">
+            <h3>Bullet</h3>
+            <button>Upgrade</button>
+        </div>
+        -->
+        <div id="login">
+            <h3>Login to Bolides Multiplayer</h3>
+            <form>
+                <input id="username" placeholder="Username" type="text">
+                <input id="loginButton" type="submit">
+            </form>
+        </div>
+        <div class="bolide"></div>
+    </section>
+    <canvas id="canvas">Upgrade to Chrome or Firefox to use the Canvas API.</canvas>
+    <script>
+        function degreesToRadians(degrees) {
+            return (Math.PI / 180) * degrees;
+        };
+    </script>
+    <script src="Bullet.js"></script>
+    <script src="Asteroid.js"></script>
+    <script src="bolides.js"></script>
+    <script src="UFO.js"></script>
+    <script src="EvilBullet.js"></script>
 </body>
+
 </html>

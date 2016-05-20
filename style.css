@@ -162,7 +162,7 @@ button:hover {
 }
 input[type="text"], input[type="password"] {
   display: block;
-  margin-left: 12vw;
+  margin-left: 10vw;
   background: transparent;
   border: 1px solid transparent;
   color: white;
@@ -180,12 +180,16 @@ input:nth-child(2) {
 }
 input[type="submit"] {
   display: block;
-  background: rgba(0,0,0,1);
   font-family: "Work Sans";
-  font-size: 1em;
-  margin-left: 13vw;
+  font-size: 0.8em;
+  margin-top: 2vh;
+  margin-left: 14vw;
   transition: 0.2s all;
   color: white;
+  background-color: rgba(0,0,0,0);
   padding: 5px;
   border: 0;
+}
+input[type="submit"]:focus {
+  background-color: rgba(30,30,30,0.8);
 }

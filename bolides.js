@@ -22,7 +22,6 @@ var bolides = {
 		blinkInterval: 0
 	},
 	// All the stuff related to the main menu (mostly self explanatory)
-	// P.S. Erik made this
 	menu: {
 		nav: document.getElementsByTagName('nav')[0],
 		instructions: document.getElementById('instructions'),
@@ -31,7 +30,7 @@ var bolides = {
 		menuStart: function() {
 			document.getElementById('playButton').onclick = function() {
 				bolides.initiate();
-                // Uncomment the following code and remove/comment bolides.initiate(); to go to menu instead of starting the game.
+                // Uncomment the following code and remove/comment bolides.initiate(); to go to menu instead of starting the game immediately.
 				/*bolides.menu.nav.style.display = 'none';
 				document.getElementById('login').style.display = 'block';
 				document.getElementsByClassName('bolide')[0].style.display = 'none';*/
@@ -578,5 +577,6 @@ var bolides = {
 		});
 	}
 };
-// Start the menu and not the game
+
+// That's it! Just start the menu now.
 bolides.menu.menuStart();

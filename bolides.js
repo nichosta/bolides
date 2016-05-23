@@ -1,5 +1,5 @@
 /*jshint loopfunc: true, unused: false, strict: true, debug: true, globalstrict: true, moz: true, browser: true, devel: true, undef: true */
-/* globals Asteroid, Bullet, EvilBullet, UFO, degreesToRadians */ // Errors are really distacting, so I killed most of them
+/* globals Asteroid, Bullet, EvilBullet, UFO */ // Errors are really distacting, so I killed most of them
 'use strict';
 var bolides = {
 	// Self explanatory
@@ -23,6 +23,7 @@ var bolides = {
 	},
 	// All the stuff related to the main menu (mostly self explanatory)
 	menu: {
+        container: document.getElementById('menu'),
 		nav: document.getElementsByTagName('nav')[0],
 		instructions: document.getElementById('instructions'),
 		credits: document.getElementById('credits'),
@@ -51,24 +52,19 @@ var bolides = {
 				bolides.menu.nav.style.display = 'flex';
 				bolides.menu.credits.style.display = 'none';
 			};
-            // Below code is for unimplemented shop section.
-			/*document.getElementById('shopButton').onclick = function() {
+			document.getElementById('shopButton').onclick = function() {
 				bolides.menu.nav.style.display = 'none';
 				bolides.menu.shop.style.display = 'block';
 			};
 			bolides.menu.shop.onclick = function() {
 				bolides.menu.nav.style.display = 'flex';
 				bolides.menu.shop.style.display = 'none';
-			};*/
+			};
 		}
 	},
 	// KeyPress object for storing keypresses
 	keyPresses: {
 		up: false,
-		w: false,
-		a: false,
-		s: false,
-		d: false,
 		down: false,
 		left: false,
 		right: false,
@@ -98,6 +94,7 @@ var bolides = {
 		heart: document.createElement('img'),
 		bullet: document.createElement('img'),
 		bolide: document.createElement('img'),
+        teleporter: document.createElement('img'),
 		ufo: document.createElement('img'),
 		ufobullet: document.createElement('img'),
 	},
@@ -130,6 +127,8 @@ var bolides = {
 		// Declare the canvas's context as 2D
 		bolides.canva = document.getElementById('canvas');
 		bolides.canvas.ctx = bolides.canva.getContext('2d');
+        bolides.canva.style.display = 'block';
+        bolides.menu.container.style.display = 'none';
 
 		// Set the canvas's size
 		bolides.canva.width = window.innerWidth - 4;
@@ -173,6 +172,15 @@ var bolides = {
 					break;
 				case 80: // P
 					bolides.pause();
+                    break;
+                // Unfinished code for teleporter
+                /*case 84: // T
+                    if (JSON.parse(localStorage.teleporter)) {
+                        bolides.spaceship.x = event.clientX;
+                        bolides.spaceship.y = event.clientY;
+                        localStorage.teleporter = false;
+                    }
+                    break;*/
 			}
 		});
 
@@ -231,13 +239,18 @@ var bolides = {
 		}, 50);
 
 		// Set the image sources
-		bolides.images.ship.setAttribute('src', 'images/spaceship.png');
-		bolides.images.asteroid.setAttribute('src', 'images/asteroid.png');
-		bolides.images.heart.setAttribute('src', 'images/heart.png');
-		bolides.images.bullet.setAttribute('src', 'images/bullet.png');
-		bolides.images.bolide.setAttribute('src', 'images/bolide.png');
-		bolides.images.ufo.setAttribute('src', 'images/ufo.png');
-		bolides.images.ufobullet.setAttribute('src', 'images/evilbullet.png');
+		bolides.images.ship.src = 'images/spaceship.png';
+		bolides.images.asteroid.src = 'images/asteroid.png';
+		bolides.images.heart.src = 'images/heart.png';
+        if (JSON.parse(localStorage.bullet)) {
+            bolides.images.bullet.src = 'images/bullet-2.png';
+        } else {
+            bolides.images.bullet.src = 'images/bullet.png';
+        }
+		bolides.images.bolide.src = 'images/bolide.png';
+        bolides.images.teleporter.src = 'images/teleporter.png';
+		bolides.images.ufo.src = 'images/ufo.png';
+		bolides.images.ufobullet.src = 'images/evilbullet.png';
 
 		//Set vital attributes again, just in case
 		bolides.spaceship.hearts = 3;
@@ -261,7 +274,7 @@ var bolides = {
 		bolides.canvas.ctx.fillRect(window.innerWidth / 2 - window.innerWidth / 6, window.innerHeight / 2 - 26, 420, 60);
 		bolides.canvas.ctx.fillStyle = 'black';
 		// Draw the restart button
-		bolides.canvas.ctx.fillText('Restart?', window.innerWidth / 2 - window.innerWidth / 6 + 30, window.innerHeight / 2 + 25);
+		bolides.canvas.ctx.fillText('Restart', window.innerWidth / 2 - window.innerWidth / 6 + 30, window.innerHeight / 2 + 25);
 		addEventListener('click', function(e) {
 			if (((window.innerWidth / 2 - window.innerWidth / 6 < e.clientX) && (e.clientX < window.innerWidth / 2 - window.innerWidth / 6 + 420)) && ((window.innerHeight / 2 - 26 < e.clientY) && (e.clientY < window.innerHeight / 2 + 34))) {
 				// Basically reloads the page
@@ -301,6 +314,7 @@ var bolides = {
 
 	// Loop
 	loop: function() {
+        console.log(bolides.keyPresses.up);
 		// Is the player out of health?
 		if (bolides.spaceship.hearts <= 0) {
 			// Then display 'Game over'
@@ -353,7 +367,7 @@ var bolides = {
 			// Then change its angle by 20 degrees over 1/10 second
 			// This animation (and the right one, below) is added to smoothen turning
 			var leftInterval = setInterval(function() {
-				bolides.spaceship.angle -= degreesToRadians(6);
+				bolides.spaceship.angle -= (Math.PI / 180) * 6; // Convert to rad
 			}, 20);
 			setTimeout(function() {
 				clearInterval(leftInterval);
@@ -364,7 +378,7 @@ var bolides = {
 			// Then change its angle by -20 degrees over 1/10 second
 			// ( ͡° ͜ʖ ͡°)
 			var rightInterval = setInterval(function() {
-				bolides.spaceship.angle += degreesToRadians(6);
+				bolides.spaceship.angle += (Math.PI / 180) * 6; // Convert to rad
 			}, 20);
 			setTimeout(function() {
 				clearInterval(rightInterval);
@@ -397,13 +411,13 @@ var bolides = {
 		} else if (bolides.spaceship.y <= -30) {
 			bolides.spaceship.y = window.innerHeight;
 		}
-		// If it's moving and vulnerable
-		if (bolides.spaceship.velocity.x + bolides.spaceship.velocity.y !== 0 && bolides.spaceship.isVulnerable) {
+		// If accelerating
+		if (bolides.keyPresses.up && bolides.spaceship.isVulnerable) {
 			// Use the moving ship pic.
-			bolides.images.ship.setAttribute('src', 'images/spaceship-move.png');
-			// Elsewise, don't.
-		} else if (bolides.spaceship.velocity.x + bolides.spaceship.velocity.y === 0 && bolides.spaceship.isVulnerable) {
-			bolides.images.ship.setAttribute('src', 'images/spaceship.png');
+			bolides.images.ship.src = 'images/spaceship-move.png';
+			// If not, don't.
+		} else {
+			bolides.images.ship.src = 'images/spaceship.png';
 		}
 		bolides.bulletList.forEach(function(bullet) {
 			// Stop bullet
@@ -558,7 +572,7 @@ var bolides = {
 			// Rotate the ship around the center by the angle of the ship
 			bolides.canvas.ctx.rotate(bolides.spaceship.angle);
 			// Draw the ship
-			bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 62);
+			bolides.canvas.ctx.drawImage(bolides.images.ship, -18, -31, 36, 74);
 			// Restore to normal
 			bolides.canvas.ctx.restore();
 		}
@@ -577,6 +591,11 @@ var bolides = {
 		});
 	}
 };
+
+if (localStorage.length !== 2) {
+    localStorage.bullet = false;
+    localStorage.teleporter = false;
+}
 
 // That's it! Just start the menu now.
 bolides.menu.menuStart();

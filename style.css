@@ -11,8 +11,8 @@
 body {
     width: 100vw;
     height: 100vh;
-    background: url(images/bg.png);
     font-family: 'Arcade', sans-serif;
+    background: black;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 }
@@ -59,6 +59,29 @@ a:hover {
     width: 200vw;
     height: 100vh;
 }
+@keyframes pan {
+    0% {
+        right: 0;
+        left: -100vw;
+    }
+    100% {
+        left: 0;
+        right: -100vw;
+    }
+}
+.bg:first-child {
+    background: url(images/bg-1.png);
+    animation: 50s pan infinite linear;
+}
+.bg:nth-child(2) {
+    background: url(images/bg-2.png);
+    animation: 60s pan infinite linear;
+}
+.bg:nth-child(3) {
+    background: url(images/bg-3.png);
+    animation: 70s pan infinite linear;
+}
+
 h1 {
     text-align: center;
     font-weight: 100;

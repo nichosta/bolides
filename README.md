@@ -1,13 +1,14 @@
-# bolides
-## Recreation and enhancement of the classic arcade game Asteroids.
+# Bolides
+HTML5 recreation of the classic arcade game Asteroids.
 
-# Controls:
-### Up key to accelerate in the direction you're facing
-### Down key to slow down
-### Left and right keys to turn in those directions
-### Space key to fire a bullet
-### WASD also works!
-# Shoot asteroids to gain points!
+## [Play the game](http://nichosta.github.io/bolides/)
 
-# [Play the current stable build!](http://erikboesen.com/bolides)
-# [Play the current beta version!](http://BrainiacMainiac.github.io/bolides/) (Still in alpha)
+## Controls
+* Up: accelerate
+* Down: slow down
+* Left/Right: turn
+* SPACE: fire a bullet
+* _WASD also works._
+
+## License
+This software is licensed under the MIT License. See `LICENSE` for more information.

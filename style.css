@@ -1,56 +1,30 @@
 @font-face {
-  font-family: 'Work Sans';
-  font-style: normal;
-  font-weight: 100;
-  src: local('Work Sans Thin'), local('WorkSans-Thin'), url(http://fonts.gstatic.com/s/worksans/v1/S5P2Ny-Dw8BHKH0UfdbgXY4P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+    font-family: 'Arcade';
+    src: local('Arcade'), url(Arcade.ttf) format('truetype');
+    unicode-range: U+0030—003A;
 }
-@font-face {
-    font-family: 'Ubuntu';
-    font-style: normal;
-    font-weight: 300;
-    src: local('Ubuntu Light'), local('Ubuntu-Light'), url(http://fonts.gstatic.com/s/ubuntu/v7/_aijTyevf54tkVDLy-dlnFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font: inherit;
 }
 body {
     width: 100vw;
     height: 100vh;
-    margin: 0;
-    background: url(images/Stars.png);
+    font-family: 'Arcade', sans-serif;
+    background: black;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
 }
 canvas {
     background-size: cover;
+    display: none;
 }
-.gitRibbon {
-    position: absolute;
-    top: 45px;
-    right: -90px;
-    padding: 5px 100px;
-    transform: rotate(40deg);
-    background: #1e3e4a;
-    color: #fff;
-    text-decoration: none;
-    border: dashed 1px #fff;
-    box-shadow:
-        0 5px #1e3e4a,
-        0 -5px #1e3e4a,
-        0 5px 5px #000;
-    cursor: url(http://erikboesen.com/images/fork.ico), pointer;
-}
-
-* {
-    box-sizing: border-box;
-}
-html, body {
+html,
+body {
     height: 100%;
-    margin: 0;
 }
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
     color: white;
     overflow: hidden;
     -webkit-touch-callout: none;
@@ -60,74 +34,94 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
+body,
+#menu,
+nav {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 a {
     color: inherit;
     text-decoration: none;
-    border-bottom: solid 1px rgba(255,255,255,.3);
+    border-bottom: solid 1px rgba(255, 255, 255, 0.3);
 }
 a:hover {
     border-bottom-color: white;
 }
-
 .bg {
     position: fixed;
     top: 0;
     z-index: -1000;
     width: 200vw;
     height: 100vh;
-    animation: 50s background linear infinite;
 }
-@keyframes background {
+@keyframes pan {
     0% {
-        background-position: right;
+        left: 0;
+        right: -100vw;
     }
     100% {
-        background-position: left;
+        right: 0;
+        left: -100vw;
     }
 }
-#menu {
-    width: 32vw;
+.bg:first-child {
+    background: url(images/bg-1.png);
+    animation: 40s pan infinite linear;
+}
+.bg:nth-child(2) {
+    background: url(images/bg-2.png);
+    animation: 60s pan infinite linear;
+}
+.bg:nth-child(3) {
+    background: url(images/bg-3.png);
+    animation: 80s pan infinite linear;
 }
 h1 {
-    font-family: "Work Sans", sans-serif;
+    text-align: center;
     font-weight: 100;
     font-size: 8em;
-    margin: 0;
+    margin-left: 10px;
 }
 button {
     display: block;
-    width: 100%;
     border: 0;
-    background: #666;
+    background: #333;
     color: white;
     margin: 5px;
     padding: 10px 0;
-    font-family: "Work Sans", sans-serif;
-    font-size: 2em;
+    font-size: 2rem;
     cursor: pointer;
-    transition: .3s background;
+    width: 400px;
+    height: 58px;
+    border-left: solid 0 #e46b08;
+    border-right: solid 0 transparent;
 }
 button:hover {
-    background: #e46b08;
-    transition: .3s background;
+    border-left-width: 5px;
+    border-right-width: 5px;
 }
 .bolide {
     background: url(images/bolide.png);
     background-size: cover;
-    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
-    image-rendering: -moz-crisp-edges;          /* Firefox                        */
-    image-rendering: -o-crisp-edges;            /* Opera                          */
-    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
-    image-rendering: pixelated; /* Chrome */
-    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
-    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
-    height: 2000px;
-    width: 1540px;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+    image-rendering: optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+    height: 770px;
+    width: 310px;
     position: absolute;
     transform: rotate(90deg);
     top: 35px;
     z-index: -10;
-    animation: bolide 60s infinite linear;
+    animation: bolide 30s infinite linear;
 }
 @keyframes bolide {
     0% {
@@ -137,11 +131,47 @@ button:hover {
         right: -150vw;
     }
 }
-#instructions, #credits {
+#instructions,
+#credits,
+#shop,
+#login {
     display: none;
-    font-family: "Work Sans", sans-serif;
     font-size: 2em;
-    background: rgba(0,0,0,.4);
+    background: rgba(0, 0, 0, 0.4);
     padding: 50px 100px;
     cursor: pointer;
+}
+#login {
+    cursor: default;
+}
+form {
+    padding: 50px;
+    width: 100%;
+}
+input {
+    display: inline-block;
+    color: white;
+    transition: 0.2s all;
+}
+input[type='text'] {
+    display: block;
+    background: transparent;
+    border: 1px solid transparent;
+    font-size: 1em;
+    width: 50%;
+    float: left;
+}
+input:focus {
+    outline: none;
+    border-bottom-color: white;
+}
+input[type='submit'] {
+    display: block;
+    color: white;
+    background-color: transparent;
+    border: 0;
+    float: right;
+}
+input[type='submit']:focus {
+    background-color: rgba(30, 30, 30, 0.8);
 }

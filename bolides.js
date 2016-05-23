@@ -28,6 +28,7 @@ var bolides = {
 		instructions: document.getElementById('instructions'),
 		credits: document.getElementById('credits'),
 		shop: document.getElementById('shop'),
+        creditLabel: document.getElementById('creditLabel'),
 		menuStart: function() {
 			document.getElementById('playButton').onclick = function() {
 				bolides.initiate();
@@ -60,6 +61,7 @@ var bolides = {
 				bolides.menu.nav.style.display = 'flex';
 				bolides.menu.shop.style.display = 'none';
 			};
+            bolides.menu.creditLabel.innerHTML = 'Credits: ' + localStorage.credits;
 		}
 	},
 	// KeyPress object for storing keypresses
@@ -262,6 +264,8 @@ var bolides = {
 	},
 
 	gameOver: function() {
+        // Give the amount of credits equal to the level the player reached
+        localStorage.credits += bolides.level;
 		// Clear the screen
 		bolides.canvas.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 		// Set the game over menu style
@@ -314,7 +318,6 @@ var bolides = {
 
 	// Loop
 	loop: function() {
-        console.log(bolides.keyPresses.up);
 		// Is the player out of health?
 		if (bolides.spaceship.hearts <= 0) {
 			// Then display 'Game over'
@@ -593,6 +596,7 @@ var bolides = {
 };
 
 if (localStorage.length !== 2) {
+    localStorage.credits = 0;
     localStorage.bullet = false;
     localStorage.teleporter = false;
 }

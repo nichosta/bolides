@@ -61,17 +61,17 @@ a:hover {
 }
 @keyframes pan {
     0% {
-        right: 0;
-        left: -100vw;
-    }
-    100% {
         left: 0;
         right: -100vw;
+    }
+    100% {
+        right: 0;
+        left: -100vw;
     }
 }
 .bg:first-child {
     background: url(images/bg-1.png);
-    animation: 50s pan infinite linear;
+    animation: 40s pan infinite linear;
 }
 .bg:nth-child(2) {
     background: url(images/bg-2.png);
@@ -79,9 +79,8 @@ a:hover {
 }
 .bg:nth-child(3) {
     background: url(images/bg-3.png);
-    animation: 70s pan infinite linear;
+    animation: 80s pan infinite linear;
 }
-
 h1 {
     text-align: center;
     font-weight: 100;
@@ -95,7 +94,7 @@ button {
     color: white;
     margin: 5px;
     padding: 10px 0;
-    font-size: 2em;
+    font-size: 2rem;
     cursor: pointer;
     width: 400px;
     height: 58px;
@@ -116,13 +115,13 @@ button:hover {
     image-rendering: pixelated;
     image-rendering: optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor;
-    height: 2000px;
-    width: 1540px;
+    height: 770px;
+    width: 310px;
     position: absolute;
     transform: rotate(90deg);
     top: 35px;
     z-index: -10;
-    animation: bolide 60s infinite linear;
+    animation: bolide 30s infinite linear;
 }
 @keyframes bolide {
     0% {

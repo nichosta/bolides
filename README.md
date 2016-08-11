@@ -12,3 +12,5 @@ HTML5 recreation of the classic arcade game Asteroids.
 
 ## License
 This software is licensed under the MIT License. See `LICENSE` for more information.
+
+Under the MIT license, you're welcome to do what you like. However, please ask us first.

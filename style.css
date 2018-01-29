@@ -3,11 +3,13 @@
     src: local('Arcade'), url(Arcade.ttf) format('truetype');
     unicode-range: U+0030—003A;
 }
+
 * {
     box-sizing: border-box;
     margin: 0;
     font: inherit;
 }
+
 body {
     width: 100vw;
     height: 100vh;
@@ -16,14 +18,17 @@ body {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 }
+
 canvas {
     background-size: cover;
     display: none;
 }
+
 html,
 body {
     height: 100%;
 }
+
 body {
     color: white;
     overflow: hidden;
@@ -34,6 +39,7 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
+
 body,
 #menu,
 nav {
@@ -44,14 +50,17 @@ nav {
     align-items: center;
     text-align: center;
 }
+
 a {
     color: inherit;
     text-decoration: none;
     border-bottom: solid 1px rgba(255, 255, 255, 0.3);
 }
+
 a:hover {
     border-bottom-color: white;
 }
+
 .bg {
     position: fixed;
     top: 0;
@@ -59,6 +68,7 @@ a:hover {
     width: 200vw;
     height: 100vh;
 }
+
 @keyframes pan {
     0% {
         left: 0;
@@ -69,24 +79,29 @@ a:hover {
         left: -100vw;
     }
 }
+
 .bg:first-child {
     background: url(images/bg-1.png);
     animation: 40s pan infinite linear;
 }
+
 .bg:nth-child(2) {
     background: url(images/bg-2.png);
     animation: 60s pan infinite linear;
 }
+
 .bg:nth-child(3) {
     background: url(images/bg-3.png);
     animation: 80s pan infinite linear;
 }
+
 h1 {
     text-align: center;
     font-weight: 100;
     font-size: 8em;
     margin-left: 10px;
 }
+
 button {
     display: block;
     border: 0;
@@ -101,11 +116,13 @@ button {
     border-left: solid 0 #e46b08;
     border-right: solid 0 transparent;
 }
+
 button:hover {
     border-left-width: 5px;
     border-right-width: 5px;
 }
-.bolide {
+
+#bolide {
     background: url(images/bolide.png);
     background-size: cover;
     image-rendering: optimizeSpeed;
@@ -123,6 +140,7 @@ button:hover {
     z-index: -10;
     animation: bolide 30s infinite linear;
 }
+
 @keyframes bolide {
     0% {
         right: 100vw;
@@ -131,47 +149,13 @@ button:hover {
         right: -150vw;
     }
 }
+
 #instructions,
-#credits,
-#shop,
-#login {
+#credits {
     display: none;
+    align-items: center;
     font-size: 2em;
     background: rgba(0, 0, 0, 0.4);
     padding: 50px 100px;
     cursor: pointer;
-}
-#login {
-    cursor: default;
-}
-form {
-    padding: 50px;
-    width: 100%;
-}
-input {
-    display: inline-block;
-    color: white;
-    transition: 0.2s all;
-}
-input[type='text'] {
-    display: block;
-    background: transparent;
-    border: 1px solid transparent;
-    font-size: 1em;
-    width: 50%;
-    float: left;
-}
-input:focus {
-    outline: none;
-    border-bottom-color: white;
-}
-input[type='submit'] {
-    display: block;
-    color: white;
-    background-color: transparent;
-    border: 0;
-    float: right;
-}
-input[type='submit']:focus {
-    background-color: rgba(30, 30, 30, 0.8);
 }

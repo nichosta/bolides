@@ -18,45 +18,29 @@
         <nav>
             <h1>Bolides</h1>
             <button id="playButton">Play</button>
-            <button id="shopButton">Shop</button>
             <button id="instructionsButton">Instructions</button>
             <button id="creditsButton">Credits</button>
         </nav>
-        <div id="shop">
-            <div id="creditLabel"></div>
-            <img src="images/bullet.png">
-            <h3>Bullet</h3>
-            <p>Bullet will not stop after hitting an asteroid, and will continue until passing off the screen.
-            <button class="Buy" id="bullet">Buy (20 C)</button>
-            <h3>Teleporter</h3>
-            <p>One time use. Press T to instantly teleport your spaceship to the position of your mouse pointer.</p>
-            <button class="Buy" id="teleporter">Buy (5 C)</button>
-        </div>
         <div id="instructions">
-            <p>Instructions</p>
-            <p>Press space to fire, WASD or arrow keys to move. Asteroids are worth 100 pts, Bolides are worth 500 pts. Gain the level # times 100 pts to get to the next level.</p>
-            <p><< Click to close >></p>
+            <h3>Instructions</h3>
+            <p>Press space to fire, WASD or arrow keys to move. Asteroids are worth 100 pts, Bolides are worth 500 pts.</p>
+            <p>Gain points equal to the current level times 100 to advance to the next level and increase the difficulty.</p>
+            <p>If you touch an asteroid, you will lose a life. Lose all your lives, and the game ends.</p>
+            <button class="backButton" id="instruBack">Back to Main Menu</button>
         </div>
         <div id="credits">
-            <p>Game Engine: <a href="http://github.com/BrainiacMainiac">Nicholas Costa</a></p>
+            <p>Game Engine: <a href="http://github.com/nichosta">Nicholas Costa</a></p>
             <p>Art &amp; Sound: <a href="http://erikboesen.com">Erik Boesen</a></p>
-            <p><< Click to close >></p>
+            <button id="creditBack">Back to Main Menu</button>
         </div>
-        <div id="login">
-            <h3>Login to Bolides Multiplayer</h3>
-            <form>
-                <input id="username" placeholder="Username" type="text">
-                <input id="loginButton" type="submit">
-            </form>
-        </div>
-        <div class="bolide"></div>
+        <div id="bolide"></div>
     </section>
     <canvas id="canvas">Upgrade to Chrome or Firefox to use the Canvas API.</canvas>
     <script src="Bullet.js"></script>
     <script src="Asteroid.js"></script>
     <script src="bolides.js"></script>
-    <script src="UFO.js"></script>
-    <script src="EvilBullet.js"></script>
+    <script src="initiate.js"></script>
+    <script src="menu.js"></script>
 </body>
 
 </html>
